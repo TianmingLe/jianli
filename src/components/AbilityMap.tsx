@@ -120,6 +120,40 @@ export default function AbilityMap() {
                       ))}
                     </ul>
                   </div>
+
+                  {/* Gallery：能力域实证图片（仅当存在 gallery 时展示） */}
+                  {a.gallery && a.gallery.length > 0 && (
+                    <div className="md:col-span-12">
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-mist-700">
+                        └─ Gallery · 实证
+                      </p>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        {a.gallery.map((g, gi) => (
+                          <figure
+                            key={gi}
+                            className="group/img relative overflow-hidden border border-ink-700 bg-ink-900"
+                          >
+                            <div className="aspect-[4/3] w-full overflow-hidden">
+                              <img
+                                src={g.src}
+                                alt={g.caption}
+                                className="h-full w-full object-cover opacity-80 transition-all duration-700 group-hover/img:scale-105 group-hover/img:opacity-100"
+                              />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-transparent to-transparent" />
+                            <figcaption className="absolute bottom-0 left-0 right-0 p-3">
+                              <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                                / 0{gi + 1}
+                              </span>
+                              <p className="mt-1 text-xs leading-snug text-mist-100">
+                                {g.caption}
+                              </p>
+                            </figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );

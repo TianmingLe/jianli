@@ -98,6 +98,11 @@ export const abilityMap = [
     keywords: ["CFD 仿真", "三维设计", "热工测试", "工程管理"],
     summary: "掌握能源动力领域核心仿真工具链，ANSYS Fluent 流动传热燃烧仿真，AutoCAD / SolidWorks / UG 三维设计。",
     skills: ["ANSYS Fluent（流动 / 传热 / 燃烧）", "AutoCAD / SolidWorks / UG", "热电偶 / 流量计 / NI DAQ", "PERT / 甘特图 / ROI 评估"],
+    gallery: [
+      { src: "/energy/heat-exchanger-cad.png", caption: "换热器 CAD 三维设计图" },
+      { src: "/energy/heat-exchanger-temp.png", caption: "壳管式换热器中心截面温度分布" },
+      { src: "/energy/residual-distribution.png", caption: "CFD 仿真残差分布图" },
+    ],
   },
   {
     id: "am02",
@@ -368,6 +373,7 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（5人）",
     project: "《康养五寨，药韵文旅——山西五寨中医药康养旅游游客体验及文旅提升路径研究》",
+    image: "/awards/market-research-provincial-1.png",
   },
   {
     id: "a02",
@@ -376,6 +382,7 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（3人）",
     project: "《烟幕干扰弹的投放策略》— 负责模型构建与数据分析",
+    image: "/awards/math-modeling-provincial-1.jpg",
   },
   {
     id: "a03",
@@ -384,9 +391,19 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "《2024 年 LLM 的市场应用及发展前景调研》",
+    image: "/awards/market-research-school-2.jpg",
   },
   {
     id: "a04",
+    year: "2025.06",
+    title: "青草计划 · 小红书新媒体职业技能大赛",
+    level: "参赛认证",
+    role: "个人参赛",
+    project: "小红书新媒体内容创作与运营技能实战",
+    image: "/awards/xhs-qingcao-plan.jpg",
+  },
+  {
+    id: "a05",
     year: "2024.10 — 2024.11",
     title: "英语高教杯英语视频制作比赛",
     level: "校级二等奖",
@@ -396,10 +413,22 @@ export const awards = [
 ];
 
 export const certificates = [
-  { id: "c01", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力" },
-  { id: "c02", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研" },
-  { id: "c03", icon: "Plane", title: "轻型无人机驾驶证", desc: "电力巡检 / 航拍测绘" },
-  { id: "c04", icon: "Award", title: "竞赛奖证书", desc: "省一 ×2 / 校二 ×2" },
+  {
+    id: "c01",
+    icon: "Award",
+    title: "书生·浦语大模型实战营证书",
+    desc: "完成 InternLM 大模型微调实战营，掌握 LoRA 微调全流程",
+    image: "/certs/internlm-camp-cert.png",
+  },
+  {
+    id: "c02",
+    icon: "Plane",
+    title: "轻型无人机驾驶证",
+    desc: "电力巡检 / 航拍测绘",
+    image: "/certs/drone-license.png",
+  },
+  { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力" },
+  { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研" },
 ];
 
 /* ============================== 实习经历 ============================== */

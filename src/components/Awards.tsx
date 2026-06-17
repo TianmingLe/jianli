@@ -21,6 +21,7 @@ const certIcons: Record<string, LucideIcon> = {
 const levelStyle: Record<string, string> = {
   省级一等奖: "border-volt-400/60 text-volt-400 bg-volt-400/5",
   校级二等奖: "border-mist-500/60 text-mist-300 bg-mist-500/5",
+  参赛认证: "border-mist-500/60 text-mist-300 bg-mist-500/5",
 };
 
 export default function Awards() {
@@ -48,7 +49,7 @@ export default function Awards() {
           </p>
         </motion.div>
 
-        {/* 获奖列表 */}
+        {/* 获奖卡片网格（带图片） */}
         <div className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -61,46 +62,63 @@ export default function Awards() {
             <span className="eyebrow">/ Competition Awards</span>
           </motion.div>
 
-          <div className="flex flex-col gap-px border border-ink-700 bg-ink-700">
+          <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 sm:grid-cols-2 lg:grid-cols-3">
             {awards.map((a, i) => (
               <motion.div
                 key={a.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, ease, delay: i * 0.08 }}
-                className="group grid grid-cols-1 gap-4 bg-ink-900 p-6 transition-colors hover:bg-ink-850 md:grid-cols-12 md:items-center md:gap-6"
+                className="group relative flex flex-col bg-ink-900 transition-colors hover:bg-ink-850"
               >
-                {/* 时间 */}
-                <div className="md:col-span-2">
+                <span className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-volt-400 transition-transform duration-500 group-hover:scale-x-100" />
+
+                {/* 证书图片 */}
+                {a.image ? (
+                  <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink-700">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
+                    {/* 级别标签浮层 */}
+                    <span
+                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest backdrop-blur-sm ${
+                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
+                      }`}
+                    >
+                      {a.level}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex aspect-[4/3] items-center justify-center border-b border-ink-700 bg-ink-850">
+                    <Trophy className="h-10 w-10 text-ink-600" />
+                    <span
+                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
+                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
+                      }`}
+                    >
+                      {a.level}
+                    </span>
+                  </div>
+                )}
+
+                {/* 信息 */}
+                <div className="flex flex-1 flex-col p-5">
                   <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
                     {a.year}
                   </span>
-                </div>
-                {/* 标题 + 项目 */}
-                <div className="md:col-span-6">
-                  <p className="font-display text-lg font-bold text-mist-50">
+                  <p className="mt-2 font-display text-base font-bold leading-tight text-mist-50">
                     {a.title}
                   </p>
-                  <p className="mt-1 text-xs leading-relaxed text-mist-300">
+                  <p className="mt-2 flex-1 text-xs leading-relaxed text-mist-300">
                     {a.project}
                   </p>
-                </div>
-                {/* 角色 */}
-                <div className="md:col-span-2">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
+                  <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-mist-500">
                     {a.role}
-                  </span>
-                </div>
-                {/* 级别 */}
-                <div className="md:col-span-2 md:text-right">
-                  <span
-                    className={`inline-block border px-3 py-1 font-mono text-[10px] uppercase tracking-widest ${
-                      levelStyle[a.level] ?? "border-ink-600 text-mist-300"
-                    }`}
-                  >
-                    {a.level}
-                  </span>
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -130,18 +148,34 @@ export default function Awards() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.6, ease, delay: i * 0.08 }}
-                  className="group relative bg-ink-900 p-7 transition-colors hover:bg-ink-850"
+                  className="group relative flex flex-col bg-ink-900 transition-colors hover:bg-ink-850"
                 >
-                  <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-volt-400 transition-transform duration-500 group-hover:scale-x-100" />
-                  <div className="flex h-12 w-12 items-center justify-center border border-ink-600 text-mist-300 transition-all duration-500 group-hover:border-volt-400 group-hover:text-volt-400">
-                    <Icon className="h-5 w-5" />
+                  <span className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-volt-400 transition-transform duration-500 group-hover:scale-x-100" />
+
+                  {/* 证书图片或图标 */}
+                  {c.image ? (
+                    <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink-700">
+                      <img
+                        src={c.image}
+                        alt={c.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
+                    </div>
+                  ) : (
+                    <div className="flex aspect-[4/3] items-center justify-center border-b border-ink-700 bg-ink-850">
+                      <Icon className="h-12 w-12 text-ink-600 transition-colors group-hover:text-volt-400" />
+                    </div>
+                  )}
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="font-display text-sm font-bold text-mist-50">
+                      {c.title}
+                    </p>
+                    <p className="mt-1.5 flex-1 text-xs leading-relaxed text-mist-300">
+                      {c.desc}
+                    </p>
                   </div>
-                  <p className="mt-5 font-display text-base font-bold text-mist-50">
-                    {c.title}
-                  </p>
-                  <p className="mt-1.5 text-xs leading-relaxed text-mist-300">
-                    {c.desc}
-                  </p>
                 </motion.div>
               );
             })}
