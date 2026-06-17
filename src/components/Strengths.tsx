@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import {
-  Sparkles,
-  Gem,
-  Wand2,
+  Flame,
+  Bot,
+  Code2,
   Film,
   BarChart3,
-  Layers,
+  Gem,
   type LucideIcon,
 } from "lucide-react";
 import { strengths } from "@/data/content";
@@ -13,12 +13,12 @@ import { strengths } from "@/data/content";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const iconMap: Record<string, LucideIcon> = {
-  Sparkles,
-  Gem,
-  Wand2,
+  Flame,
+  Bot,
+  Code2,
   Film,
   BarChart3,
-  Layers,
+  Gem,
 };
 
 export default function Strengths() {
@@ -40,7 +40,7 @@ export default function Strengths() {
             </h2>
           </div>
           <p className="hidden max-w-xs text-right text-sm text-mist-500 md:block">
-            视觉 × AI × 品牌，
+            能动主业 × AI 特种 × 全栈工程，
             <br />
             复合能力的交叉优势。
           </p>
@@ -49,7 +49,7 @@ export default function Strengths() {
         {/* 能力卡片网格 */}
         <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 sm:grid-cols-2 lg:grid-cols-3">
           {strengths.map((s, i) => {
-            const Icon = iconMap[s.icon] ?? Sparkles;
+            const Icon = iconMap[s.icon] ?? Flame;
             return (
               <motion.div
                 key={s.id}

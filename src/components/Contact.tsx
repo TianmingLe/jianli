@@ -63,7 +63,7 @@ export default function Contact() {
           transition={{ duration: 0.8, ease }}
           className="font-mono text-xs uppercase tracking-widest text-mist-500"
         >
-          有项目想法？让我们一起实现
+          有能源 / AI / 项目想法？让我们一起实现
         </motion.p>
 
         <motion.h2

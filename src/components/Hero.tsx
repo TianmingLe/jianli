@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Wrench, Bot, BarChart3, Target } from "lucide-react";
+import { ArrowDown, Flame, Bot, BarChart3, Target } from "lucide-react";
 import { heroPoster, profile } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const traitIcons = { Wrench, Bot, BarChart3, Target };
+const traitIcons = { Flame, Bot, BarChart3, Target };
 
 export default function Hero() {
   return (
@@ -99,7 +99,7 @@ export default function Hero() {
             className="mt-14 grid grid-cols-2 gap-px border border-ink-700 bg-ink-700 md:grid-cols-4"
           >
             {profile.coreTraits.map((t) => {
-              const Icon = traitIcons[t.icon as keyof typeof traitIcons] ?? Wrench;
+              const Icon = traitIcons[t.icon as keyof typeof traitIcons] ?? Flame;
               return (
                 <div
                   key={t.title}
