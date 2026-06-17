@@ -1,7 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import AbilityMap from "@/components/AbilityMap";
 import Work from "@/components/Work";
+import Timeline from "@/components/Timeline";
+import Awards from "@/components/Awards";
 import Strengths from "@/components/Strengths";
 import Contact from "@/components/Contact";
 
@@ -11,7 +14,10 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
+      <AbilityMap />
       <Work />
+      <Timeline />
+      <Awards />
       <Strengths />
       <Contact />
     </main>

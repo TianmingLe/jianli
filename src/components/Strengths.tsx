@@ -23,7 +23,7 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function Strengths() {
   return (
-    <section id="strength" className="relative w-full bg-ink-950 py-28 md:py-40">
+    <section id="edge" className="relative w-full bg-ink-900 py-28 md:py-40">
       <div className="shell">
         {/* 章节标 */}
         <motion.div
@@ -34,9 +34,9 @@ export default function Strengths() {
           className="mb-20 flex items-end justify-between"
         >
           <div>
-            <span className="eyebrow">/ 03 — My Edge</span>
+            <span className="eyebrow">/ 06 — Core Edge</span>
             <h2 className="mt-4 font-display text-5xl font-bold tracking-tighter text-mist-50 md:text-7xl">
-              个人优势
+              核心竞争力
             </h2>
           </div>
           <p className="hidden max-w-xs text-right text-sm text-mist-500 md:block">
@@ -57,7 +57,7 @@ export default function Strengths() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.7, ease, delay: (i % 3) * 0.1 }}
-                className="group relative bg-ink-900 p-8 transition-colors duration-500 hover:bg-ink-850 md:p-10"
+                className="group relative bg-ink-950 p-8 transition-colors duration-500 hover:bg-ink-850 md:p-10"
               >
                 {/* hover 顶部亮线 */}
                 <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-volt-400 transition-transform duration-500 group-hover:scale-x-100" />
