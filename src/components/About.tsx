@@ -3,9 +3,6 @@ import {
   Phone,
   Mail,
   Github,
-  Youtube,
-  BookOpen,
-  Video,
   GraduationCap,
   Compass,
   Rocket,
@@ -19,6 +16,9 @@ import {
   careerPlan,
   internships,
 } from "@/data/content";
+import bilibiliIcon from "@/data/icon/bilibili.svg";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.svg";
+import douyinIcon from "@/data/icon/douyin.svg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -26,9 +26,9 @@ const contactLinks = [
   { icon: Phone, label: "Phone", value: profile.contacts.phone, href: `tel:${profile.contacts.phone}` },
   { icon: Mail, label: "Email", value: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
   { icon: Github, label: "GitHub", value: "TianmingLe", href: profile.contacts.github },
-  { icon: Youtube, label: "Bilibili", value: "12K+ 粉丝", href: profile.contacts.bilibili },
-  { icon: BookOpen, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
-  { icon: Video, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
+  { iconSrc: bilibiliIcon, label: "Bilibili", value: "12K+ 粉丝", href: profile.contacts.bilibili },
+  { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
+  { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
 ];
 
 const planMeta = [
@@ -173,7 +173,15 @@ export default function About() {
                     rel="noreferrer"
                     className="group flex items-center gap-3 bg-ink-900 p-4 transition-colors hover:bg-ink-800"
                   >
-                    <c.icon className="h-4 w-4 shrink-0 text-mist-500 transition-colors group-hover:text-volt-400" />
+                    {"iconSrc" in c ? (
+                      <img
+                        src={c.iconSrc}
+                        alt={c.label}
+                        className="h-4 w-4 shrink-0 object-contain opacity-60 transition-opacity group-hover:opacity-100"
+                      />
+                    ) : (
+                      <c.icon className="h-4 w-4 shrink-0 text-mist-500 transition-colors group-hover:text-volt-400" />
+                    )}
                     <div className="min-w-0">
                       <p className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
                         {c.label}
@@ -289,7 +297,15 @@ export default function About() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center border border-ink-600 text-mist-300 transition-colors group-hover:border-volt-400 group-hover:text-volt-400">
-                      <Building2 className="h-5 w-5" />
+                      {intern.icon ? (
+                        <img
+                          src={intern.icon}
+                          alt={intern.company}
+                          className="h-5 w-5 object-contain opacity-80 transition-opacity group-hover:opacity-100"
+                        />
+                      ) : (
+                        <Building2 className="h-5 w-5" />
+                      )}
                     </div>
                     <div>
                       <p className="font-display text-lg font-bold text-mist-50">

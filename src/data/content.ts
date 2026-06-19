@@ -1,4 +1,5 @@
 // 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
+import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.svg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -454,6 +455,7 @@ export const internships = [
     company: "百度网盘",
     role: "校园大使 & 小红书宣传大使",
     period: "2024.03 — 至今",
+    icon: baiduNetdiskIcon,
     keywords: ["品牌推广", "线上线下", "内容创作", "社群运营"],
     summary:
       "协助品牌进行线上线下宣传活动策划与执行，提升产品在校园用户中的影响力。",

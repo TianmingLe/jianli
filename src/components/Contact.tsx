@@ -3,12 +3,12 @@ import {
   Phone,
   Mail,
   Github,
-  Youtube,
-  BookOpen,
-  Video,
   ArrowUpRight,
 } from "lucide-react";
 import { profile } from "@/data/content";
+import bilibiliIcon from "@/data/icon/bilibili.svg";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.svg";
+import douyinIcon from "@/data/icon/douyin.svg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -16,9 +16,9 @@ const links = [
   { icon: Phone, label: "电话", value: profile.contacts.phone, href: `tel:${profile.contacts.phone}` },
   { icon: Mail, label: "邮箱", value: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
   { icon: Github, label: "GitHub", value: "github.com/TianmingLe", href: profile.contacts.github },
-  { icon: Youtube, label: "哔哩哔哩", value: "12K+ 粉丝", href: profile.contacts.bilibili },
-  { icon: BookOpen, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
-  { icon: Video, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
+  { iconSrc: bilibiliIcon, label: "哔哩哔哩", value: "12K+ 粉丝", href: profile.contacts.bilibili },
+  { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
+  { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
 ];
 
 export default function Contact() {
@@ -109,7 +109,15 @@ export default function Contact() {
               className="group flex flex-col gap-3 bg-ink-900 p-6 transition-colors hover:bg-ink-850"
             >
               <div className="flex items-center justify-between">
-                <l.icon className="h-5 w-5 text-mist-500 transition-colors group-hover:text-volt-400" />
+                {"iconSrc" in l ? (
+                  <img
+                    src={l.iconSrc}
+                    alt={l.label}
+                    className="h-5 w-5 object-contain opacity-60 transition-opacity group-hover:opacity-100"
+                  />
+                ) : (
+                  <l.icon className="h-5 w-5 text-mist-500 transition-colors group-hover:text-volt-400" />
+                )}
                 <ArrowUpRight className="h-3 w-3 text-mist-700 transition-colors group-hover:text-volt-400" />
               </div>
               <div>
