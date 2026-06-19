@@ -16,9 +16,9 @@ import {
   careerPlan,
   internships,
 } from "@/data/content";
-import bilibiliIcon from "@/data/icon/bilibili.svg";
-import xiaohongshuIcon from "@/data/icon/xiaohongshu.svg";
-import douyinIcon from "@/data/icon/douyin.svg";
+import bilibiliIcon from "@/data/icon/bilibili.png";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.png";
+import douyinIcon from "@/data/icon/douyin.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -177,7 +177,7 @@ export default function About() {
                       <img
                         src={c.iconSrc}
                         alt={c.label}
-                        className="h-4 w-4 shrink-0 object-contain opacity-60 transition-opacity group-hover:opacity-100"
+                        className="h-4 w-4 shrink-0 rounded-sm object-contain"
                       />
                     ) : (
                       <c.icon className="h-4 w-4 shrink-0 text-mist-500 transition-colors group-hover:text-volt-400" />
@@ -296,12 +296,12 @@ export default function About() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center border border-ink-600 text-mist-300 transition-colors group-hover:border-volt-400 group-hover:text-volt-400">
+                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden border border-ink-600 text-mist-300 transition-colors group-hover:border-volt-400 group-hover:text-volt-400">
                       {intern.icon ? (
                         <img
                           src={intern.icon}
                           alt={intern.company}
-                          className="h-5 w-5 object-contain opacity-80 transition-opacity group-hover:opacity-100"
+                          className="h-8 w-8 object-contain"
                         />
                       ) : (
                         <Building2 className="h-5 w-5" />

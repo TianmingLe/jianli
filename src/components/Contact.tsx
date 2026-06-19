@@ -6,9 +6,9 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { profile } from "@/data/content";
-import bilibiliIcon from "@/data/icon/bilibili.svg";
-import xiaohongshuIcon from "@/data/icon/xiaohongshu.svg";
-import douyinIcon from "@/data/icon/douyin.svg";
+import bilibiliIcon from "@/data/icon/bilibili.png";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.png";
+import douyinIcon from "@/data/icon/douyin.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -113,7 +113,7 @@ export default function Contact() {
                   <img
                     src={l.iconSrc}
                     alt={l.label}
-                    className="h-5 w-5 object-contain opacity-60 transition-opacity group-hover:opacity-100"
+                    className="h-5 w-5 rounded-sm object-contain"
                   />
                 ) : (
                   <l.icon className="h-5 w-5 text-mist-500 transition-colors group-hover:text-volt-400" />

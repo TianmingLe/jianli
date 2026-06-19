@@ -1,5 +1,5 @@
 // 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
-import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.svg";
+import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
