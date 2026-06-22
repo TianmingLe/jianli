@@ -10,14 +10,14 @@ const IMG = (prompt: string, size = "landscape_16_9") =>
 export const profile = {
   name: "胡亚伟",
   nameEn: "HU Yawei",
-  // 主业：能源与动力工程本科生；副线：AI Native 特种兵 / 视觉与品牌设计
-  identity: ["能源与动力工程本科生", "AI Native 特种兵", "视觉与品牌设计"],
+  // 主业：能源与动力工程本科生；副线：AI Native Graduate / 视觉与品牌设计
+  identity: ["能源与动力工程本科生", "AI Native Graduate", "视觉与品牌设计"],
   identityEn: "Energy & Power Undergrad · AI Native · Designer",
   tagline: "AI NATIVE ENERGY ENGINEER",
   taglineSub: "能源动力 × AI 特种技术，以新工具重塑传统工科",
   positioning:
-    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native 特种兵」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
-  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native 特种兵身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
+    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
+  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native Graduate身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
   mbti: "ENTJ-A",
   avatar: IMG(
     "dark moody cinematic portrait of a young east asian male engineering student, side profile silhouette, dramatic rim lighting, deep black background with subtle cyan glow, high contrast, film grain, editorial photography, 35mm, tech aesthetic",
@@ -33,7 +33,7 @@ export const profile = {
   },
   coreTraits: [
     { icon: "Flame", title: "能动专业核心能力", desc: "CFD 仿真 / 三维设计 / 热工测试 / 工程管理" },
-    { icon: "Bot", title: "AI Native 特种兵", desc: "Agent 开发 / AIGC / 大模型微调 / 全栈工程" },
+    { icon: "Bot", title: "AI Native Graduate", desc: "Agent 开发 / AIGC / 大模型微调 / 全栈工程" },
     { icon: "BarChart3", title: "数据驱动工程思维", desc: "Python / SQL / 数据分析 / 工程经济学" },
     { icon: "Target", title: "跨界整合执行力", desc: "能源 × AI × 设计 复合落地" },
   ],
@@ -482,7 +482,7 @@ export const strengths = [
   {
     id: "s02",
     no: "02",
-    title: "AI Native 特种兵",
+    title: "AI Native Graduate",
     en: "AI Native Special Forces",
     description: "Spring AI / RAG / MCP / ReAct 智能体开发，ComfyUI / LoRA 大模型微调，AIGC 全链路（数字人 / 语音克隆 / AI 绘画 / AI 视频）。",
     icon: "Bot",
