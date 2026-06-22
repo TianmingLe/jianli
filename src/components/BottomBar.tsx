@@ -3,8 +3,8 @@ import { Home, FolderKanban } from "lucide-react";
 import { motion } from "framer-motion";
 
 const tabs = [
-  { to: "/", label: "Index", icon: Home },
-  { to: "/projects", label: "Work", icon: FolderKanban },
+  { to: "/", label: "整体概述", icon: Home },
+  { to: "/projects", label: "精选项目", icon: FolderKanban },
 ];
 
 export default function BottomBar() {
