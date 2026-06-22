@@ -11,6 +11,7 @@ import pavelData from "@/data/baoer/保尔柯察金数据分析.png";
 import genderDist from "@/data/baoer/观众性别分布.png";
 import audienceProfile from "@/data/baoer/观众画像.png";
 import topicHeat from "@/data/baoer/钢铁是怎样炼成的巨量算数话题热度.png";
+import douyinTopicHeat from "@/data/ScreenShot_2026-06-02_155303_227.png";
 import c1 from "@/data/baoer/评论区1.png";
 import c2 from "@/data/baoer/评论区2.png";
 import c3 from "@/data/baoer/评论区3.png";
@@ -65,6 +66,7 @@ const charts = [
   { src: genderDist, label: "性别分布", icon: Users },
   { src: topicHeat, label: "话题热度", icon: TrendingUp },
   { src: pavelData, label: "保尔柯察金热度", icon: TrendingUp },
+  { src: douyinTopicHeat, label: "抖音创作者中心话题热度", icon: TrendingUp },
 ];
 
 const comments = [
