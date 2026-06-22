@@ -1,13 +1,5 @@
 // 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
 import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.png";
-import profileAvatar from "@/data/Profile Picture/个人画像.png";
-import lifePhoto from "@/data/Profile Picture/生活照2.png";
-import steelCover from "@/data/《钢铁是怎样炼成的》4K修复视频.png";
-import internlmCover from "@/data/书生浦语大模型微调作品.png";
-import bilibiliSpace from "@/data/哔哩哔哩空间.png";
-import driverLicense from "@/data/机动车驾驶证.jpg";
-import baiduXhsCreatorCert from "@/data/百度网盘小红书内容创作官证书.jpg";
-import cet4Cert from "@/data/英语四级证书.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -27,8 +19,10 @@ export const profile = {
     "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
   bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native Graduate身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
   mbti: "ENTJ-A",
-  avatar: profileAvatar,
-  lifePhoto: lifePhoto,
+  avatar: IMG(
+    "dark moody cinematic portrait of a young east asian male engineering student, side profile silhouette, dramatic rim lighting, deep black background with subtle cyan glow, high contrast, film grain, editorial photography, 35mm, tech aesthetic",
+    "portrait_4_3",
+  ),
   contacts: {
     phone: "19935072544",
     email: "1767976037@qq.com",
@@ -236,7 +230,10 @@ export const projects: Project[] = [
     title: "书生·浦语大模型实战营",
     category: "LLM Fine-tuning",
     year: "2024",
-    cover: internlmCover,
+    cover: IMG(
+      "dark server room with glowing GPU racks, cyan data streams, AI training visualization, premium tech aesthetic, cinematic depth",
+      "landscape_16_9",
+    ),
     keywords: ["InternLM", "大模型微调", "A100", "LoRA", "DeepSpeed"],
     summary:
       "完成书生·浦语大模型实战营项目，在 A100 上训练基于 InternLM 的 8B 微调角色模型，掌握大模型微调基本流程与技巧。",
@@ -281,7 +278,10 @@ export const projects: Project[] = [
     title: "《钢铁是怎样炼成的》4K 修复",
     category: "Video Restoration / AIGC",
     year: "2025.04 — 2025.05",
-    cover: steelCover,
+    cover: IMG(
+      "dark cinematic vintage film still, soviet era worker silhouette, dramatic black and white with subtle cold blue tint, film grain, 4k restored look, moody atmosphere, classic cinema",
+      "landscape_16_9",
+    ),
     keywords: ["视频修复", "4K", "AI 增强", "保尔·柯察金", "内容发布"],
     summary:
       "独立完成经典影片《钢铁是怎样炼成的》4K 修复与发布，使用 AI 技术进行画质增强、分辨率提升、色彩校正。作品在 B 站与抖音形成「长视频修复 + 短视频切片」的传播矩阵，引发全网对保尔·柯察金精神的学习与讨论热潮。",
@@ -303,7 +303,10 @@ export const projects: Project[] = [
     title: "自媒体品牌矩阵",
     category: "Brand / Content Operation",
     year: "2024 — 2026",
-    cover: bilibiliSpace,
+    cover: IMG(
+      "dark moody social media content grid mockup on black background, minimal premium brand layout, cyan accent, editorial design, floating cards",
+      "landscape_16_9",
+    ),
     keywords: ["B 站 UP 主", "抖音创作者", "小红书博主", "内容运营"],
     summary:
       "B 站 12K+、抖音 4.9K+、小红书 4.6K+ 的个人品牌矩阵，持续输出技术分享、AI 应用、视频修复等内容，形成跨平台个人品牌影响力。",
@@ -418,7 +421,7 @@ export const certificates = [
     icon: "Award",
     title: "书生·浦语大模型实战营证书",
     desc: "完成 InternLM 大模型微调实战营，掌握 LoRA 微调全流程",
-    image: internlmCover,
+    image: "/certs/internlm-camp-cert.png",
   },
   {
     id: "c02",
@@ -427,27 +430,8 @@ export const certificates = [
     desc: "电力巡检 / 航拍测绘",
     image: "/certs/drone-license.png",
   },
-  {
-    id: "c03",
-    icon: "Languages",
-    title: "大学英语四级证书",
-    desc: "CET-4，英语读写能力",
-    image: cet4Cert,
-  },
-  {
-    id: "c04",
-    icon: "Car",
-    title: "机动车驾驶证",
-    desc: "C1，便于工程现场调研",
-    image: driverLicense,
-  },
-  {
-    id: "c05",
-    icon: "Award",
-    title: "百度网盘小红书内容创作官",
-    desc: "校园大使期间的小红书内容创作认证",
-    image: baiduXhsCreatorCert,
-  },
+  { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力" },
+  { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研" },
 ];
 
 /* ============================== 实习经历 ============================== */

@@ -19,18 +19,8 @@ import {
 import bilibiliIcon from "@/data/icon/bilibili.png";
 import xiaohongshuIcon from "@/data/icon/xiaohongshu.png";
 import douyinIcon from "@/data/icon/douyin.png";
-import lifePhoto from "@/data/Profile Picture/生活照2.png";
-import bilibiliSpace from "@/data/哔哩哔哩空间.png";
-import xiaohongshuProfile from "@/data/小红书主业.png";
-import douyinProfile from "@/data/抖音主页.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-const platformScreenshots = [
-  { src: bilibiliSpace, label: "B 站空间", href: profile.contacts.bilibili },
-  { src: xiaohongshuProfile, label: "小红书主页", href: profile.contacts.xiaohongshu },
-  { src: douyinProfile, label: "抖音主页", href: profile.contacts.douyin },
-];
 
 const contactLinks = [
   { icon: Phone, label: "Phone", value: profile.contacts.phone, href: `tel:${profile.contacts.phone}` },
@@ -118,58 +108,6 @@ export default function About() {
                 </div>
               ))}
             </div>
-
-            {/* 生活照 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8, ease, delay: 0.1 }}
-              className="mt-8"
-            >
-              <span className="eyebrow">/ Life Photo</span>
-              <div className="group relative mt-4 aspect-video overflow-hidden border border-ink-700">
-                <img
-                  src={lifePhoto}
-                  alt="生活照"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-            </motion.div>
-
-            {/* 平台主页截图 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8, ease, delay: 0.2 }}
-              className="mt-8"
-            >
-              <span className="eyebrow">/ Platform Matrix</span>
-              <div className="mt-4 grid grid-cols-1 gap-3">
-                {platformScreenshots.map((p) => (
-                  <a
-                    key={p.label}
-                    href={p.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group relative overflow-hidden border border-ink-700 bg-ink-900 transition-colors hover:bg-ink-850"
-                  >
-                    <div className="relative aspect-[16/9] w-full overflow-hidden">
-                      <img
-                        src={p.src}
-                        alt={p.label}
-                        className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent" />
-                    </div>
-                    <p className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-widest text-mist-300">
-                      {p.label}
-                    </p>
-                  </a>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* 右：介绍 + 教育 + 联系方式 */}
