@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Flame, Bot, BarChart3, Target } from "lucide-react";
-import { heroPoster, profile } from "@/data/content";
+import { profile } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -13,10 +13,12 @@ export default function Hero() {
       className="relative flex h-screen min-h-[720px] w-full items-center overflow-hidden"
     >
       {/* 背景层 */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 animate-slow-pan bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroPoster})` }}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <iframe
+          src="https://player.bilibili.com/player.html?bvid=BV1Vi7K69ERh&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0"
+          title="Hero background video"
+          allow="autoplay; fullscreen"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 border-0 blur-md"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink-950/85 via-ink-950/65 to-ink-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950/90 via-transparent to-ink-950/40" />
