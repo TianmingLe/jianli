@@ -9,7 +9,7 @@ const traitIcons = { Flame, Bot, BarChart3, Target };
 
 const VIDEO_DURATION_MS = 30_000;
 const BILIBILI_EMBED =
-  "https://player.bilibili.com/player.html?bvid=BV1Vi7K69ERh&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
+  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
