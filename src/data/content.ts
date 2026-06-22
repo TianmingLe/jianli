@@ -1,4 +1,5 @@
 // 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
+import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -9,14 +10,14 @@ const IMG = (prompt: string, size = "landscape_16_9") =>
 export const profile = {
   name: "胡亚伟",
   nameEn: "HU Yawei",
-  // 主业：能源与动力工程本科生；副线：AI Native 特种兵 / 视觉与品牌设计
-  identity: ["能源与动力工程本科生", "AI Native 特种兵", "视觉与品牌设计"],
+  // 主业：能源与动力工程本科生；副线：AI Native Graduate / 视觉与品牌设计
+  identity: ["能源与动力工程本科生", "AI Native Graduate", "视觉与品牌设计"],
   identityEn: "Energy & Power Undergrad · AI Native · Designer",
   tagline: "AI NATIVE ENERGY ENGINEER",
   taglineSub: "能源动力 × AI 特种技术，以新工具重塑传统工科",
   positioning:
-    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native 特种兵」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
-  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native 特种兵身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
+    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
+  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native Graduate身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
   mbti: "ENTJ-A",
   avatar: IMG(
     "dark moody cinematic portrait of a young east asian male engineering student, side profile silhouette, dramatic rim lighting, deep black background with subtle cyan glow, high contrast, film grain, editorial photography, 35mm, tech aesthetic",
@@ -32,7 +33,7 @@ export const profile = {
   },
   coreTraits: [
     { icon: "Flame", title: "能动专业核心能力", desc: "CFD 仿真 / 三维设计 / 热工测试 / 工程管理" },
-    { icon: "Bot", title: "AI Native 特种兵", desc: "Agent 开发 / AIGC / 大模型微调 / 全栈工程" },
+    { icon: "Bot", title: "AI Native Graduate", desc: "Agent 开发 / AIGC / 大模型微调 / 全栈工程" },
     { icon: "BarChart3", title: "数据驱动工程思维", desc: "Python / SQL / 数据分析 / 工程经济学" },
     { icon: "Target", title: "跨界整合执行力", desc: "能源 × AI × 设计 复合落地" },
   ],
@@ -283,13 +284,14 @@ export const projects: Project[] = [
     ),
     keywords: ["视频修复", "4K", "AI 增强", "保尔·柯察金", "内容发布"],
     summary:
-      "独立完成经典影片《钢铁是怎样炼成的》4K 修复与发布，使用 AI 技术进行画质增强、分辨率提升、色彩校正，全网引发对保尔·柯察金精神的学习热潮。",
+      "独立完成经典影片《钢铁是怎样炼成的》4K 修复与发布，使用 AI 技术进行画质增强、分辨率提升、色彩校正。作品在 B 站与抖音形成「长视频修复 + 短视频切片」的传播矩阵，引发全网对保尔·柯察金精神的学习与讨论热潮。",
     stack: ["Topaz Video AI（超分 / 去噪）", "剪映（色彩校正）", "RIFE 插帧 / 光流法（25→60fps）"],
     achievements: [
       "B 站播放 200 万+，抖音切片 1500 万+",
       "带动话题量 10 亿+",
-      "引发红色经典学习与讨论热潮",
-      "验证 AI 修复技术的有效性与必要性",
+      "《钢铁是怎样炼成的》话题热度峰值突破 25 万，均值 2.9 万",
+      "「保尔柯察金」话题热度峰值近 50 万，角色 IP 爆发力强",
+      "18-23 岁男性用户为核心受众，河南、江苏、山东偏好度最高",
     ],
     tags: ["4K 修复", "AI 超分", "色彩校正", "60fps 插帧"],
   },
@@ -454,6 +456,7 @@ export const internships = [
     company: "百度网盘",
     role: "校园大使 & 小红书宣传大使",
     period: "2024.03 — 至今",
+    icon: baiduNetdiskIcon,
     keywords: ["品牌推广", "线上线下", "内容创作", "社群运营"],
     summary:
       "协助品牌进行线上线下宣传活动策划与执行，提升产品在校园用户中的影响力。",
@@ -479,7 +482,7 @@ export const strengths = [
   {
     id: "s02",
     no: "02",
-    title: "AI Native 特种兵",
+    title: "AI Native Graduate",
     en: "AI Native Special Forces",
     description: "Spring AI / RAG / MCP / ReAct 智能体开发，ComfyUI / LoRA 大模型微调，AIGC 全链路（数字人 / 语音克隆 / AI 绘画 / AI 视频）。",
     icon: "Bot",

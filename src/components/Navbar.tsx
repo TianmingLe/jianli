@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { navItems } from "@/data/content";
 
 export default function Navbar() {
@@ -48,27 +49,38 @@ export default function Navbar() {
 
         {/* Nav */}
         <nav className="hidden items-center gap-0.5 xl:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={`group relative px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors ${
-                active === item.id
-                  ? "text-mist-50"
-                  : "text-mist-500 hover:text-mist-100"
-              }`}
-            >
-              <span className="mr-1 text-volt-400/60">/</span>
-              {item.label}
-              {active === item.id && (
-                <motion.span
-                  layoutId="nav-active"
-                  className="absolute inset-x-2 -bottom-px h-px bg-volt-400"
-                  transition={{ duration: 0.4 }}
-                />
-              )}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.id === "work" ? (
+              <Link
+                key={item.id}
+                to="/projects"
+                className="group relative px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-mist-500 transition-colors hover:text-mist-100"
+              >
+                <span className="mr-1 text-volt-400/60">/</span>
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={`group relative px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors ${
+                  active === item.id
+                    ? "text-mist-50"
+                    : "text-mist-500 hover:text-mist-100"
+                }`}
+              >
+                <span className="mr-1 text-volt-400/60">/</span>
+                {item.label}
+                {active === item.id && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-x-2 -bottom-px h-px bg-volt-400"
+                    transition={{ duration: 0.4 }}
+                  />
+                )}
+              </a>
+            ),
+          )}
         </nav>
 
         {/* CTA */}
