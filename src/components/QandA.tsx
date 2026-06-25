@@ -40,16 +40,21 @@ export default function QandA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, ease, delay: index * 0.1 }}
-              className="group border-t border-ink-700 pt-10"
+              className="group scroll-mt-24 border-t border-ink-700 pt-10"
             >
-              {/* 问题 */}
+              {/* 问题标题 */}
               <div className="flex items-start gap-4 md:gap-6">
                 <span className="mt-1 font-mono text-2xl font-bold tracking-tighter text-volt-400 md:text-3xl">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="flex-1 font-display text-2xl font-bold leading-snug tracking-tight text-mist-50 md:text-3xl">
-                  {item.question}
-                </h3>
+                <div className="flex-1">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                    / Q{index + 1}
+                  </span>
+                  <h3 className="mt-1 font-display text-2xl font-bold leading-snug tracking-tight text-mist-50 md:text-3xl">
+                    {item.question}
+                  </h3>
+                </div>
               </div>
 
               {/* 回答段落 */}

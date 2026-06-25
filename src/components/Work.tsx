@@ -34,7 +34,7 @@ export default function Work() {
           {projects.map((p, i) => {
             const showPartHeader = i === 0 || projects[i - 1].part !== p.part;
             return (
-            <div key={p.id} id={`proj-${p.partEn.toLowerCase().replace(/[^a-z]/g, "")}`}>
+            <div key={p.id} id={`proj-${p.partEn.toLowerCase().replace(/[^a-z]/g, "")}`} className="scroll-mt-24">
             {showPartHeader && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
