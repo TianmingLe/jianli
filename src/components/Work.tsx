@@ -23,9 +23,9 @@ export default function Work() {
             </h2>
           </div>
           <p className="hidden max-w-xs text-right text-sm text-mist-500 md:block">
-            按《简历二版》分区组织，
+            按《简历二版》四大分区组织，
             <br />
-            AI 特种技术 × 自媒体特种技术。
+            能动技术 × AI 特种 × Vibe Coding × 自媒体。
           </p>
         </motion.div>
 
