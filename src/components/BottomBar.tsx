@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, FolderKanban } from "lucide-react";
+import { Home, FolderKanban, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const tabs = [
   { to: "/", label: "整体概述", icon: Home },
   { to: "/projects", label: "精选项目", icon: FolderKanban },
+  { to: "/qa", label: "Q&A", icon: HelpCircle },
 ];
 
 export default function BottomBar() {
