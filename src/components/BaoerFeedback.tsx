@@ -83,7 +83,7 @@ const comments = [
 
 export default function BaoerFeedback() {
   return (
-    <section className="relative w-full bg-ink-950 py-28 md:py-40">
+    <section id="baoer-feedback" className="relative w-full bg-ink-950 py-28 md:py-40">
       <div className="shell">
         {/* 章节标题 */}
         <motion.div
