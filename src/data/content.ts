@@ -13,6 +13,7 @@ import xhsQingcaoImg from "@/data/Certificate/小红书青草计划项目展示1
 import baiduContentCertImg from "@/data/Certificate/百度网盘小红书内容创作官证书.jpg";
 import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参会证.jpg";
 import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
+import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -32,10 +33,7 @@ export const profile = {
     "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（ANSYS Fluent 多物理场仿真、AutoCAD/SolidWorks 三维设计、热工测试与 PLC/STM32 控制）的同时，深度拥抱 AIGC、智能体开发与全栈工程。具备 Python/Java 全栈能力，熟练运用 Spring AI、RAG、多 Agent 编排及端侧推理（TFLite Micro），独立完成智能眼镜系统和 OmniScraper Pro 视频分析工具等软硬一体项目，从传感器采集到云端处理全链路打通。",
   bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 多物理场仿真、AutoCAD / SolidWorks 三维设计、热工测试与 PLC/STM32 控制。在此之上，以 AI Native Graduate 身份拓展第二曲线：具备 Python/Java 全栈能力，熟练运用 Spring AI、RAG、多 Agent 编排及端侧推理（TFLite Micro），独立完成智能眼镜系统和 OmniScraper Pro 视频分析工具等软硬一体项目，从传感器采集到云端处理全链路打通。",
   mbti: "ENTJ-A",
-  avatar: IMG(
-    "dark moody cinematic portrait of a young east asian male engineering student, side profile silhouette, dramatic rim lighting, deep black background with subtle cyan glow, high contrast, film grain, editorial photography, 35mm, tech aesthetic",
-    "portrait_4_3",
-  ),
+  avatar: selfieImg,
   contacts: {
     phone: "19935072544",
     email: "1767976037@qq.com",
