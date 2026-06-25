@@ -204,6 +204,7 @@ export const projects: Project[] = [
     category: "CFD 仿真 / 三维设计",
     year: "2024 — 2025",
     cover: "/energy/heat-exchanger-temp.png",
+    coverFit: "contain",
     keywords: ["CFD 仿真", "ANSYS Fluent", "三维建模", "多物理场耦合"],
     summary:
       "完成卧式壳管式换热器零部件三维建模与装配设计，并对核心设备进行流动、传热等多物理场耦合仿真。使用 ANSYS Fluent 模拟壳管式换热器中心截面温度分布，验证理论公式与仿真结果的一致性。",
@@ -227,6 +228,7 @@ export const projects: Project[] = [
     category: "嵌入式 / 开源硬件",
     year: "2025.02 — 2025.03",
     cover: writingMachineImg,
+    coverFit: "contain",
     keywords: ["写字机", "Arduino", "GRBL 固件", "步进电机", "开源方案"],
     summary:
       "作为能源与动力工程专业学生突破学科壁垒，从 0 到 1 独立完成写字机项目全流程。从 GitHub 调研技术方案，对比 3 种主流架构后选择笛卡尔式结构，完成整机装配、固件烧录、参数校准与软件工作流搭建。",
@@ -345,6 +347,7 @@ export const projects: Project[] = [
     category: "LLM Fine-tuning",
     year: "2024",
     cover: internlmImg,
+    coverFit: "contain",
     keywords: ["InternLM", "大模型微调", "A100", "LoRA", "DeepSpeed"],
     summary:
       "完成书生·浦语大模型实战营项目，在 A100 上训练基于 InternLM 的 8B 微调角色模型，掌握大模型微调基本流程与技巧，包括数据准备、LoRA 微调、分布式训练与模型评估。",
@@ -511,6 +514,7 @@ export const projects: Project[] = [
     category: "新媒体运营 / 内容创作",
     year: "2025.06",
     cover: "/awards/xhs-qingcao-plan.jpg",
+    coverFit: "contain",
     keywords: ["小红书运营", "内容创作", "青草计划", "新媒体技能"],
     summary:
       "参加小红书新媒体优秀人才职业技能大赛「青草计划」项目实践，学习并实践了小红书平台的内容创作、运营策略、数据分析等技能。",
@@ -534,6 +538,7 @@ export const projects: Project[] = [
     category: "Brand / Content Operation",
     year: "2024 — 2026",
     cover: bilibiliSpaceImg,
+    coverFit: "contain",
     keywords: ["B 站 UP 主", "抖音创作者", "小红书博主", "内容运营", "10 亿+ 话题"],
     summary:
       "全网粉丝 2.1 万+ 的科技与泛文化创作者。以「AI 技术赋能」为核心驱动力，构建涵盖前沿科技测评、红色经典数字化修复、泛艺术视听创作的内容矩阵。曾打造 10 亿+ 话题量的现象级正能量爆款。",
