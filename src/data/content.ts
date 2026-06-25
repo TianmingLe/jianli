@@ -11,6 +11,7 @@ import cet4Img from "@/data/Certificate/英语四级证书.png";
 import driverLicenseImg from "@/data/Certificate/机动车驾驶证.jpg";
 import xhsQingcaoImg from "@/data/Certificate/小红书青草计划项目展示1.png";
 import baiduContentCertImg from "@/data/Certificate/百度网盘小红书内容创作官证书.jpg";
+import baiduCampusAmbassadorImg from "@/data/Certificate/百度网盘校园大使.png";
 import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参会证.jpg";
 import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
 import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
@@ -527,8 +528,8 @@ export const timeline = [
     color: "mist",
     events: [
       { month: "01", title: "自媒体创号", desc: "小红书首月斩获 1000+ 粉丝", image: xhsHomeImg },
-      { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduNetdiskIcon },
-      { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记" },
+      { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduCampusAmbassadorImg },
+      { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记", image: internlmImg },
       { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: baiduContentCertImg },
       { month: "—", title: "全年自媒体", desc: "抖音 1600+ / 小红书 3000+ / B 站 800+" },
     ],
