@@ -70,7 +70,7 @@ export default function QandA() {
                   <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
                     / Q{index + 1}
                   </span>
-                  <h3 className="mt-1 font-display text-2xl font-bold leading-snug tracking-tight text-mist-50 md:text-3xl">
+                  <h3 className="mt-1 font-display text-2xl font-bold leading-snug tracking-tight text-volt-300 md:text-3xl">
                     {item.question}
                   </h3>
                 </div>
