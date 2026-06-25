@@ -30,6 +30,10 @@ export default {
           500: "#38BDF8",
           600: "#0EA5E9",
         },
+        amber: {
+          300: "#FCD34D",
+          400: "#FBBF24",
+        },
       },
       fontFamily: {
         display: ['"Syne"', '"Noto Sans SC"', "sans-serif"],
