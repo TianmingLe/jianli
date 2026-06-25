@@ -181,6 +181,8 @@ export type Project = {
   category: string;
   year: string;
   cover: string;
+  // 超宽横图(宽>长且比例>2:1)或竖图(长>宽)时设为 "contain" 避免截断；默认 "cover"
+  coverFit?: "cover" | "contain";
   keywords: string[];
   summary: string;
   stack: string[];
@@ -285,6 +287,7 @@ export const projects: Project[] = [
     category: "AI Hardware / Embedded",
     year: "2025.04 — 2026.05",
     cover: smartGlassesImg,
+    coverFit: "contain",
     keywords: ["智能眼镜", "ESP32-S3", "BLE 音频", "视觉特征提取", "Flutter", "FastAPI"],
     summary:
       "基于「轻眼镜 + 重后端」架构的智能眼镜系统，实现眼镜-手机-PC-云的多条链路。包含 ESP32-S3 固件（BLE 音频 / 视觉特征提取）、Flutter 移动应用、FastAPI 后端和 PC 中继服务，支持断点续传与 OTA 升级。",
@@ -457,6 +460,7 @@ export const projects: Project[] = [
     category: "Video Restoration / AIGC",
     year: "2025.04 — 2025.05",
     cover: baoer4kImg,
+    coverFit: "contain",
     keywords: ["视频修复", "4K", "AI 增强", "保尔·柯察金", "内容发布"],
     summary:
       "独立完成经典影片《钢铁是怎样炼成的》4K 修复与发布，使用 AI 技术进行画质增强、分辨率提升、色彩校正。作品在 B 站与抖音形成「长视频修复 + 短视频切片」的传播矩阵，引发全网对保尔·柯察金精神的学习与讨论热潮。",

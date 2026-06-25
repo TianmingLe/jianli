@@ -4,6 +4,13 @@ import { projects, Project } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// 根据图片原始宽高比选择 fit 模式：超宽横图/竖图用 contain 避免截断，其他用 cover
+function fitClass(p: Project) {
+  return p.coverFit === "contain"
+    ? "object-contain bg-ink-850"
+    : "object-cover";
+}
+
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
 function EnergyGrid({ items }: { items: Project[] }) {
   return (
@@ -28,7 +35,7 @@ function EnergyGrid({ items }: { items: Project[] }) {
               <img
                 src={p.cover}
                 alt={p.title}
-                className="h-full w-full object-cover opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80"
+                className={`h-full w-full ${fitClass(p)} opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80`}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-ink-900/80 to-transparent" />
               <span className="absolute right-3 top-2 font-mono text-[10px] uppercase tracking-widest text-mist-400">
@@ -90,7 +97,7 @@ function AIListFlow({ items }: { items: Project[] }) {
               <img
                 src={p.cover}
                 alt={p.title}
-                className="h-full w-full object-cover opacity-60 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90"
+                className={`h-full w-full ${fitClass(p)} opacity-60 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90`}
               />
             </div>
           </div>
@@ -149,7 +156,7 @@ function VibeProductSpotlight({ items }: { items: Project[] }) {
             <img
               src={p.cover}
               alt={p.title}
-              className="h-full w-full object-cover opacity-80 transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+              className={`h-full w-full ${fitClass(p)} opacity-80 transition-transform duration-[1.5s] ease-out group-hover:scale-105`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent lg:bg-gradient-to-r" />
             {/* 序号浮层 */}
@@ -234,7 +241,7 @@ function MediaFeature({ items }: { items: Project[] }) {
             <img
               src={p.cover}
               alt={p.title}
-              className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+              className={`h-full w-full ${fitClass(p)} transition-transform duration-[1.5s] ease-out group-hover:scale-105`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-ink-900/60 via-transparent to-transparent" />
