@@ -168,18 +168,6 @@ export const abilityMap = [
       { src: douyinHomeImg, caption: "抖音创作者主页" },
     ],
   },
-  {
-    id: "am05",
-    no: "05",
-    domain: "思想领域高度技术",
-    en: "Strategic Thinking",
-    level: "★★★★☆",
-    role: "战略思维",
-    icon: "Brain",
-    keywords: ["辩证唯物主义", "前瞻布局", "项目管理", "技术方法论"],
-    summary: "辩证唯物主义 + 毛泽东思想为指导，前瞻总体布局思想，项目管理 PERT / 甘特图，工程经济学 ROI / NPV，Vibe Coding / AI 协作方法论。",
-    skills: ["辩证唯物主义 + 毛泽东思想", "前瞻总体布局思想", "项目管理 PERT / 甘特图", "Vibe Coding / AI 协作方法论"],
-  },
 ];
 
 /* ============================== 精选项目（按简历分区） ============================== */
