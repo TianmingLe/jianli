@@ -54,7 +54,7 @@ export const profile = {
     { label: "全网粉丝", value: "21K+" },
     { label: "完整项目", value: "6+" },
     { label: "竞赛获奖", value: "4 项" },
-    { label: "志愿时长", value: "100+ h" },
+    { label: "志愿时长", value: "20+ h" },
   ],
 };
 
