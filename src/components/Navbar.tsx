@@ -33,7 +33,7 @@ export default function Navbar() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "border-b border-ink-700/60 bg-ink-950/80 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
+          : "border-b border-transparent bg-gradient-to-b from-ink-950/90 via-ink-950/40 to-transparent"
       }`}
     >
       <div className="shell flex h-16 items-center justify-between md:h-20">
