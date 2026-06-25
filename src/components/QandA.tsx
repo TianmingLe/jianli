@@ -4,6 +4,25 @@ import { qnaData } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/** Render text with **bold** markup as styled spans */
+function RichText({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={i} className="font-semibold text-mist-50">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 export default function QandA() {
   return (
     <section id="qa" className="relative w-full bg-ink-950 py-28 md:py-40">
@@ -64,7 +83,7 @@ export default function QandA() {
                     key={pIdx}
                     className="max-w-4xl text-sm leading-relaxed text-mist-300 md:text-base"
                   >
-                    {paragraph}
+                    <RichText text={paragraph} />
                   </p>
                 ))}
               </div>
@@ -91,7 +110,7 @@ export default function QandA() {
                             痛点
                           </span>
                           <p className="mt-1 text-xs leading-relaxed text-mist-400 md:text-sm">
-                            {scenario.pain}
+                            <RichText text={scenario.pain} />
                           </p>
                         </div>
                         <div>
@@ -99,7 +118,7 @@ export default function QandA() {
                             价值
                           </span>
                           <p className="mt-1 text-xs leading-relaxed text-mist-100 md:text-sm">
-                            {scenario.value}
+                            <RichText text={scenario.value} />
                           </p>
                         </div>
                       </div>
