@@ -75,17 +75,17 @@ function AIListFlow({ items }: { items: Project[] }) {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6, ease, delay: i * 0.1 }}
-          className="group relative grid grid-cols-12 items-center gap-4 border-b border-ink-700 py-5 transition-colors hover:bg-ink-850/50 md:gap-6 md:py-6"
+          transition={{ duration: 0.6, ease, delay: Math.min(i * 0.08, 0.4) }}
+          className="group relative flex flex-col gap-4 border-b border-ink-700 py-5 transition-colors hover:bg-ink-850/50 md:flex-row md:items-center md:gap-6 md:py-6"
         >
           {/* 序号 */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="flex shrink-0 items-center gap-3 md:w-16">
             <span className="font-display text-3xl font-bold tracking-tighter text-mist-50/20 transition-colors group-hover:text-volt-400 md:text-4xl">
               {p.index}
             </span>
           </div>
           {/* 封面缩略 */}
-          <div className="col-span-3 md:col-span-2">
+          <div className="shrink-0 md:w-40">
             <div className="relative aspect-[4/3] overflow-hidden border border-ink-700">
               <img
                 src={p.cover}
@@ -94,14 +94,17 @@ function AIListFlow({ items }: { items: Project[] }) {
               />
             </div>
           </div>
-          {/* 标题 + 关键词 */}
-          <div className="col-span-7 md:col-span-6">
+          {/* 标题 + 关键词（主体，flex-1 占据剩余空间） */}
+          <div className="min-w-0 flex-1">
             <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
               {p.category}
             </p>
             <h3 className="mt-1 font-display text-lg font-bold leading-tight text-mist-50 md:text-xl">
               {p.title}
             </h3>
+            <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-mist-400 md:hidden">
+              {p.summary}
+            </p>
             <div className="mt-2 flex flex-wrap gap-1">
               {p.keywords.slice(0, 3).map((k) => (
                 <span
@@ -114,7 +117,7 @@ function AIListFlow({ items }: { items: Project[] }) {
             </div>
           </div>
           {/* 年份 + 箭头 */}
-          <div className="col-span-12 flex items-center justify-end gap-3 md:col-span-3 md:justify-end">
+          <div className="flex shrink-0 items-center justify-end gap-3 md:w-32">
             <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
               {p.year}
             </span>
@@ -128,57 +131,83 @@ function AIListFlow({ items }: { items: Project[] }) {
   );
 }
 
-/* ============================ 分区三：Vibe Coding · 卡片矩阵 ============================ */
-function VibeCardMatrix({ items }: { items: Project[] }) {
+/* ============================ 分区三：Vibe Coding · 产品特写（单项目） ============================ */
+function VibeProductSpotlight({ items }: { items: Project[] }) {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex flex-col gap-8 md:gap-12">
       {items.map((p, i) => (
         <motion.article
           key={p.id}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.7, ease, delay: i * 0.1 }}
-          className="group relative flex flex-col overflow-hidden border border-ink-700 bg-ink-900 transition-colors hover:border-volt-400/50"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, ease, delay: i * 0.1 }}
+          className="group relative grid grid-cols-1 overflow-hidden border border-ink-700 bg-ink-900 lg:grid-cols-2"
         >
-          {/* 封面为主 */}
-          <div className="relative aspect-[16/10] overflow-hidden">
+          {/* 左：大封面（垂直） */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-auto">
             <img
               src={p.cover}
               alt={p.title}
-              className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+              className="h-full w-full object-cover opacity-80 transition-transform duration-[1.5s] ease-out group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent" />
-            <span className="absolute left-3 top-3 font-display text-xl font-bold tracking-tighter text-mist-50/40 drop-shadow-lg md:text-2xl">
+            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent lg:bg-gradient-to-r" />
+            {/* 序号浮层 */}
+            <span className="absolute left-6 top-5 font-display text-7xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-8xl">
               {p.index}
             </span>
-            <span className="absolute right-3 top-3 font-mono text-[9px] uppercase tracking-widest text-mist-300 backdrop-blur-sm">
-              {p.year}
-            </span>
           </div>
-          {/* 信息 */}
-          <div className="flex flex-1 flex-col p-4">
-            <p className="font-mono text-[9px] uppercase tracking-widest text-volt-400">
-              {p.category}
-            </p>
-            <h3 className="mt-1.5 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
-              {p.title}
-            </h3>
-            <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-mist-400">
-              {p.summary}
-            </p>
-            {/* 底部：技术栈精简 */}
-            <div className="mt-auto pt-3">
-              <div className="flex flex-wrap gap-1">
-                {p.stack.slice(0, 3).map((s) => (
+          {/* 右：信息面板 */}
+          <div className="flex flex-col justify-between p-6 md:p-10">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300">
+                  {p.category}
+                </span>
+                <span className="h-px flex-1 bg-amber-300/30" />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
+                  {p.year}
+                </span>
+              </div>
+              <h3 className="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-mist-50 md:text-4xl">
+                {p.title}
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-mist-300">
+                {p.summary}
+              </p>
+            </div>
+            {/* 技术栈（amber 风格） */}
+            <div className="mt-8">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / Tech Stack
+              </p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {p.stack.map((s) => (
                   <span
                     key={s}
-                    className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300"
+                    className="border border-amber-300/40 bg-amber-300/5 px-2 py-1 text-[10px] text-amber-200"
                   >
-                    {s.length > 18 ? s.slice(0, 16) + "…" : s}
+                    {s}
                   </span>
                 ))}
               </div>
+            </div>
+            {/* 成果 */}
+            <div className="mt-6">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / Achievements
+              </p>
+              <ul className="mt-3 space-y-2">
+                {p.achievements.slice(0, 3).map((a, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-2 text-xs leading-relaxed text-mist-200"
+                  >
+                    <Check className="mt-0.5 h-3 w-3 shrink-0 text-amber-300" />
+                    {a}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </motion.article>
@@ -263,7 +292,10 @@ function MediaFeature({ items }: { items: Project[] }) {
               </p>
               <div className="mt-2 flex flex-wrap gap-1">
                 {p.stack.map((s) => (
-                  <span key={s} className="text-[10px] text-mist-400">
+                  <span
+                    key={s}
+                    className="border border-ink-600 px-1.5 py-0.5 text-[10px] text-mist-300"
+                  >
                     {s}
                   </span>
                 ))}
@@ -314,10 +346,11 @@ export default function Work() {
   }));
 
   // 分区配置：每个分区用不同的渲染器 + accent 色
-  const partConfig: Record<string, { renderer: "grid" | "list" | "cards" | "feature"; accent: string; partEn: string }> = {
+  // partEn 必须与 Projects 页 PageHeader 的 navItems id 对应（proj-<partEn去空格小写>）
+  const partConfig: Record<string, { renderer: "grid" | "list" | "spotlight" | "feature"; accent: string; partEn: string }> = {
     "能动技术": { renderer: "grid", accent: "bg-volt-400", partEn: "Energy & Power" },
     "AI 特种技术": { renderer: "list", accent: "bg-mist-300", partEn: "AI Special Forces" },
-    "Vibe Coding 产品": { renderer: "cards", accent: "bg-amber-300", partEn: "Vibe Coding" },
+    "Vibe Coding 产品": { renderer: "spotlight", accent: "bg-amber-300", partEn: "Vibe Coding Products" },
     "自媒体特种技术": { renderer: "feature", accent: "bg-volt-500", partEn: "Content Creation" },
   };
 
@@ -362,7 +395,7 @@ export default function Work() {
                 />
                 {cfg.renderer === "grid" && <EnergyGrid items={g.items} />}
                 {cfg.renderer === "list" && <AIListFlow items={g.items} />}
-                {cfg.renderer === "cards" && <VibeCardMatrix items={g.items} />}
+                {cfg.renderer === "spotlight" && <VibeProductSpotlight items={g.items} />}
                 {cfg.renderer === "feature" && <MediaFeature items={g.items} />}
               </div>
             );
