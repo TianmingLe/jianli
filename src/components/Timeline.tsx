@@ -103,37 +103,40 @@ export default function Timeline() {
                     className="group relative w-full md:w-[calc(50%-3rem)]"
                   >
                     <div className="relative border border-ink-700 bg-ink-950/80 backdrop-blur-sm transition-colors hover:border-ink-600 hover:bg-ink-900">
-                      {/* 事件配图 */}
-                      {ev.image && (
-                        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-ink-700">
-                          <img
-                            src={ev.image}
-                            alt={ev.title}
-                            className="h-full w-full object-cover opacity-60 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-transparent" />
+                      <div className="flex gap-4 p-5 md:p-6">
+                        {/* 文本主体 */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-3">
+                            <span
+                              className={`font-mono text-[11px] uppercase tracking-widest ${
+                                isVolt ? "text-volt-400" : "text-mist-400"
+                              }`}
+                            >
+                              {ev.month}
+                            </span>
+                            <span className="h-px flex-1 bg-ink-700" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-mist-700">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                          </div>
+                          <p className="mt-3 font-display text-lg font-bold leading-snug text-mist-50 md:text-xl">
+                            {ev.title}
+                          </p>
+                          <p className="mt-2 text-xs leading-relaxed text-mist-300 md:text-sm">
+                            {ev.desc}
+                          </p>
                         </div>
-                      )}
-                      <div className="p-5 md:p-6">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={`font-mono text-[11px] uppercase tracking-widest ${
-                              isVolt ? "text-volt-400" : "text-mist-400"
-                            }`}
-                          >
-                            {ev.month}
-                          </span>
-                          <span className="h-px flex-1 bg-ink-700" />
-                          <span className="font-mono text-[10px] uppercase tracking-widest text-mist-700">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                        </div>
-                        <p className="mt-3 font-display text-lg font-bold leading-snug text-mist-50 md:text-xl">
-                          {ev.title}
-                        </p>
-                        <p className="mt-2 text-xs leading-relaxed text-mist-300 md:text-sm">
-                          {ev.desc}
-                        </p>
+                        {/* 小尺寸配图缩略图 */}
+                        {ev.image && (
+                          <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-ink-700 md:h-20 md:w-20">
+                            <img
+                              src={ev.image}
+                              alt={ev.title}
+                              className="h-full w-full object-cover opacity-70 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 to-transparent" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>
