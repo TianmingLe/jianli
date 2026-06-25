@@ -68,7 +68,7 @@ export default function Hero() {
       </div>
 
       {/* 内容 */}
-      <div className="shell relative z-10 w-full">
+      <div className="shell relative z-10 w-full pt-20 md:pt-24">
         <div className="max-w-[1300px]">
           {/* 顶部小标 */}
           <motion.div
