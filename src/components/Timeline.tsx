@@ -75,26 +75,39 @@ export default function Timeline() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-40px" }}
                       transition={{ duration: 0.6, ease, delay: ei * 0.08 }}
-                      className="group bg-ink-950 p-5 transition-colors hover:bg-ink-850"
+                      className="group bg-ink-950 transition-colors hover:bg-ink-850"
                     >
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`font-mono text-[11px] uppercase tracking-widest ${
-                            year.color === "volt"
-                              ? "text-volt-400"
-                              : "text-mist-500"
-                          }`}
-                        >
-                          {ev.month}
-                        </span>
-                        <span className="h-px flex-1 bg-ink-700" />
+                      {/* 事件配图 */}
+                      {"image" in ev && ev.image && (
+                        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-ink-700">
+                          <img
+                            src={ev.image as string}
+                            alt={ev.title}
+                            className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-transparent" />
+                        </div>
+                      )}
+                      <div className="p-5">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`font-mono text-[11px] uppercase tracking-widest ${
+                              year.color === "volt"
+                                ? "text-volt-400"
+                                : "text-mist-500"
+                            }`}
+                          >
+                            {ev.month}
+                          </span>
+                          <span className="h-px flex-1 bg-ink-700" />
+                        </div>
+                        <p className="mt-3 font-display text-base font-bold text-mist-50">
+                          {ev.title}
+                        </p>
+                        <p className="mt-1.5 text-xs leading-relaxed text-mist-300">
+                          {ev.desc}
+                        </p>
                       </div>
-                      <p className="mt-3 font-display text-base font-bold text-mist-50">
-                        {ev.title}
-                      </p>
-                      <p className="mt-1.5 text-xs leading-relaxed text-mist-300">
-                        {ev.desc}
-                      </p>
                     </motion.div>
                   ))}
                 </div>

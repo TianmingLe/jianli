@@ -5,6 +5,14 @@ import smartGlassesImg from "@/data/xiangmu/AI眼镜.png";
 import internlmImg from "@/data/xiangmu/书生浦语大模型微调作品.png";
 import baoer4kImg from "@/data/self-media/《钢铁是怎样炼成的》4K修复视频.png";
 import bilibiliSpaceImg from "@/data/self-media/哔哩哔哩空间.png";
+import douyinHomeImg from "@/data/self-media/抖音主页.png";
+import xhsHomeImg from "@/data/self-media/小红书主业.png";
+import cet4Img from "@/data/Certificate/英语四级证书.png";
+import driverLicenseImg from "@/data/Certificate/机动车驾驶证.jpg";
+import xhsQingcaoImg from "@/data/Certificate/小红书青草计划项目展示1.png";
+import baiduContentCertImg from "@/data/Certificate/百度网盘小红书内容创作官证书.jpg";
+import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参会证.jpg";
+import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -122,6 +130,11 @@ export const abilityMap = [
     keywords: ["智能体开发", "大模型应用", "AIGC", "Vibe Coding", "单片机", "智能眼镜"],
     summary: "ComfyUI / 模型微调，Spring AI / RAG / MCP，AIGC 全链路，Vibe Coding 实践，Prompt / Harness Engineering，LangChain 多 Agent 编排，SEO/GEO 推广优化，单片机技术（写字机 / 51 单片机），智能眼镜系统（ESP32 / Flutter / FastAPI）。",
     skills: ["智能体开发（ComfyUI / 模型微调）", "大模型应用（Spring AI / RAG / MCP）", "AIGC（数字人 / 语音克隆 / AI 绘画 / AI 音乐 / AI 视频）", "Vibe Coding / Prompt Engineering / Harness Engineering", "SEO & GEO 推广优化 / AI 热点监控 Skills", "LangChain 多 Agent 编排 / Context 工程", "单片机技术（写字机 / 51 单片机）", "智能眼镜系统（ESP32 / Flutter / FastAPI）"],
+    gallery: [
+      { src: smartGlassesImg, caption: "Altezhong 智能眼镜系统实物图" },
+      { src: internlmImg, caption: "书生·浦语大模型微调作品" },
+      { src: writingMachineImg, caption: "写字机系统集成项目" },
+    ],
   },
   {
     id: "am03",
@@ -134,6 +147,11 @@ export const abilityMap = [
     keywords: ["Python", "Java", "C/C++", "JS/TS", "SQL", "Git", "Docker", "Linux"],
     summary: "Python 精通（数据分析 / 科学计算 / 自动化），Java 精通（Web 系统开发），C/C++ 掌握（嵌入式开发），JS/TS 熟练（前端 + Electron），SQL / Git / Docker / Linux / Office 全栈工程能力。",
     skills: ["Python 精通 / Java 精通", "C/C++ 掌握 / JS/TS 熟练", "SQL / Git 熟练", "Docker 掌握 / Linux 掌握（阿里云 ECS + Web 部署）", "Office 精通 / HTML / CSS 熟练"],
+    gallery: [
+      { src: devConferenceImg, caption: "2024 全球开发者先锋大会参会证" },
+      { src: msReactorImg, caption: "微软 Reactor 线下技术聚会" },
+      { src: baiduNetdiskIcon, caption: "百度网盘校园大使 & 技术推广" },
+    ],
   },
   {
     id: "am04",
@@ -146,6 +164,11 @@ export const abilityMap = [
     keywords: ["视频抓取", "AI 视频", "新媒体运营", "4K 修复"],
     summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 12K+ / 抖音 4.9K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
     skills: ["OmniScraper Pro 视频抓取", "AI 视频 / 4K 修复技术", "B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PS / Audition"],
+    gallery: [
+      { src: baoer4kImg, caption: "《钢铁是怎样炼成的》4K 修复视频" },
+      { src: bilibiliSpaceImg, caption: "哔哩哔哩主页 12K+ 粉丝" },
+      { src: douyinHomeImg, caption: "抖音创作者主页" },
+    ],
   },
   {
     id: "am05",
@@ -517,10 +540,10 @@ export const timeline = [
     year: "2024",
     color: "mist",
     events: [
-      { month: "01", title: "自媒体创号", desc: "小红书首月斩获 1000+ 粉丝" },
-      { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使" },
+      { month: "01", title: "自媒体创号", desc: "小红书首月斩获 1000+ 粉丝", image: xhsHomeImg },
+      { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduNetdiskIcon },
       { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记" },
-      { month: "10", title: "英语视频制作比赛", desc: "校级二等奖" },
+      { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: baiduContentCertImg },
       { month: "—", title: "全年自媒体", desc: "抖音 1600+ / 小红书 3000+ / B 站 800+" },
     ],
   },
@@ -529,9 +552,9 @@ export const timeline = [
     color: "volt",
     events: [
       { month: "02", title: "市场调查大赛", desc: "《LLM 市场应用》校级二等奖" },
-      { month: "03", title: "4K 修复项目", desc: "《钢铁是怎样炼成的》4K 修复启动" },
+      { month: "03", title: "4K 修复项目", desc: "《钢铁是怎样炼成的》4K 修复启动", image: baoer4kImg },
       { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场" },
-      { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛" },
+      { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg },
       { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）" },
       { month: "—", title: "全年自媒体", desc: "抖音 4600+ / 小红书 4000+ / B 站 9800+" },
     ],
@@ -542,7 +565,7 @@ export const timeline = [
     events: [
       { month: "03", title: "市场调查大赛", desc: "省级一等奖（康养五寨文旅研究）" },
       { month: "03", title: "video-claw 开发", desc: "第一版视频抓取工具" },
-      { month: "04", title: "智能眼镜 v0.1", desc: "Altezhong-yanjing MVP" },
+      { month: "04", title: "智能眼镜 v0.1", desc: "Altezhong-yanjing MVP", image: smartGlassesImg },
       { month: "04", title: "video-tezhong 启动", desc: "第二版视频抓取工具" },
       { month: "05", title: "web-niu / 眼镜 v2", desc: "Ambient Dream v2 + AItezhongyanjing-2" },
     ],
@@ -594,6 +617,7 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "负责视频创意与制作",
+    image: baiduContentCertImg,
   },
 ];
 
@@ -612,8 +636,8 @@ export const certificates = [
     desc: "电力巡检 / 航拍测绘",
     image: "/certs/drone-license.png",
   },
-  { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力" },
-  { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研" },
+  { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力", image: cet4Img },
+  { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研", image: driverLicenseImg },
 ];
 
 /* ============================== 实习经历 ============================== */
