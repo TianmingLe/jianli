@@ -35,7 +35,7 @@ export default function BottomBar() {
                 <motion.span
                   layoutId="bottom-bar-active"
                   initial={false}
-                  className="pointer-events-none absolute -top-px left-1/2 h-0.5 w-6 -translate-x-1/2 bg-volt-400"
+                  className="pointer-events-none absolute -top-px left-0 right-0 mx-auto h-0.5 w-6 bg-volt-400"
                   transition={{ duration: 0.3 }}
                 />
               )}
