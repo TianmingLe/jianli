@@ -19,7 +19,7 @@ export default function Timeline() {
     year.events.forEach((ev) => {
       flat.push({
         year: year.year,
-        color: year.color,
+        color: year.color as "volt" | "mist",
         month: ev.month,
         title: ev.title,
         desc: ev.desc,
