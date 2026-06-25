@@ -31,6 +31,7 @@ export default {
           600: "#0EA5E9",
         },
         amber: {
+          200: "#FDE68A",
           300: "#FCD34D",
           400: "#FBBF24",
         },
