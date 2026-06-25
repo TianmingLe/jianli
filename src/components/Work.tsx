@@ -66,6 +66,37 @@ function EnergyGrid({ items }: { items: Project[] }) {
               ))}
             </div>
           </div>
+          {/* Hover 揭示完整内容浮层 */}
+          <div className="pointer-events-none absolute inset-0 z-10 flex flex-col overflow-y-auto bg-ink-900/97 p-5 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+              {p.category}
+            </p>
+            <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
+              {p.title}
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-mist-200">{p.summary}</p>
+            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Achievements
+            </p>
+            <ul className="mt-1.5 space-y-1">
+              {p.achievements.map((a, idx) => (
+                <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
+                  <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Stack
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {p.stack.map((s) => (
+                <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
         </motion.article>
       ))}
     </div>
@@ -83,54 +114,91 @@ function AIListFlow({ items }: { items: Project[] }) {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.6, ease, delay: Math.min(i * 0.08, 0.4) }}
-          className="group relative flex flex-col gap-4 border-b border-ink-700 py-5 transition-colors hover:bg-ink-850/50 md:flex-row md:items-center md:gap-6 md:py-6"
+          className="group relative flex flex-col border-b border-ink-700 py-5 transition-colors hover:bg-ink-850/50"
         >
-          {/* 序号 */}
-          <div className="flex shrink-0 items-center gap-3 md:w-16">
-            <span className="font-display text-3xl font-bold tracking-tighter text-mist-50/20 transition-colors group-hover:text-volt-400 md:text-4xl">
-              {p.index}
-            </span>
-          </div>
-          {/* 封面缩略 */}
-          <div className="shrink-0 md:w-40">
-            <div className="relative aspect-[4/3] overflow-hidden border border-ink-700">
-              <img
-                src={p.cover}
-                alt={p.title}
-                className={`h-full w-full ${fitClass(p)} opacity-60 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90`}
-              />
+          {/* 顶部行：序号 + 缩略图 + 标题 + 年份（桌面端横向，移动端纵向） */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+            {/* 序号 */}
+            <div className="flex shrink-0 items-center md:w-16">
+              <span className="font-display text-3xl font-bold tracking-tighter text-mist-50/20 transition-colors group-hover:text-volt-400 md:text-4xl">
+                {p.index}
+              </span>
+            </div>
+            {/* 封面缩略 */}
+            <div className="shrink-0 md:w-40">
+              <div className="relative aspect-[4/3] overflow-hidden border border-ink-700">
+                <img
+                  src={p.cover}
+                  alt={p.title}
+                  className={`h-full w-full ${fitClass(p)} opacity-60 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90`}
+                />
+              </div>
+            </div>
+            {/* 标题 + 关键词（主体） */}
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                {p.category}
+              </p>
+              <h3 className="mt-1 font-display text-lg font-bold leading-tight text-mist-50 md:text-xl">
+                {p.title}
+              </h3>
+              <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-mist-400 md:hidden">
+                {p.summary}
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1">
+                {p.keywords.slice(0, 3).map((k) => (
+                  <span
+                    key={k}
+                    className="font-mono text-[9px] uppercase tracking-wider text-mist-500"
+                  >
+                    /{k}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* 年份 + 箭头 */}
+            <div className="flex shrink-0 items-center justify-end gap-3 md:w-32">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
+                {p.year}
+              </span>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-ink-600 text-mist-400 transition-all duration-300 group-hover:border-volt-400 group-hover:bg-volt-400 group-hover:text-ink-950">
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </span>
             </div>
           </div>
-          {/* 标题 + 关键词（主体，flex-1 占据剩余空间） */}
-          <div className="min-w-0 flex-1">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
-              {p.category}
-            </p>
-            <h3 className="mt-1 font-display text-lg font-bold leading-tight text-mist-50 md:text-xl">
-              {p.title}
-            </h3>
-            <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-mist-400 md:hidden">
-              {p.summary}
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1">
-              {p.keywords.slice(0, 3).map((k) => (
-                <span
-                  key={k}
-                  className="font-mono text-[9px] uppercase tracking-wider text-mist-500"
-                >
-                  /{k}
-                </span>
-              ))}
+          {/* Hover 展开详情区 */}
+          <div className="max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100">
+            <div className="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2 md:pl-[5.5rem]">
+              <div>
+                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                  / Summary
+                </p>
+                <p className="mt-1.5 text-xs leading-relaxed text-mist-200">{p.summary}</p>
+                <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                  / Stack
+                </p>
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {p.stack.map((s) => (
+                    <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                  / Achievements
+                </p>
+                <ul className="mt-1.5 space-y-1.5">
+                  {p.achievements.map((a, idx) => (
+                    <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
+                      <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                      {a}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-          {/* 年份 + 箭头 */}
-          <div className="flex shrink-0 items-center justify-end gap-3 md:w-32">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-              {p.year}
-            </span>
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-ink-600 text-mist-400 transition-all duration-300 group-hover:border-volt-400 group-hover:bg-volt-400 group-hover:text-ink-950">
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </span>
           </div>
         </motion.article>
       ))}
