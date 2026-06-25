@@ -3,8 +3,11 @@ import Work from "@/components/Work";
 import BaoerFeedback from "@/components/BaoerFeedback";
 
 const navItems = [
-  { id: "work", label: "Work", cn: "精选项目" },
-  { id: "baoer-feedback", label: "Feedback", cn: "观众反馈" },
+  { id: "proj-energypower", label: "能动", cn: "能动技术" },
+  { id: "proj-aispecialforces", label: "AI 特种", cn: "AI 特种技术" },
+  { id: "proj-vibecodingproducts", label: "Vibe", cn: "Vibe Coding" },
+  { id: "proj-contentcreation", label: "自媒体", cn: "自媒体特种技术" },
+  { id: "baoer-feedback", label: "反馈", cn: "观众反馈" },
 ];
 
 export default function Projects() {

@@ -31,9 +31,28 @@ export default function Work() {
 
         {/* 大卡片纵向堆叠 */}
         <div className="flex flex-col gap-6 md:gap-10">
-          {projects.map((p, i) => (
+          {projects.map((p, i) => {
+            const showPartHeader = i === 0 || projects[i - 1].part !== p.part;
+            return (
+            <div key={p.id} id={`proj-${p.partEn.toLowerCase().replace(/[^a-z]/g, "")}`}>
+            {showPartHeader && (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, ease }}
+                className="mb-4 flex items-center gap-4 md:mb-6"
+              >
+                <span className="h-px w-12 bg-volt-400" />
+                <span className="font-display text-xl font-bold tracking-tight text-mist-50 md:text-2xl">
+                  {p.part}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                  / {p.partEn}
+                </span>
+              </motion.div>
+            )}
             <motion.article
-              key={p.id}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
@@ -150,7 +169,9 @@ export default function Work() {
                 </div>
               </div>
             </motion.article>
-          ))}
+            </div>
+            );
+          })}
         </div>
       </div>
     </section>

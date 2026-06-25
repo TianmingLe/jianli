@@ -2,7 +2,9 @@ import PageHeader from "@/components/PageHeader";
 import QandA from "@/components/QandA";
 
 const navItems = [
-  { id: "qa", label: "Q&A", cn: "常见问题" },
+  { id: "qa-q1", label: "核心优势", cn: "核心竞争力" },
+  { id: "qa-q2", label: "AI 工具价值", cn: "AI 工具价值" },
+  { id: "qa-q3", label: "跨界能力", cn: "跨界能力" },
 ];
 
 export default function QA() {
