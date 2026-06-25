@@ -13,11 +13,11 @@ export const profile = {
   // 主业：能源与动力工程本科生；副线：AI Native Graduate / 视觉与品牌设计
   identity: ["能源与动力工程本科生", "AI Native Graduate", "视觉与品牌设计"],
   identityEn: "Energy & Power Undergrad · AI Native · Designer",
-  tagline: "AI NATIVE ENERGY ENGINEER",
-  taglineSub: "能源动力 × AI 特种技术，以新工具重塑传统工科",
+  tagline: "AI NATIVE GRADUATE",
+  taglineSub: "一名对能源动力技术与人工智能交叉领域充满热情的工科生",
   positioning:
-    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（CFD 仿真、三维设计、热工测试）的同时，深度拥抱 AIGC、智能体开发与全栈工程，致力于用 AI 重塑能源动力行业的传统工作流。",
-  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 流动传热燃烧仿真、AutoCAD / SolidWorks 三维设计、热工测试与工程管理。在此之上，以 AI Native Graduate身份拓展第二曲线：从 4K 影像修复到智能眼镜、AI 智能体、视频抓取工具链，持续以新技术解决传统问题。视觉与品牌设计是表达与副业，服务于内容创作与个人品牌建设。",
+    "山西大学能源与动力工程全日制本科生（2027 届），国家级一流专业建设点。以「AI Native Graduate」为自我定位，在扎实掌握能动专业核心（ANSYS Fluent 多物理场仿真、AutoCAD/SolidWorks 三维设计、热工测试与 PLC/STM32 控制）的同时，深度拥抱 AIGC、智能体开发与全栈工程。具备 Python/Java 全栈能力，熟练运用 Spring AI、RAG、多 Agent 编排及端侧推理（TFLite Micro），独立完成智能眼镜系统和 OmniScraper Pro 视频分析工具等软硬一体项目，从传感器采集到云端处理全链路打通。",
+  bio: "主业是能源与动力工程本科生，专业核心能力覆盖 ANSYS Fluent 多物理场仿真、AutoCAD / SolidWorks 三维设计、热工测试与 PLC/STM32 控制。在此之上，以 AI Native Graduate 身份拓展第二曲线：具备 Python/Java 全栈能力，熟练运用 Spring AI、RAG、多 Agent 编排及端侧推理（TFLite Micro），独立完成智能眼镜系统和 OmniScraper Pro 视频分析工具等软硬一体项目，从传感器采集到云端处理全链路打通。",
   mbti: "ENTJ-A",
   avatar: IMG(
     "dark moody cinematic portrait of a young east asian male engineering student, side profile silhouette, dramatic rim lighting, deep black background with subtle cyan glow, high contrast, film grain, editorial photography, 35mm, tech aesthetic",
@@ -32,10 +32,10 @@ export const profile = {
     douyin: "https://v.douyin.com/mMECQWKw-Vs/",
   },
   coreTraits: [
-    { icon: "Flame", title: "能动专业核心能力", desc: "CFD 仿真 / 三维设计 / 热工测试 / 工程管理" },
-    { icon: "Bot", title: "AI Native Graduate", desc: "Agent 开发 / AIGC / 大模型微调 / 全栈工程" },
-    { icon: "BarChart3", title: "数据驱动工程思维", desc: "Python / SQL / 数据分析 / 工程经济学" },
-    { icon: "Target", title: "跨界整合执行力", desc: "能源 × AI × 设计 复合落地" },
+    { icon: "Flame", title: "扎实的工程专业能力", desc: "ANSYS / AutoCAD / 实践操作技术" },
+    { icon: "Bot", title: "前沿的 AI 技术应用能力", desc: "Agent 开发 / CC / Harness Engineering / Prompt 工程" },
+    { icon: "BarChart3", title: "数据驱动的思维方式", desc: "Python / SQL / 数据分析" },
+    { icon: "Target", title: "出色的项目执行力与团队协作精神", desc: "能源 × AI × 全栈 复合落地" },
   ],
   stats: [
     { label: "全网话题量", value: "10亿+" },
@@ -82,9 +82,9 @@ export const education = [
 ];
 
 export const careerPlan = {
-  short: ["完成本科学业（2027.06 毕业）", "考取注册公用设备工程师基础考试", "进入热能 / 电力行业工作", "持续深化 AI 技术应用能力"],
-  mid: ["积累工程项目经验（≥5 个大型项目）", "考取注册公用设备工程师执业资格", "在工作中应用 AI 提升效率", "建立行业影响力（论文 / 专利）"],
-  long: ["成为能源 + AI 领域专家", "主导或参与国家级重点项目", "推动行业数字化转型", "创业方向：AI 赋能能源管理系统"],
+  short: ["考取注册公用设备工程师证书", "进入热能 / 电力行业实践"],
+  mid: ["在热能行业实践中继续学习进步", "深化 AI + 能源创新应用探索"],
+  long: ["成为既懂热力系统又懂 AI 的跨界工程师", "推动能源行业智能化转型"],
 };
 
 /* ============================== 能力地图（五大能力域） ============================== */
@@ -97,9 +97,9 @@ export const abilityMap = [
     level: "★★★★★",
     role: "专业核心",
     icon: "Flame",
-    keywords: ["CFD 仿真", "三维设计", "热工测试", "工程管理"],
-    summary: "掌握能源动力领域核心仿真工具链，ANSYS Fluent 流动传热燃烧仿真，AutoCAD / SolidWorks / UG 三维设计。",
-    skills: ["ANSYS Fluent（流动 / 传热 / 燃烧）", "AutoCAD / SolidWorks / UG", "热电偶 / 流量计 / NI DAQ", "PERT / 甘特图 / ROI 评估"],
+    keywords: ["CFD 仿真", "proteus 仿真", "三维设计", "实验操作"],
+    summary: "掌握能源动力领域核心仿真工具链，ANSYS Fluent 流动传热燃烧仿真，proteus 仿真，AutoCAD / SolidWorks / UG 三维设计，实验操作能力强悍。",
+    skills: ["实验操作能力强悍", "ANSYS Fluent（流动 / 传热 / 燃烧）", "proteus 仿真", "AutoCAD / SolidWorks / UG"],
     gallery: [
       { src: "/energy/heat-exchanger-cad.png", caption: "换热器 CAD 三维设计图" },
       { src: "/energy/heat-exchanger-temp.png", caption: "壳管式换热器中心截面温度分布" },
@@ -114,9 +114,9 @@ export const abilityMap = [
     level: "★★★★★",
     role: "前沿探索",
     icon: "Bot",
-    keywords: ["智能体开发", "大模型应用", "AIGC", "Prompt 工程"],
-    summary: "ComfyUI / 模型微调，Spring AI / RAG / MCP，数字人 / 语音克隆 / AI 绘画 / AI 音乐 / AI 视频，LangChain 多 Agent 编排。",
-    skills: ["ComfyUI / 模型微调 / LoRA", "Spring AI / RAG / MCP / ReAct", "AIGC：数字人 / 语音克隆 / AI 绘画", "Prompt Engineering / Harness Engineering"],
+    keywords: ["智能体开发", "大模型应用", "AIGC", "Vibe Coding", "单片机", "智能眼镜"],
+    summary: "ComfyUI / 模型微调，Spring AI / RAG / MCP，AIGC 全链路，Vibe Coding 实践，Prompt / Harness Engineering，LangChain 多 Agent 编排，SEO/GEO 推广优化，单片机技术（写字机 / 51 单片机），智能眼镜系统（ESP32 / Flutter / FastAPI）。",
+    skills: ["智能体开发（ComfyUI / 模型微调）", "大模型应用（Spring AI / RAG / MCP）", "AIGC（数字人 / 语音克隆 / AI 绘画 / AI 音乐 / AI 视频）", "Vibe Coding / Prompt Engineering / Harness Engineering", "SEO & GEO 推广优化 / AI 热点监控 Skills", "LangChain 多 Agent 编排 / Context 工程", "单片机技术（写字机 / 51 单片机）", "智能眼镜系统（ESP32 / Flutter / FastAPI）"],
   },
   {
     id: "am03",
@@ -126,9 +126,9 @@ export const abilityMap = [
     level: "★★★★★",
     role: "全栈支撑",
     icon: "Code2",
-    keywords: ["Python", "Java", "C/C++", "前端 + 嵌入式"],
-    summary: "Python 精通（数据分析 / 自动化），Java 精通（Web 系统），C/C++ 嵌入式，JS/TS 前端 + Electron，SQL / Git / Docker / Linux。",
-    skills: ["Python 精通 / Java 精通", "C/C++ 嵌入式 / JS/TS 前端", "SQL / Git / Docker / Linux", "Office 精通 / HTML / CSS"],
+    keywords: ["Python", "Java", "C/C++", "JS/TS", "SQL", "Git", "Docker", "Linux"],
+    summary: "Python 精通（数据分析 / 科学计算 / 自动化），Java 精通（Web 系统开发），C/C++ 掌握（嵌入式开发），JS/TS 熟练（前端 + Electron），SQL / Git / Docker / Linux / Office 全栈工程能力。",
+    skills: ["Python 精通 / Java 精通", "C/C++ 掌握 / JS/TS 熟练", "SQL / Git 熟练", "Docker 掌握 / Linux 掌握（阿里云 ECS + Web 部署）", "Office 精通 / HTML / CSS 熟练"],
   },
   {
     id: "am04",
@@ -453,6 +453,20 @@ export const internships = [
   },
   {
     id: "i02",
+    company: "大同市能源局",
+    role: "能源政策助理实习生",
+    period: "2026.07（待办）",
+    keywords: ["能源政策", "行业调研", "政策分析"],
+    summary:
+      "即将赴大同市能源局开展能源政策助理实习，深度参与地方能源政策调研与分析工作。",
+    points: [
+      "协助开展地方能源政策调研与分析",
+      "参与新能源产业发展相关课题研究",
+      "学习能源行政管理体系与政策制定流程",
+    ],
+  },
+  {
+    id: "i03",
     company: "百度网盘",
     role: "校园大使 & 小红书宣传大使",
     period: "2024.03 — 至今",
