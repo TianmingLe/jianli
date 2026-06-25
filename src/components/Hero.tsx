@@ -8,7 +8,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const traitIcons = { Flame, Bot, BarChart3, Target };
 
 const BILIBILI_EMBED =
-  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
+  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0&loop=1";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
