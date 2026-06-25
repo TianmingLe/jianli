@@ -184,7 +184,10 @@ export type Project = {
   // 超宽横图(宽>长且比例>2:1)或竖图(长>宽)时设为 "contain" 避免截断；默认 "cover"
   coverFit?: "cover" | "contain";
   keywords: string[];
+  // 项目做了什么（技术内容描述）
   summary: string;
+  // 对电厂/能源工作的应用价值（技能迁移场景）
+  valueToPower: string;
   stack: string[];
   achievements: string[];
   tags: string[];
@@ -204,6 +207,8 @@ export const projects: Project[] = [
     keywords: ["CFD 仿真", "ANSYS Fluent", "三维建模", "多物理场耦合"],
     summary:
       "完成卧式壳管式换热器零部件三维建模与装配设计，并对核心设备进行流动、传热等多物理场耦合仿真。使用 ANSYS Fluent 模拟壳管式换热器中心截面温度分布，验证理论公式与仿真结果的一致性。",
+    valueToPower:
+      "ANSYS Fluent 流动传热仿真能力可直接迁移到电厂凝汽器、冷油器、高压加热器等换热设备性能分析与节能改造，三维设计支撑热力系统技改方案落地。",
     stack: ["ANSYS Fluent（流动 / 传热 / 燃烧）", "AutoCAD / SolidWorks / UG", "proteus 仿真", "热工测试仪器"],
     achievements: [
       "独立完成换热器零部件三维建模与装配设计",
@@ -225,6 +230,8 @@ export const projects: Project[] = [
     keywords: ["写字机", "Arduino", "GRBL 固件", "步进电机", "开源方案"],
     summary:
       "作为能源与动力工程专业学生突破学科壁垒，从 0 到 1 独立完成写字机项目全流程。从 GitHub 调研技术方案，对比 3 种主流架构后选择笛卡尔式结构，完成整机装配、固件烧录、参数校准与软件工作流搭建。",
+    valueToPower:
+      "步进电机驱动与 GRBL 固件参数校准经验可迁移到电厂电动执行机构、伺服阀定位与电动门调试，固件烧录与联调能力支撑现场仪控设备维护。",
     stack: ["Arduino Uno / STM32", "GRBL 固件", "A4988 / TMC2208 步进电机驱动", "Inkscape / Processing 矢量图形", "CNCjs / Universal Gcode Sender"],
     achievements: [
       "书写速度达 150 字/min，字迹工整度优于人工手写（一致性误差 < 0.5mm）",
@@ -246,6 +253,8 @@ export const projects: Project[] = [
     keywords: ["51 单片机", "PWM", "矩阵键盘", "数码管", "传感器驱动"],
     summary:
       "基于 51 单片机完成多功能智能控制系统开发，整合 10+ 种外设模块，涵盖 IO 控制、显示驱动、通信存储、传感器采集、电机控制、AD/DA 转换与点阵显示，形成完整的技术文档与代码库。",
+    valueToPower:
+      "DS18B20 测温与 PWM 电机调速能力可服务于电厂热工测控仪表调试与执行机构控制，传感器驱动与通信协议经验支撑现场二次仪表与采集回路维护。",
     stack: ["51 单片机", "Keil 开发环境", "UART / I2C 通信协议", "DS1302 / DS18B20 传感器", "LCD1602 / 数码管 / 8×8 点阵"],
     achievements: [
       "系统整合 10+ 种外设模块，代码采用模块化设计，复用率 > 80%",
@@ -267,6 +276,8 @@ export const projects: Project[] = [
     keywords: ["STM32", "EXTI 中断", "ADC + DMA", "I2C / SPI", "MPU6050", "低功耗"],
     summary:
       "系统整合 20+ 种外设模块与通信协议，代码采用分层架构设计（驱动层-中间层-应用层）。涵盖 GPIO 控制、中断定时器、编码器运动控制、ADC+DMA 数据采集、串口通信、I2C/SPI 总线、实时时钟、低功耗管理、看门狗保护与内部 FLASH 操作。",
+    valueToPower:
+      "ADC+DMA 多通道同步采样与看门狗保护可直接迁移到电厂振动温度监测装置与 SCADA 前端采集，MTBF>1000h 的工业级稳定性契合电厂连续运行要求。",
     stack: ["STM32 / STM32CubeIDE", "EXTI / TIM / ADC / DMA", "USART / I2C / SPI", "MPU6050 / W25Q64 / RTC", "IWDG / WWDG / PWR 低功耗"],
     achievements: [
       "整合 20+ 种外设模块，模块复用率 > 85%，累计编写代码 8000+ 行",
@@ -291,6 +302,8 @@ export const projects: Project[] = [
     keywords: ["智能眼镜", "ESP32-S3", "BLE 音频", "视觉特征提取", "Flutter", "FastAPI"],
     summary:
       "基于「轻眼镜 + 重后端」架构的智能眼镜系统，实现眼镜-手机-PC-云的多条链路。包含 ESP32-S3 固件（BLE 音频 / 视觉特征提取）、Flutter 移动应用、FastAPI 后端和 PC 中继服务，支持断点续传与 OTA 升级。",
+    valueToPower:
+      "眼镜端第一视角采集+云端 VLM 识别架构经防爆工业改造可成为电厂 AI 巡检神器，实时识别仪表读数与跑冒滴漏并支持专家沉浸式远程指导。",
     stack: ["ESP32-S3 / C/C++", "TFLite Micro / RNNoise", "Flutter / Dart / BLE", "FastAPI / WebSocket", "TypeScript / Node.js"],
     achievements: [
       "音频传输延迟 < 100ms，BLE 通过率门禁测试",
@@ -312,6 +325,8 @@ export const projects: Project[] = [
     keywords: ["Spring AI", "智能体", "RAG", "PGvector", "MCP 协议", "ReAct 模式"],
     summary:
       "基于 Spring AI 框架构建 AI 智能体应用，实现多轮情感咨询与自主规划两大核心功能。支持知识库问答、动态工具调用、任务自主分解执行，完成从用户指令到行动交付的完整闭环。",
+    valueToPower:
+      "RAG 混合检索+Cross-Encoder 重排序能力可构建电厂专属智能问答助手，将规程、缺陷台账、历史工单向量化，让现场一问即得标准处置方案。",
     stack: ["Spring Boot 3 / Spring AI", "PGvector 向量数据库", "RAG / Tool Calling / MCP", "ReAct 模式 / 分层智能体", "Redis / CompletableFuture"],
     achievements: [
       "支持 10 轮以上连续对话，上下文准确率 > 95%",
@@ -333,6 +348,8 @@ export const projects: Project[] = [
     keywords: ["InternLM", "大模型微调", "A100", "LoRA", "DeepSpeed"],
     summary:
       "完成书生·浦语大模型实战营项目，在 A100 上训练基于 InternLM 的 8B 微调角色模型，掌握大模型微调基本流程与技巧，包括数据准备、LoRA 微调、分布式训练与模型评估。",
+    valueToPower:
+      "LoRA 参数高效微调经验可基于电厂历史工单与缺陷记录训练专属领域大模型，提升故障诊断与规程问答准确率，支撑电厂知识资产沉淀与传承。",
     stack: ["InternLM-8B", "NVIDIA A100 GPU", "PyTorch / DeepSpeed", "LoRA 参数高效微调"],
     achievements: [
       "使用 LoRA 进行参数高效微调（lr=2e-4, batch=16, epochs=3）",
@@ -354,6 +371,8 @@ export const projects: Project[] = [
     keywords: ["MCP 协议", "Agent Skills", "自动化 Pipeline", "飞书 API", "知识库"],
     summary:
       "面向 AI 前沿动态的自动化监控与分析 Pipeline。通过自定义 Skills 与 MCP 组件构建智能体追踪框架，实现多源热点数据的自动采集、LLM 结构化分析及飞书文档的实时同步，打造 7×24 小时无人值守的 AI 情报中枢。",
+    valueToPower:
+      "MCP 自动化情报 Pipeline 可 7×24 小时追踪设备诊断算法、CFD 优化方案与双碳政策碳交易行情，自动推送至技术科飞书文档，赋能前沿研判与碳资产管理。",
     stack: ["Python", "MCP (Model Context Protocol)", "Agent Skills", "飞书开放平台 API", "LLM Prompt 工程（Few-shot / CoT）"],
     achievements: [
       "从零设计「AI 的混乱空间」追踪框架，编写多源数据抓取与解析 Skills",
@@ -375,6 +394,8 @@ export const projects: Project[] = [
     keywords: ["阿里云 ECS", "Docker", "Nginx", "CI/CD", "GitHub Actions", "HTTPS"],
     summary:
       "具备完整的产品工程化交付能力。熟练依托阿里云 ECS 与 Linux 系统搭建高可用后端服务，掌握从环境配置、容器化编排到域名解析、HTTPS 加密的全链路 Web 部署方案；打通 GitHub Actions 自动化流水线，实现多端应用的自动构建与上架发布。",
+    valueToPower:
+      "Docker 容器化+Nginx 反向代理+CI/CD 能力可将班组减负工具（缺陷台账统计、两票审查）快速部署到电厂 Linux 服务器，实现 SaaS 化交付。",
     stack: ["阿里云 ECS / Linux 运维", "Docker / Docker-Compose", "Nginx 反向代理 / 负载均衡", "Let's Encrypt HTTPS", "GitHub Actions CI/CD"],
     achievements: [
       "独立管理阿里云 ECS 实例，完成系统初始化与安全组策略配置",
@@ -396,6 +417,8 @@ export const projects: Project[] = [
     keywords: ["数字人", "语音克隆", "AI 音乐", "Midjourney", "Stable Diffusion", "AI 视频"],
     summary:
       "熟悉数字人技术、语音克隆、多语种复制、AI 音乐及 Midjourney、Stable Diffusion 等AI 绘画技术，能独立完成从创意到成品的全流程。涵盖数字人视频制作、多语种配音、背景音乐创作、概念设计与插画创作。",
+    valueToPower:
+      "数字人+语音克隆+AI 视频能力可将枯燥安规与事故通报做成沉浸式 3D 还原短片与 AI 数字人安全宣讲，重塑电厂安全培训与科技雇主品牌宣传。",
     stack: ["数字人: D-ID / HeyGen / SadTalker", "语音克隆: ElevenLabs / So-VITS-SVC / RVC", "AI 音乐: Suno AI / Udio", "AI 绘画: Midjourney / Stable Diffusion / ControlNet"],
     achievements: [
       "数字人视频：制作教学视频、产品介绍、虚拟主播",
@@ -417,6 +440,8 @@ export const projects: Project[] = [
     keywords: ["Prompt 工程", "思路链", "Few-shot", "Agent 架构", "ComfyUI", "n8n"],
     summary:
       "精通 Prompt 工程师技能，熟练运用思路链提示、小样本学习、系统提示等多种框架；具备 Agent 架构师能力，能搭建各类 Agent 智能体；熟悉 ComfyUI 及 n8n 工作流，会编写对应的 Skills 及 MCP。",
+    valueToPower:
+      "n8n 自动化工作流+Agent 编排能力可定制电厂缺陷台账自动统计、两票合规性 AI 审查插件，把班组每天 1 小时填表时间压缩到 5 分钟。",
     stack: ["Prompt: CoT / Few-shot / System Prompt / Self-Consistency", "Agent: 单 Agent / 多 Agent 协作 / 分层 Agent", "ComfyUI: 可视化 AI 工作流", "n8n: 自动化工作流", "Skills / MCP 开发"],
     achievements: [
       "设计图像生成 Pipeline（提示词→SDXL→后处理）",
@@ -440,6 +465,8 @@ export const projects: Project[] = [
     keywords: ["视频抓取", "抖音分析", "Whisper ASR", "yt-dlp", "Electron", "MediaCrawler"],
     summary:
       "从 0 开始手搓视频抓取工具，后基于 MediaCrawler 和 omi 项目进行 AI 能力扩展。实现「采集 → 下载 → ASR 转写 → LLM 分析 → 导出」完整链路，支持抖音等多平台，包含 Electron 桌面端与自动化测试。",
+    valueToPower:
+      "OmniScraper 抓取+Whisper 转写+LLM 提炼链路可将抖音检修视频批量沉淀为故障排查 SOP 库；代理池监控能力可 7×24h 追踪备件价格与停产情报。",
     stack: ["MediaCrawler 爬虫框架", "yt-dlp 下载 / Whisper ASR", "LiteLLM 多模型", "Electron / TypeScript / React", "Jest / Pytest / GitHub Actions"],
     achievements: [
       "MVP 闭环：抓取→下载→转写→输出→清理",
@@ -464,6 +491,8 @@ export const projects: Project[] = [
     keywords: ["视频修复", "4K", "AI 增强", "保尔·柯察金", "内容发布"],
     summary:
       "独立完成经典影片《钢铁是怎样炼成的》4K 修复与发布，使用 AI 技术进行画质增强、分辨率提升、色彩校正。作品在 B 站与抖音形成「长视频修复 + 短视频切片」的传播矩阵，引发全网对保尔·柯察金精神的学习与讨论热潮。",
+    valueToPower:
+      "AI 超分+RIFE 插帧+色彩校正能力可用于修复电厂历史事故影像与老旧培训资料，提升安全文化宣传与事故案例教学的传播力与说服力。",
     stack: ["Topaz Video AI（超分 / 去噪）", "剪映（色彩校正）", "RIFE 插帧 / 光流法（25→60fps）"],
     achievements: [
       "B 站播放 200 万+，抖音切片 1500 万+",
@@ -485,6 +514,8 @@ export const projects: Project[] = [
     keywords: ["小红书运营", "内容创作", "青草计划", "新媒体技能"],
     summary:
       "参加小红书新媒体优秀人才职业技能大赛「青草计划」项目实践，学习并实践了小红书平台的内容创作、运营策略、数据分析等技能。",
+    valueToPower:
+      "标题优化+封面设计+数据分析能力可服务于智慧电厂科普内容策划与企业科技雇主品牌宣传，以数据驱动优化电厂对外形象传播。",
     stack: ["小红书平台", "图文 / 视频笔记", "标题优化 / 封面设计", "数据分析 / 社群互动"],
     achievements: [
       "确定内容方向（技术分享 / AI 应用）",
@@ -506,6 +537,8 @@ export const projects: Project[] = [
     keywords: ["B 站 UP 主", "抖音创作者", "小红书博主", "内容运营", "10 亿+ 话题"],
     summary:
       "全网粉丝 2.1 万+ 的科技与泛文化创作者。以「AI 技术赋能」为核心驱动力，构建涵盖前沿科技测评、红色经典数字化修复、泛艺术视听创作的内容矩阵。曾打造 10 亿+ 话题量的现象级正能量爆款。",
+    valueToPower:
+      "10 亿+ 话题量爆款策划网感可把枯燥安规做成沉浸式培训短片，并对外打造智慧风电/绿色火电科普短视频，构建电厂科技雇主品牌内容矩阵。",
     stack: ["B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PR", "Photoshop / Audition", "内容运营策略"],
     achievements: [
       "哔哩哔哩 12,000+ 粉丝",
