@@ -1,17 +1,34 @@
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { ArrowDown, Flame, Bot, BarChart3, Target } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const traitIcons = { Flame, Bot, BarChart3, Target };
 
+const VIDEO_DURATION_MS = 28_000; // 视频时长，结束时重载以实现循环
 const BILIBILI_EMBED =
-  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0&loop=1";
+  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scheduleReload = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setReloadKey((k) => k + 1);
+    }, VIDEO_DURATION_MS);
+  };
+
+  useEffect(() => {
+    scheduleReload();
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [reloadKey]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -29,9 +46,11 @@ export default function Hero() {
       {/* 背景层 */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <iframe
+          key={reloadKey}
           src={BILIBILI_EMBED}
           title="Hero background video"
           allow="autoplay; fullscreen"
+          onLoad={scheduleReload}
           style={{ filter: blurFilter }}
           className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 border-0"
         />
