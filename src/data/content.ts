@@ -646,7 +646,7 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "负责视频创意与制作",
-    image: baiduContentCertImg,
+    image: "",
   },
 ];
 

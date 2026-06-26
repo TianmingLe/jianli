@@ -93,10 +93,10 @@ export default function Awards() {
                     </span>
                   </div>
                 ) : (
-                  <div className="flex aspect-[4/3] items-center justify-center border-b border-ink-700 bg-ink-850">
-                    <Trophy className="h-10 w-10 text-ink-600" />
+                  <div className="flex items-center justify-between border-b border-ink-700 bg-ink-850 px-5 py-3">
+                    <Trophy className="h-5 w-5 text-ink-600" />
                     <span
-                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
+                      className={`border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
                         levelStyle[a.level] ?? "border-ink-600 text-mist-300"
                       }`}
                     >
