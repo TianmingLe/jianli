@@ -62,7 +62,7 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
         <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
           {p.title}
         </h3>
-        <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-amber-200/80">
+        <p className="mt-2 text-xs leading-relaxed text-amber-200/80">
           {p.summary}
         </p>
         <div className="mt-3 flex flex-wrap gap-1">
@@ -71,7 +71,7 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
               key={idx}
               className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
             >
-              {a.length > 28 ? a.slice(0, 26) + "…" : a}
+              {a}
             </span>
           ))}
         </div>
