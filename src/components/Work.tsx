@@ -222,6 +222,28 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
             </ul>
           </div>
         </div>
+        {/* Gallery 画廊 */}
+        {p.gallery && p.gallery.length > 0 && (
+          <div className="border-t border-ink-700 p-3 md:col-span-12">
+            <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Gallery · AI 艺术作品集
+            </p>
+            <div className="grid grid-cols-5 gap-2">
+              {p.gallery.map((g, gi) => (
+                <div
+                  key={gi}
+                  className="group/gallery relative aspect-square overflow-hidden border border-ink-700"
+                >
+                  <img
+                    src={g}
+                    alt={`${p.title} - ${gi + 1}`}
+                    className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </motion.article>
   );

@@ -19,6 +19,12 @@ import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.png";
 import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
 import promptEngineeringImg from "@/data/xiangmu/提示词工程.png";
 import aliyunEcsImg from "@/data/self-media/阿里云ecs控制展示.jpg";
+import artPhoto1 from "@/data/self-media/艺术照片.webp";
+import artPhoto2 from "@/data/self-media/艺术照片2.webp";
+import artPhoto3 from "@/data/self-media/艺术照片3.webp";
+import artPhoto4 from "@/data/self-media/艺术照片4.png";
+import artPhoto5 from "@/data/self-media/艺术作品5.png";
+import xhsQingcaoImg2 from "@/data/self-media/baoer/小红书青草计划图片二.jpeg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -187,6 +193,8 @@ export type Project = {
   cover: string;
   // 超宽横图(宽>长且比例>2:1)或竖图(长>宽)时设为 "contain" 避免截断；默认 "cover"
   coverFit?: "cover" | "contain";
+  // 画廊图片（可选，用于展示多张实证图）
+  gallery?: string[];
   keywords: string[];
   // 项目做了什么（技术内容描述）
   summary: string;
@@ -420,7 +428,8 @@ export const projects: Project[] = [
     title: "AIGC 应用全链路",
     category: "AIGC / 数字人 / AI 绘画",
     year: "2024 — 2026",
-    cover: IMG("dark abstract creative AI art generation, multiple media types floating - digital human face, music notes, painting brush, video frames, cyan glow, premium", "landscape_16_9"),
+    cover: artPhoto1,
+    gallery: [artPhoto1, artPhoto2, artPhoto3, artPhoto4, artPhoto5],
     keywords: ["数字人", "语音克隆", "AI 音乐", "Midjourney", "Stable Diffusion", "AI 视频"],
     summary:
       "熟悉数字人技术、语音克隆、多语种复制、AI 音乐及 Midjourney、Stable Diffusion 等AI 绘画技术，能独立完成从创意到成品的全流程。涵盖数字人视频制作、多语种配音、背景音乐创作、概念设计与插画创作。",
@@ -587,7 +596,7 @@ export const timeline = [
       { month: "02", title: "市场调查大赛", desc: "《LLM 市场应用》校级二等奖" },
       { month: "03", title: "4K 修复项目", desc: "《钢铁是怎样炼成的》4K 修复启动", image: baoer4kImg },
       { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场" },
-      { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg },
+      { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg2 },
       { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）" },
       { month: "—", title: "全年自媒体", desc: "抖音 4600+ / 小红书 4000+ / B 站 9800+" },
     ],
