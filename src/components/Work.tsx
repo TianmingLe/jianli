@@ -104,8 +104,8 @@ function EnergyCard({ p, i, onZoom }: { p: Project; i: number; onZoom: ZoomFn })
             {p.index}
           </span>
         </div>
-        <div className="relative h-36 flex-1 overflow-hidden">
-          <img
+        <div className="relative h-52 flex-1 overflow-hidden">
+          <img loading="lazy" decoding="async"
             src={p.cover}
             alt={p.title}
             className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80`}
@@ -215,7 +215,7 @@ function AIAlternateItem({ p, i, onZoom }: { p: Project; i: number; onZoom: Zoom
           reversed ? "md:order-2 md:col-span-5" : "md:order-1 md:col-span-5"
         }`}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={p.cover}
           alt={p.title}
           className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
@@ -307,7 +307,7 @@ function AIAlternateItem({ p, i, onZoom }: { p: Project; i: number; onZoom: Zoom
                   className="group/gallery relative aspect-square cursor-zoom-in overflow-hidden border border-ink-700"
                   onDoubleClick={() => onZoom(p.gallery!, gi)}
                 >
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={g}
                     alt={`${p.title} - ${gi + 1}`}
                     className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
@@ -337,7 +337,7 @@ function VibeProductSpotlight({ items, onZoom }: { items: Project[]; onZoom: Zoo
         >
           {/* 左：封面（占 5/12） */}
           <div className="relative aspect-[16/10] w-full overflow-hidden md:col-span-5 md:aspect-auto">
-            <img
+            <img loading="lazy" decoding="async"
               src={p.cover}
               alt={p.title}
               className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
@@ -413,6 +413,29 @@ function VibeProductSpotlight({ items, onZoom }: { items: Project[]; onZoom: Zoo
               </div>
             </div>
           </div>
+          {/* Gallery 画廊 */}
+          {p.gallery && p.gallery.length > 0 && (
+            <div className="border-t border-ink-700 p-3 md:col-span-12">
+              <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / Gallery · 项目展示
+              </p>
+              <div className="grid grid-cols-4 gap-2">
+                {p.gallery.map((g, gi) => (
+                  <div
+                    key={gi}
+                    className="group/gallery relative aspect-video cursor-zoom-in overflow-hidden border border-ink-700"
+                    onDoubleClick={() => onZoom(p.gallery!, gi)}
+                  >
+                    <img loading="lazy" decoding="async"
+                      src={g}
+                      alt={`${p.title} - ${gi + 1}`}
+                      className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </motion.article>
       ))}
     </div>
@@ -434,9 +457,11 @@ function MediaFeature({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
         >
           {/* 左：封面（占 4/12，更紧凑） */}
           <div className={`relative aspect-[16/9] w-full overflow-hidden md:aspect-auto ${
-            p.coverFit === "contain" ? "md:col-span-4 md:min-h-[200px]" : "md:col-span-5"
+            p.coverFit === "contain"
+              ? `md:col-span-4 ${p.compact ? "md:min-h-[120px]" : "md:min-h-[200px]"}`
+              : "md:col-span-5"
           }`}>
-            <img
+            <img loading="lazy" decoding="async"
               src={p.cover}
               alt={p.title}
               className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
@@ -450,7 +475,7 @@ function MediaFeature({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
             </span>
           </div>
           {/* 右：信息面板 */}
-          <div className={`flex flex-col p-4 md:p-6 ${
+          <div className={`flex flex-col p-4 ${p.compact ? "" : "md:p-6"} ${
             p.coverFit === "contain" ? "md:col-span-8" : "md:col-span-7"
           }`}>
             <div className="flex items-center gap-3">
@@ -476,22 +501,24 @@ function MediaFeature({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
             </p>
             <p className="mt-1 text-xs leading-relaxed text-volt-200 line-clamp-2">{p.valueToPower}</p>
             {/* 关键词 + 技术栈 + 成果：横向并排，节省纵向空间 */}
-            <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
-              <div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Keywords
-                </p>
-                <div className="mt-1.5 flex flex-wrap gap-1">
-                  {p.keywords.slice(0, 3).map((k) => (
-                    <span
-                      key={k}
-                      className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
-                    >
-                      {k}
-                    </span>
-                  ))}
+            <div className={`mt-3 grid grid-cols-1 gap-3 ${p.compact ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+              {!p.compact && (
+                <div>
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                    / Keywords
+                  </p>
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    {p.keywords.slice(0, 3).map((k) => (
+                      <span
+                        key={k}
+                        className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
+                      >
+                        {k}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
                   / Stack

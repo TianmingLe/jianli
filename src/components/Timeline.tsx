@@ -107,7 +107,7 @@ export default function Timeline() {
                         {/* 小缩略图 */}
                         {ev.image && (
                           <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-ink-700 md:h-20 md:w-20">
-                            <img
+                            <img loading="lazy" decoding="async"
                               src={ev.image}
                               alt={ev.title}
                               className="h-full w-full object-cover opacity-70 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90"

@@ -9,9 +9,9 @@ import {
   X,
 } from "lucide-react";
 import { profile } from "@/data/content";
-import bilibiliIcon from "@/data/icon/bilibili.png";
-import xiaohongshuIcon from "@/data/icon/xiaohongshu.png";
-import douyinIcon from "@/data/icon/douyin.png";
+import bilibiliIcon from "@/data/icon/bilibili.webp";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.webp";
+import douyinIcon from "@/data/icon/douyin.webp";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -19,7 +19,7 @@ const links = [
   { icon: Phone, label: "电话", value: profile.contacts.phone, href: `tel:${profile.contacts.phone}` },
   { icon: Mail, label: "邮箱", value: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
   { icon: Github, label: "GitHub", value: "github.com/TianmingLe", href: profile.contacts.github },
-  { iconSrc: bilibiliIcon, label: "哔哩哔哩", value: "12K+ 粉丝", href: profile.contacts.bilibili },
+  { iconSrc: bilibiliIcon, label: "哔哩哔哩", value: "11K+ 粉丝", href: profile.contacts.bilibili },
   { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
   { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
 ];
@@ -132,7 +132,7 @@ export default function Contact() {
                 / 微信合作
               </p>
               <div className="relative h-64 w-64 overflow-hidden border border-ink-700">
-                <img
+                <img loading="lazy" decoding="async"
                   src={profile.contacts.wechatQr}
                   alt="微信二维码"
                   className="h-full w-full object-contain"
@@ -163,7 +163,7 @@ export default function Contact() {
             >
               <div className="flex items-center justify-between">
                 {"iconSrc" in l ? (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={l.iconSrc}
                     alt={l.label}
                     className="h-5 w-5 rounded-sm object-contain"

@@ -1,50 +1,54 @@
 // 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
-import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.png";
-import writingMachineImg from "@/data/xiangmu/写字机项目.jpg";
-import smartGlassesImg from "@/data/xiangmu/AI眼镜.png";
-import internlmImg from "@/data/xiangmu/书生浦语大模型微调作品.png";
-import baoer4kImg from "@/data/self-media/《钢铁是怎样炼成的》4K修复视频.png";
-import bilibiliSpaceImg from "@/data/self-media/哔哩哔哩空间.png";
-import douyinHomeImg from "@/data/self-media/抖音主页.png";
-import xhsHomeImg from "@/data/self-media/小红书主业.png";
-import cet4Img from "@/data/Certificate/英语四级证书.png";
-import driverLicenseImg from "@/data/Certificate/机动车驾驶证.jpg";
-import xhsQingcaoImg from "@/data/Certificate/小红书青草计划项目展示1.png";
-import baiduContentCertImg from "@/data/Certificate/百度网盘小红书内容创作官证书.jpg";
-import baiduCampusAmbassadorImg from "@/data/Certificate/百度网盘校园大使.png";
-import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参会证.jpg";
-import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
-import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
-import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.png";
-import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
-import promptEngineeringImg from "@/data/xiangmu/提示词工程.png";
-import aliyunEcsImg from "@/data/self-media/阿里云ecs控制展示.jpg";
+import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.webp";
+import writingMachineImg from "@/data/xiangmu/写字机项目.webp";
+import smartGlassesImg from "@/data/xiangmu/AI眼镜.webp";
+import internlmImg from "@/data/xiangmu/书生浦语大模型微调作品.webp";
+import baoer4kImg from "@/data/self-media/《钢铁是怎样炼成的》4K修复视频.webp";
+import bilibiliSpaceImg from "@/data/self-media/哔哩哔哩空间.webp";
+import douyinHomeImg from "@/data/self-media/抖音主页.webp";
+import xhsHomeImg from "@/data/self-media/小红书主业.webp";
+import cet4Img from "@/data/Certificate/英语四级证书.webp";
+import driverLicenseImg from "@/data/Certificate/机动车驾驶证.webp";
+import xhsQingcaoImg from "@/data/Certificate/小红书青草计划项目展示1.webp";
+import baiduContentCertImg from "@/data/Certificate/百度网盘小红书内容创作官证书.webp";
+import baiduCampusAmbassadorImg from "@/data/Certificate/百度网盘校园大使.webp";
+import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参会证.webp";
+import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.webp";
+import selfieImg from "@/data/Profile Picture/角度自拍 (9).webp";
+import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.webp";
+import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.webp";
+import promptEngineeringImg from "@/data/xiangmu/提示词工程.webp";
+import aliyunEcsImg from "@/data/self-media/阿里云ecs控制展示.webp";
 import artPhoto1 from "@/data/self-media/艺术照片.webp";
 import artPhoto2 from "@/data/self-media/艺术照片2.webp";
 import artPhoto3 from "@/data/self-media/艺术照片3.webp";
-import artPhoto4 from "@/data/self-media/艺术照片4.png";
-import artPhoto5 from "@/data/self-media/艺术作品5.png";
-import xhsQingcaoImg2 from "@/data/self-media/baoer/小红书青草计划图片二.jpeg";
-import englishCompetitionImg from "@/data/self-media/baoer/英语比赛.png";
-import englishCompetitionVideoImg from "@/data/self-media/baoer/英语比赛视频展示.png";
-import xhsVideoShowImg from "@/data/self-media/小红书视频展示.png";
-import mathModelingImg from "@/data/self-media/baoer/数学建模比赛题目.png";
-import mathModelingRecord1Img from "@/data/self-media/baoer/数学建模比赛实录.png";
-import mathModelingRecord2Img from "@/data/self-media/baoer/数学建模比赛实录2.png";
-import marketResearch1Img from "@/data/self-media/baoer/市调作品展示.png";
-import marketResearch2Img from "@/data/self-media/baoer/市调作品展示2.png";
-import marketResearch3Img from "@/data/self-media/baoer/市调作品展示三.png";
-import wechatQrImg from "@/data/self-media/baoer/微信账号.png";
-import artShow7Img from "@/data/self-media/baoer/艺术展示7.png";
-import rvcVoiceImg from "@/data/self-media/baoer/RVC变声展示.png";
-import spongebobVoiceImg from "@/data/self-media/baoer/完成海绵宝宝声音模型训练.png";
-import voiceModelTrainingImg from "@/data/self-media/baoer/声音模型训练.png";
-import n8nShowImg from "@/data/self-media/baoer/n8n展示.png";
-import gzhArticle1Img from "@/data/self-media/公众号科技文章.png";
-import gzhArticle2Img from "@/data/self-media/公众号科技文章2.png";
-import gzhArticle3Img from "@/data/self-media/公众号科技文章3.png";
-import gzhArticle4Img from "@/data/self-media/公众号科技文章4.png";
-import gzhArticleText1Img from "@/data/self-media/公众号文章1.png";
+import artPhoto4 from "@/data/self-media/艺术照片4.webp";
+import artPhoto5 from "@/data/self-media/艺术作品5.webp";
+import xhsQingcaoImg2 from "@/data/self-media/baoer/小红书青草计划图片二.webp";
+import englishCompetitionImg from "@/data/self-media/baoer/英语比赛.webp";
+import englishCompetitionVideoImg from "@/data/self-media/baoer/英语比赛视频展示.webp";
+import xhsVideoShowImg from "@/data/self-media/小红书视频展示.webp";
+import mathModelingImg from "@/data/self-media/baoer/数学建模比赛题目.webp";
+import mathModelingRecord1Img from "@/data/self-media/baoer/数学建模比赛实录.webp";
+import mathModelingRecord2Img from "@/data/self-media/baoer/数学建模比赛实录2.webp";
+import marketResearch1Img from "@/data/self-media/baoer/市调作品展示.webp";
+import marketResearch2Img from "@/data/self-media/baoer/市调作品展示2.webp";
+import marketResearch3Img from "@/data/self-media/baoer/市调作品展示三.webp";
+import wechatQrImg from "@/data/self-media/baoer/微信账号.webp";
+import artShow7Img from "@/data/self-media/baoer/艺术展示7.webp";
+import rvcVoiceImg from "@/data/self-media/baoer/RVC变声展示.webp";
+import spongebobVoiceImg from "@/data/self-media/baoer/完成海绵宝宝声音模型训练.webp";
+import voiceModelTrainingImg from "@/data/self-media/baoer/声音模型训练.webp";
+import n8nShowImg from "@/data/self-media/baoer/n8n展示.webp";
+import gzhArticle1Img from "@/data/self-media/公众号科技文章.webp";
+import gzhArticle2Img from "@/data/self-media/公众号科技文章2.webp";
+import gzhArticle3Img from "@/data/self-media/公众号科技文章3.webp";
+import gzhArticle4Img from "@/data/self-media/公众号科技文章4.webp";
+import gzhArticleText1Img from "@/data/self-media/公众号文章1.webp";
+import omiShow1Img from "@/data/xiangmu/omi项目展示1.webp";
+import omiShow4Img from "@/data/xiangmu/omi项目展示4.webp";
+import omiShow2Img from "@/data/xiangmu/omi展示项目2.webp";
+import openclawShowImg from "@/data/xiangmu/openclaw展示.webp";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -144,9 +148,9 @@ export const abilityMap = [
     summary: "掌握能源动力领域核心仿真工具链，ANSYS Fluent 流动传热燃烧仿真，proteus 仿真，AutoCAD / SolidWorks / UG 三维设计，实验操作能力强悍。",
     skills: ["实验操作能力强悍", "ANSYS Fluent（流动 / 传热 / 燃烧）", "proteus 仿真", "AutoCAD / SolidWorks / UG"],
     gallery: [
-      { src: "/energy/heat-exchanger-cad.png", caption: "换热器 CAD 三维设计图" },
-      { src: "/energy/heat-exchanger-temp.png", caption: "壳管式换热器中心截面温度分布" },
-      { src: "/energy/residual-distribution.png", caption: "CFD 仿真残差分布图" },
+      { src: "/energy/heat-exchanger-cad.webp", caption: "换热器 CAD 三维设计图" },
+      { src: "/energy/heat-exchanger-temp.webp", caption: "壳管式换热器中心截面温度分布" },
+      { src: "/energy/residual-distribution.webp", caption: "CFD 仿真残差分布图" },
     ],
   },
   {
@@ -192,11 +196,11 @@ export const abilityMap = [
     role: "内容创作",
     icon: "Video",
     keywords: ["视频抓取", "AI 视频", "新媒体运营", "4K 修复"],
-    summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 12K+ / 抖音 4.9K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
+    summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 11K+ / 抖音 4.9K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
     skills: ["OmniScraper Pro 视频抓取", "AI 视频 / 4K 修复技术", "B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PS / Audition"],
     gallery: [
       { src: xhsVideoShowImg, caption: "小红书视频创作展示" },
-      { src: bilibiliSpaceImg, caption: "哔哩哔哩主页 12K+ 粉丝" },
+      { src: bilibiliSpaceImg, caption: "哔哩哔哩主页 11K+ 粉丝" },
       { src: douyinHomeImg, caption: "抖音创作者主页" },
     ],
   },
@@ -214,6 +218,8 @@ export type Project = {
   cover: string;
   // 超宽横图(宽>长且比例>2:1)或竖图(长>宽)时设为 "contain" 避免截断；默认 "cover"
   coverFit?: "cover" | "contain";
+  // 紧凑模式：内容较少的项目缩减封面高度与信息面板，使卡片更小巧
+  compact?: boolean;
   // 画廊图片（可选，用于展示多张实证图）
   gallery?: string[];
   keywords: string[];
@@ -236,7 +242,7 @@ export const projects: Project[] = [
     title: "卧式壳管式换热器仿真与三维设计",
     category: "CFD 仿真 / 三维设计",
     year: "2024 — 2025",
-    cover: "/energy/heat-exchanger-temp.png",
+    cover: "/energy/heat-exchanger-temp.webp",
     coverFit: "contain",
     keywords: ["CFD 仿真", "ANSYS Fluent", "三维建模", "多物理场耦合"],
     summary:
@@ -514,6 +520,7 @@ export const projects: Project[] = [
       "代理可用率从 60% 提升至 90%，打包体积压缩至 150MB",
     ],
     tags: ["Electron", "Whisper", "MediaCrawler", "CI/CD"],
+    gallery: [omiShow1Img, omiShow2Img, omiShow4Img, openclawShowImg],
   },
 
   /* ====== 第四部分 | 自媒体特种技术 ====== */
@@ -549,8 +556,9 @@ export const projects: Project[] = [
     title: "小红书新媒体「青草计划」",
     category: "新媒体运营 / 内容创作",
     year: "2025.06",
-    cover: "/awards/xhs-qingcao-plan.jpg",
+    cover: "/awards/xhs-qingcao-plan.webp",
     coverFit: "contain",
+    compact: true,
     keywords: ["小红书运营", "内容创作", "青草计划", "新媒体技能"],
     summary:
       "参加小红书新媒体优秀人才职业技能大赛「青草计划」项目实践，学习并实践了小红书平台的内容创作、运营策略、数据分析等技能。",
@@ -582,7 +590,7 @@ export const projects: Project[] = [
       "10 亿+ 话题量爆款策划网感可把枯燥安规做成沉浸式培训短片，并对外打造智慧风电/绿色火电科普短视频，构建电厂科技雇主品牌内容矩阵。",
     stack: ["B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PR", "Photoshop / Audition", "内容运营策略"],
     achievements: [
-      "哔哩哔哩 12,000+ 粉丝",
+      "哔哩哔哩 11,000+ 粉丝",
       "抖音 4,900+ 粉丝",
       "小红书 4,600+ 粉丝",
       "代表作《钢铁是怎样炼成的》4K 修复 200 万+ 播放，全网撬动 10 亿+ 话题",
@@ -646,7 +654,7 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（5人）",
     project: "《康养五寨，药韵文旅——山西五寨中医药康养旅游游客体验及文旅提升路径研究》",
-    image: marketResearch1Img,
+    image: "/awards/market-research-provincial-1.webp",
     gallery: [marketResearch1Img, marketResearch2Img, marketResearch3Img],
   },
   {
@@ -656,7 +664,7 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（3人）",
     project: "《烟幕干扰弹的投放策略》— 负责模型构建与数据分析",
-    image: mathModelingImg,
+    image: "/awards/math-modeling-provincial-1.webp",
     gallery: [mathModelingImg, mathModelingRecord1Img, mathModelingRecord2Img],
   },
   {
@@ -666,7 +674,7 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "《2024 年 LLM 的市场应用及发展前景调研》",
-    image: marketResearch2Img,
+    image: "/awards/market-research-school-2.webp",
   },
   {
     id: "a04",
@@ -675,7 +683,7 @@ export const awards = [
     level: "参赛认证",
     role: "个人参赛",
     project: "小红书新媒体内容创作与运营技能实战",
-    image: "/awards/xhs-qingcao-plan.jpg",
+    image: "/awards/xhs-qingcao-plan.webp",
   },
   {
     id: "a05",
@@ -694,14 +702,14 @@ export const certificates = [
     icon: "Award",
     title: "书生·浦语大模型实战营证书",
     desc: "完成 InternLM 大模型微调实战营，掌握 LoRA 微调全流程",
-    image: "/certs/internlm-camp-cert.png",
+    image: "/certs/internlm-camp-cert.webp",
   },
   {
     id: "c02",
     icon: "Plane",
     title: "轻型无人机驾驶证",
     desc: "电力巡检 / 航拍测绘",
-    image: "/certs/drone-license.png",
+    image: "/certs/drone-license.webp",
   },
   { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力", image: cet4Img },
   { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研", image: driverLicenseImg },
@@ -834,11 +842,11 @@ export const qnaData: QnAItem[] = [
     id: "q2",
     question: "你做这些互联网爬虫和 AI 工具，对我们电厂 / 传统能源企业有什么用？",
     paragraphs: [
-      "电厂目前最大的资产流失，其实是**隐性经验的流失**。我在简历中写的这些工具，对电厂的价值主要体现在三个方面。",
-      "**第一，把闭源平台上的一线实操经验变成电厂的数字资产。** 电厂很多老专家、老技师处理风机异响、排查变压器缺陷的土办法和实操手感，往往没有写进标准规程里。我的 **OmniScraper Pro** 工具可以批量抓取抖音、小红书等平台的检修视频，通过 **Whisper 转写**成文字，再用大模型提炼成标准的**故障排查 SOP**，相当于用 AI 给电厂自动建立一个活的师傅经验库。",
-      "**第二，把开源社区的前沿算法与电厂的现场缺陷结合。** 我的 **MCP 热点追踪系统**可以 7×24 小时抓取 GitHub、知网、电力论坛的最新设备故障诊断模型和 CFD 仿真优化方案，自动推送到技术科的飞书文档，让技术人员永远站在**全网技术的最前沿**。",
+      "电厂目前最大的资产流失，其实是**隐性经验的流失**。我在简历中写的这些工具，对电厂的[[价值]]主要体现在[[三个方面]]。",
+      "**第一，把闭源平台上的一线实操经验变成电厂的数字资产。** 电厂很多老专家、老技师处理风机异响、排查变压器缺陷的土办法和实操手感，往往没有写进标准规程里。我的 [[OmniScraper Pro]] 工具可以批量抓取抖音、小红书等平台的检修视频，通过 [[Whisper 转写]]成文字，再用大模型提炼成标准的[[故障排查 SOP]]，相当于用 AI 给电厂自动建立一个活的师傅经验库。",
+      "**第二，把开源社区的前沿算法与电厂的现场缺陷结合。** 我的 [[MCP 热点追踪系统]]可以 [[7×24 小时]]抓取 GitHub、知网、电力论坛的最新设备故障诊断模型和 [[CFD 仿真]]优化方案，自动推送到技术科的飞书文档，让技术人员永远站在**全网技术的最前沿**。",
       "**第三，构建电厂专属的多模态 RAG 智能问答助手。** 把开源理论论文、闭源实操视频以及电厂内部的历史缺陷台账全部向量化后，新员工在现场遇到设备报警，只需要用智能眼镜或手机问一句「2 号风机齿轮箱温度异常怎么处理？」系统不仅能调出规程，还能直接调出实操视频片段，用**全网数据赋能一线生产**。",
-      "我做的不仅仅是几个爬虫或 AI 玩具，而是**全网多源异构数据的自动化采集与知识沉淀底座**。",
+      "我做的不仅仅是几个[[爬虫]]或 [[AI 玩具]]，而是**全网多源异构数据的自动化采集与知识沉淀底座**。",
     ],
   },
   {
@@ -851,42 +859,42 @@ export const qnaData: QnAItem[] = [
       {
         title: "价值一：用「Vibe Coding」为基层班组减负",
         pain: "大型系统往往不接地气，基层班组每天还要花大量时间手工统计缺陷台账、整理「两票」、盘点备品备件。",
-        value: "利用 **Vibe Coding（AI 辅助编程）**和全栈开发能力，我能在几天内用 Python + AI 帮班组定制缺陷台账自动统计小工具或两票合规性 AI 审查插件，直接部署到阿里云或科室 Linux 服务器，把**每天 1 小时的填表时间压缩到 5 分钟**。",
+        value: "利用 [[Vibe Coding（AI 辅助编程）]]和全栈开发能力，我能在几天内用 [[Python + AI]] 帮班组定制缺陷台账自动统计小工具或两票合规性 AI 审查插件，直接部署到[[阿里云]]或科室 [[Linux 服务器]]，把**每天 1 小时的填表时间压缩到 5 分钟**。",
       },
       {
         title: "价值二：用「爆款自媒体思维」重塑安全培训与企业宣传",
         pain: "传统安规培训、事故通报极其枯燥，员工往往是「应付考试」，难以入脑入心；同时传统电厂对外形象刻板。",
-        value: "我有全网 **2.1 万粉丝**的自媒体经验和策划过 **10 亿+ 播放量爆款**的网感。我能把枯燥的安规考试变成生动的 AI 数字人安全宣讲，用 AI 视频技术把事故通报做成沉浸式 3D 还原短片；对外策划智慧风电、绿色火电科普短视频，打造企业的**科技雇主品牌**。",
+        value: "我有全网 [[2.1 万粉丝]]的自媒体经验和策划过 [[10 亿+ 播放量爆款]]的网感。我能把枯燥的安规考试变成生动的 [[AI 数字人]]安全宣讲，用 [[AI 视频技术]]把事故通报做成沉浸式 [[3D 还原短片]]；对外策划智慧风电、绿色火电科普短视频，打造企业的**科技雇主品牌**。",
       },
       {
         title: "价值三：充当「业务」与「IT」的超级翻译官",
         pain: "外包互联网公司不懂「汽轮机轴振」「风机偏航」，做出来的 AI 模型没法用；厂里的老专家又不懂「大模型、向量数据库」，提不出准确需求。",
-        value: "我既懂热力学、去过风电场实习、看得懂 SCADA 数据，又精通 **Spring AI、RAG 和 Agent 编排**，知道 AI 的边界在哪。我能把现场真痛点准确转化为 IT 能听懂的 AI 需求，帮厂里把控技术方向，**避免被外包公司忽悠**。",
+        value: "我既懂[[热力学]]、去过[[风电场实习]]、看得懂 [[SCADA 数据]]，又精通 [[Spring AI、RAG 和 Agent 编排]]，知道 AI 的边界在哪。我能把现场真痛点准确转化为 IT 能听懂的 AI 需求，帮厂里把控技术方向，**避免被外包公司忽悠**。",
       },
       {
         title: "价值四：引入「AI 协作」新范式，打造效能型科室",
         pain: "传统能源企业工作氛围相对固化，员工写材料、做 PPT、处理海量运行数据耗费大量精力。",
-        value: "作为 ENTJ 和 AI Native，我能把如何用大模型写公文、用 Python 一键清洗百个 Excel 运行报表、用 AI 做数据可视化汇报沉淀成 **SOP**，在科室里做分享，**带动整个班组效能提升**。",
+        value: "作为 ENTJ 和 AI Native，我能把如何用[[大模型]]写公文、用 [[Python]] 一键清洗百个 [[Excel 运行报表]]、用 AI 做数据可视化汇报沉淀成 [[SOP]]，在科室里做分享，**带动整个班组效能提升**。",
       },
       {
         title: "场景五：把智能眼镜改造成 AI 安全与巡检神器",
         pain: "传统巡检靠「眼观耳听 + 手工填表」，容易漏检、造假；遇到疑难杂症，现场工人搞不定，等专家赶来黄花菜都凉了。",
-        value: "简历里的 **Altezhong 智能眼镜系统**经过防爆和工业级改造后，巡检员戴上即可实时采集第一视角画面，云端 **VLM 识别**仪表盘读数并判断是否超限，AI 自动框选跑冒滴漏；遇到设备异响，后方专家可通过眼镜画面 + 空间音频进行沉浸式远程指导，**把事后维修变成实时干预**。",
+        value: "简历里的 [[Altezhong 智能眼镜系统]]经过防爆和工业级改造后，巡检员戴上即可实时采集第一视角画面，云端 [[VLM 识别]]仪表盘读数并判断是否超限，AI 自动框选跑冒滴漏；遇到设备异响，后方专家可通过眼镜画面 + [[空间音频]]进行沉浸式远程指导，**把事后维修变成实时干预**。",
       },
       {
         title: "场景六：用「CFD 仿真 + SCADA 数据」给风机调姿势",
         pain: "风机之间存在「尾流效应」，前排风机挡风导致后排风机吃不饱，全场发电量受损。",
-        value: "我懂 **ANSYS Fluent 三维 CFD 风场仿真**，又懂 Python 处理 SCADA 数据。可以把风电场地形、气象数据和机组历史运行数据结合起来建立尾流模型，通过 AI 算法动态计算并调整每台风机在不同风向下的偏航角，牺牲前排一点点电量让后排多吃风，**帮风电场整体提升 1%-3% 发电量**。",
+        value: "我懂 [[ANSYS Fluent 三维 CFD 风场仿真]]，又懂 [[Python]] 处理 [[SCADA 数据]]。可以把风电场地形、气象数据和机组历史运行数据结合起来建立[[尾流模型]]，通过 AI 算法动态计算并调整每台风机在不同风向下的[[偏航角]]，牺牲前排一点点电量让后排多吃风，**帮风电场整体提升 1%-3% 发电量**。",
       },
       {
         title: "场景七：用「全网爬虫」打一场备件采购情报战",
         pain: "备品备件买多了资金压在仓库生锈，买少了关键设备一坏停机损失惨重。",
-        value: "用 **OmniScraper** 7×24 小时盯着淘宝工业品、京东、厂家官网和行业论坛，抓取特定型号备件的价格波动、交货周期、停产公告和替代型号；结合 SCADA 故障频率用 **LSTM 预测**未来半年需求，AI 智能体自动生成《备件采购情报与优化建议》，**盘活库存资金**。",
+        value: "用 [[OmniScraper]] [[7×24 小时]]盯着淘宝工业品、京东、厂家官网和行业论坛，抓取特定型号备件的价格波动、交货周期、停产公告和替代型号；结合 [[SCADA 故障频率]]用 [[LSTM 预测]]未来半年需求，AI 智能体自动生成《备件采购情报与优化建议》，**盘活库存资金**。",
       },
       {
         title: "场景八：碳资产管理，把「双碳政策」变成真金白银",
         pain: "火电 / 新能源企业面临严苛的「双碳」考核和碳交易，但政策天天变，碳配额怎么算、CCER 怎么开发是一笔糊涂账。",
-        value: "用 **MCP 热点追踪框架**每天自动抓取国家生态环境部、各省发改委最新碳排放政策和绿电绿证交易行情，结合 SCADA 能耗数据自动核算实时碳排放量与配额盈亏；再用工程经济学 **ROI/NPV** 评估技改项目，帮电厂把政策压力转化为**资产管理动力**。",
+        value: "用 [[MCP 热点追踪框架]]每天自动抓取国家生态环境部、各省发改委最新[[碳排放政策]]和[[绿电绿证]]交易行情，结合 [[SCADA 能耗数据]]自动核算实时碳排放量与配额盈亏；再用工程经济学 [[ROI/NPV]] 评估技改项目，帮电厂把政策压力转化为**资产管理动力**。",
       },
     ],
   },
