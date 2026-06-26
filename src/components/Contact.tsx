@@ -131,7 +131,7 @@ export default function Contact() {
               <p className="mb-2 text-center font-mono text-[10px] uppercase tracking-widest text-volt-400">
                 / 微信合作
               </p>
-              <div className="relative h-48 w-48 overflow-hidden border border-ink-700">
+              <div className="relative h-64 w-64 overflow-hidden border border-ink-700">
                 <img
                   src={profile.contacts.wechatQr}
                   alt="微信二维码"

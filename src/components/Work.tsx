@@ -1,8 +1,74 @@
-import { motion } from "framer-motion";
-import { Check, Zap } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Zap, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects, Project } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+/* 图片放大查看器 */
+function ImageLightbox({
+  images,
+  startIndex,
+  onClose,
+}: {
+  images: string[];
+  startIndex: number;
+  onClose: () => void;
+}) {
+  const [idx, setIdx] = useState(startIndex);
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-950/90 backdrop-blur-md"
+      onClick={onClose}
+      onDoubleClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+      >
+        <X className="h-5 w-5" />
+      </button>
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); }}
+            className="absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length); }}
+            className="absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+        </>
+      )}
+      <img
+        src={images[idx]}
+        alt="放大查看"
+        className="max-h-[85vh] max-w-[85vw] cursor-zoom-out object-contain"
+        onClick={(e) => e.stopPropagation()}
+        onDoubleClick={(e) => { e.stopPropagation(); onClose(); }}
+      />
+      {images.length > 1 && (
+        <span className="absolute bottom-6 font-mono text-xs text-mist-500">
+          {idx + 1} / {images.length}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function useImageZoom() {
+  const [state, setState] = useState<{ images: string[]; index: number } | null>(null);
+  const open = (images: string[], index = 0) => setState({ images, index });
+  const close = () => setState(null);
+  return { state, open, close };
+}
 
 // 根据图片原始宽高比选择 fit 模式：超宽横图/竖图用 contain 避免截断，其他用 cover
 function fitClass(p: Project) {
@@ -12,17 +78,17 @@ function fitClass(p: Project) {
 }
 
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
-function EnergyGrid({ items }: { items: Project[] }) {
+function EnergyGrid({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
   return (
     <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
       {items.map((p, i) => (
-        <EnergyCard key={p.id} p={p} i={i} />
+        <EnergyCard key={p.id} p={p} i={i} onZoom={onZoom} />
       ))}
     </div>
   );
 }
 
-function EnergyCard({ p, i }: { p: Project; i: number }) {
+function EnergyCard({ p, i, onZoom }: { p: Project; i: number; onZoom: ZoomFn }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -38,11 +104,12 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
             {p.index}
           </span>
         </div>
-        <div className="relative h-24 flex-1 overflow-hidden">
+        <div className="relative h-36 flex-1 overflow-hidden">
           <img
             src={p.cover}
             alt={p.title}
-            className={`h-full w-full ${fitClass(p)} opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80`}
+            className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80`}
+            onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink-900/80 to-transparent" />
           <span className="absolute right-3 top-2 font-mono text-[10px] uppercase tracking-widest text-mist-400">
@@ -120,17 +187,17 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
 }
 
 /* ============================ 分区二：AI 特种 · 左右交替 ============================ */
-function AIListFlow({ items }: { items: Project[] }) {
+function AIListFlow({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
   return (
     <div className="flex flex-col gap-4 md:gap-6">
       {items.map((p, i) => (
-        <AIAlternateItem key={p.id} p={p} i={i} />
+        <AIAlternateItem key={p.id} p={p} i={i} onZoom={onZoom} />
       ))}
     </div>
   );
 }
 
-function AIAlternateItem({ p, i }: { p: Project; i: number }) {
+function AIAlternateItem({ p, i, onZoom }: { p: Project; i: number; onZoom: ZoomFn }) {
   const reversed = i % 2 === 1;
   return (
     <motion.article
@@ -151,9 +218,10 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
         <img
           src={p.cover}
           alt={p.title}
-          className={`h-full w-full ${fitClass(p)} ${
+          className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
             p.coverFit === "contain" ? "p-6" : ""
           } opacity-80 transition-transform duration-700 group-hover:scale-105`}
+          onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
         <span
@@ -236,7 +304,8 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
               {p.gallery.map((g, gi) => (
                 <div
                   key={gi}
-                  className="group/gallery relative aspect-square overflow-hidden border border-ink-700"
+                  className="group/gallery relative aspect-square cursor-zoom-in overflow-hidden border border-ink-700"
+                  onDoubleClick={() => onZoom(p.gallery!, gi)}
                 >
                   <img
                     src={g}
@@ -254,7 +323,7 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
 }
 
 /* ============================ 分区三：Vibe Coding · 产品特写 ============================ */
-function VibeProductSpotlight({ items }: { items: Project[] }) {
+function VibeProductSpotlight({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
   return (
     <div className="flex flex-col gap-4 md:gap-6">
       {items.map((p, i) => (
@@ -271,7 +340,8 @@ function VibeProductSpotlight({ items }: { items: Project[] }) {
             <img
               src={p.cover}
               alt={p.title}
-              className={`h-full w-full ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+              className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+              onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
             <span className="absolute left-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
@@ -350,7 +420,7 @@ function VibeProductSpotlight({ items }: { items: Project[] }) {
 }
 
 /* ============================ 分区四：自媒体 · 大图特写 ============================ */
-function MediaFeature({ items }: { items: Project[] }) {
+function MediaFeature({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
   return (
     <div className="flex flex-col gap-4 md:gap-6">
       {items.map((p, i) => (
@@ -362,20 +432,27 @@ function MediaFeature({ items }: { items: Project[] }) {
           transition={{ duration: 0.7, ease, delay: i * 0.08 }}
           className="group relative overflow-hidden border border-ink-700 bg-ink-900 md:grid md:grid-cols-12"
         >
-          {/* 左：封面（占 5/12，更紧凑的 16/9 比例） */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden md:col-span-5 md:aspect-auto">
+          {/* 左：封面（占 4/12，更紧凑） */}
+          <div className={`relative aspect-[16/9] w-full overflow-hidden md:aspect-auto ${
+            p.coverFit === "contain" ? "md:col-span-4 md:min-h-[200px]" : "md:col-span-5"
+          }`}>
             <img
               src={p.cover}
               alt={p.title}
-              className={`h-full w-full ${fitClass(p)} transition-transform duration-700 group-hover:scale-105`}
+              className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
+                p.coverFit === "contain" ? "p-4" : ""
+              } transition-transform duration-700 group-hover:scale-105`}
+              onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
             <span className="absolute right-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
               {p.index}
             </span>
           </div>
-          {/* 右：信息面板（占 7/12） */}
-          <div className="flex flex-col p-4 md:col-span-7 md:p-6">
+          {/* 右：信息面板 */}
+          <div className={`flex flex-col p-4 md:p-6 ${
+            p.coverFit === "contain" ? "md:col-span-8" : "md:col-span-7"
+          }`}>
             <div className="flex items-center gap-3">
               <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
                 {p.category}
@@ -480,7 +557,11 @@ function PartHeader({ part, partEn, count, accent }: { part: string; partEn: str
 }
 
 /* ============================ 主组件 ============================ */
+/* 图片双击放大回调类型 */
+type ZoomFn = (images: string[], index?: number) => void;
+
 export default function Work() {
+  const zoom = useImageZoom();
   const parts = ["能动技术", "AI 特种技术", "Vibe Coding 产品", "自媒体特种技术"];
   const grouped = parts.map((partName) => ({
     part: partName,
@@ -496,6 +577,15 @@ export default function Work() {
 
   return (
     <section id="work" className="relative w-full bg-ink-950 py-20 md:py-28">
+      <AnimatePresence>
+        {zoom.state && (
+          <ImageLightbox
+            images={zoom.state.images}
+            startIndex={zoom.state.index}
+            onClose={zoom.close}
+          />
+        )}
+      </AnimatePresence>
       <div className="shell">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -530,10 +620,10 @@ export default function Work() {
                   count={g.items.length}
                   accent={cfg.accent}
                 />
-                {cfg.renderer === "grid" && <EnergyGrid items={g.items} />}
-                {cfg.renderer === "list" && <AIListFlow items={g.items} />}
-                {cfg.renderer === "spotlight" && <VibeProductSpotlight items={g.items} />}
-                {cfg.renderer === "feature" && <MediaFeature items={g.items} />}
+                {cfg.renderer === "grid" && <EnergyGrid items={g.items} onZoom={zoom.open} />}
+                {cfg.renderer === "list" && <AIListFlow items={g.items} onZoom={zoom.open} />}
+                {cfg.renderer === "spotlight" && <VibeProductSpotlight items={g.items} onZoom={zoom.open} />}
+                {cfg.renderer === "feature" && <MediaFeature items={g.items} onZoom={zoom.open} />}
               </div>
             );
           })}

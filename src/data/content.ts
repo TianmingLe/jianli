@@ -35,6 +35,16 @@ import marketResearch1Img from "@/data/self-media/baoer/市调作品展示.png";
 import marketResearch2Img from "@/data/self-media/baoer/市调作品展示2.png";
 import marketResearch3Img from "@/data/self-media/baoer/市调作品展示三.png";
 import wechatQrImg from "@/data/self-media/baoer/微信账号.png";
+import artShow7Img from "@/data/self-media/baoer/艺术展示7.png";
+import rvcVoiceImg from "@/data/self-media/baoer/RVC变声展示.png";
+import spongebobVoiceImg from "@/data/self-media/baoer/完成海绵宝宝声音模型训练.png";
+import voiceModelTrainingImg from "@/data/self-media/baoer/声音模型训练.png";
+import n8nShowImg from "@/data/self-media/baoer/n8n展示.png";
+import gzhArticle1Img from "@/data/self-media/公众号科技文章.png";
+import gzhArticle2Img from "@/data/self-media/公众号科技文章2.png";
+import gzhArticle3Img from "@/data/self-media/公众号科技文章3.png";
+import gzhArticle4Img from "@/data/self-media/公众号科技文章4.png";
+import gzhArticleText1Img from "@/data/self-media/公众号文章1.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -346,7 +356,8 @@ export const projects: Project[] = [
     title: "知心 AI — 情感与规划助手",
     category: "AI Agent / RAG / MCP",
     year: "2025.12 — 2026.03",
-    cover: IMG("abstract AI neural network visualization, dark background with glowing cyan nodes and connections, data flowing, minimal premium tech aesthetic, depth of field", "landscape_16_9"),
+    cover: n8nShowImg,
+    gallery: [rvcVoiceImg, spongebobVoiceImg, voiceModelTrainingImg, n8nShowImg],
     keywords: ["Spring AI", "智能体", "RAG", "PGvector", "MCP 协议", "ReAct 模式"],
     summary:
       "基于 Spring AI 框架构建 AI 智能体应用，实现多轮情感咨询与自主规划两大核心功能。支持知识库问答、动态工具调用、任务自主分解执行，完成从用户指令到行动交付的完整闭环。",
@@ -394,6 +405,7 @@ export const projects: Project[] = [
     category: "MCP / Agent Skills / 自动化 Pipeline",
     year: "2026.03 — 2026.04",
     cover: gzhTechArticle2Img,
+    gallery: [gzhArticle1Img, gzhArticle2Img, gzhArticle3Img, gzhArticle4Img, gzhArticleText1Img],
     keywords: ["MCP 协议", "Agent Skills", "自动化 Pipeline", "飞书 API", "知识库"],
     summary:
       "面向 AI 前沿动态的自动化监控与分析 Pipeline。通过自定义 Skills 与 MCP 组件构建智能体追踪框架，实现多源热点数据的自动采集、LLM 结构化分析及飞书文档的实时同步，打造 7×24 小时无人值守的 AI 情报中枢。",
@@ -439,7 +451,7 @@ export const projects: Project[] = [
     title: "AIGC 应用全链路",
     category: "AIGC / 数字人 / AI 绘画",
     year: "2024 — 2026",
-    cover: artPhoto1,
+    cover: artShow7Img,
     gallery: [artPhoto1, artPhoto2, artPhoto3, artPhoto4, artPhoto5],
     keywords: ["数字人", "语音克隆", "AI 音乐", "Midjourney", "Stable Diffusion", "AI 视频"],
     summary:
