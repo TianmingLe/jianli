@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Zap, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects, Project } from "@/data/content";
+import ScrollParallaxBg from "./ScrollParallaxBg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -604,11 +605,8 @@ export default function Work() {
 
   return (
     <section id="work" className="relative w-full bg-ink-950 py-20 md:py-28">
-      {/* 模糊星空背景 */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center opacity-20 blur-md"
-        style={{ backgroundImage: "url(/星空2.webp)" }}
-      />
+      {/* 滚动视差星空背景 —— 顶部对应长图顶部，底部对应长图底部 */}
+      <ScrollParallaxBg image="/星空2.webp" className="opacity-20" />
       <AnimatePresence>
         {zoom.state && (
           <ImageLightbox
