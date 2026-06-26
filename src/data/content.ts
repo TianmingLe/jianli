@@ -18,6 +18,7 @@ import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
 import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.png";
 import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
 import promptEngineeringImg from "@/data/xiangmu/提示词工程.png";
+import aliyunEcsImg from "@/data/self-media/阿里云ecs控制展示.jpg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -396,7 +397,7 @@ export const projects: Project[] = [
     title: "云原生部署与 DevOps 工程化实践",
     category: "Cloud / DevOps / CI-CD",
     year: "2024 — 2026",
-    cover: IMG("dark server room with glowing server racks, docker containers visualization, CI/CD pipeline flow, cyan accent lights, premium tech aesthetic", "landscape_16_9"),
+    cover: aliyunEcsImg,
     keywords: ["阿里云 ECS", "Docker", "Nginx", "CI/CD", "GitHub Actions", "HTTPS"],
     summary:
       "具备完整的产品工程化交付能力。熟练依托阿里云 ECS 与 Linux 系统搭建高可用后端服务，掌握从环境配置、容器化编排到域名解析、HTTPS 加密的全链路 Web 部署方案；打通 GitHub Actions 自动化流水线，实现多端应用的自动构建与上架发布。",
