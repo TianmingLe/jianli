@@ -37,7 +37,7 @@ export default function Awards() {
           className="mb-16 flex items-end justify-between"
         >
           <div>
-            <span className="eyebrow">/ 05 — Awards & Certs</span>
+            <span className="eyebrow">/ 02 — Awards & Certs</span>
             <h2 className="mt-4 font-display text-5xl font-bold tracking-tighter text-mist-50 md:text-7xl">
               获奖与证书
             </h2>

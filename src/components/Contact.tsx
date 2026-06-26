@@ -50,7 +50,7 @@ export default function Contact() {
           className="flex items-center gap-4"
         >
           <span className="h-px w-12 bg-volt-400" />
-          <span className="eyebrow">/ 04 — Let's Connect</span>
+          <span className="eyebrow">/ 06 — Let's Connect</span>
         </motion.div>
       </div>
 
