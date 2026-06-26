@@ -297,7 +297,7 @@ export default function QandA() {
             className="text-center font-display text-4xl font-bold tracking-tight text-mist-50 md:text-6xl"
           />
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            {/* 电话 */}
+            {/* 电话 1 */}
             <a
               href={`tel:${profile.contacts.phone}`}
               className="group flex items-center gap-2.5 rounded-full border border-ink-600 bg-ink-900/80 px-5 py-2.5 transition-all duration-300 hover:border-volt-400/50 hover:bg-ink-850"
@@ -305,6 +305,16 @@ export default function QandA() {
               <Phone className="h-4 w-4 text-mist-500 transition-colors group-hover:text-volt-400" />
               <span className="font-mono text-xs tracking-wider text-mist-300 group-hover:text-mist-50">
                 {profile.contacts.phone}
+              </span>
+            </a>
+            {/* 电话 2 */}
+            <a
+              href={`tel:${profile.contacts.phone2}`}
+              className="group flex items-center gap-2.5 rounded-full border border-ink-600 bg-ink-900/80 px-5 py-2.5 transition-all duration-300 hover:border-volt-400/50 hover:bg-ink-850"
+            >
+              <Phone className="h-4 w-4 text-mist-500 transition-colors group-hover:text-volt-400" />
+              <span className="font-mono text-xs tracking-wider text-mist-300 group-hover:text-mist-50">
+                {profile.contacts.phone2}
               </span>
             </a>
             {/* 邮箱 —— 点击复制 */}
@@ -331,6 +341,10 @@ export default function QandA() {
               <ArrowUpRight className="h-3 w-3 text-mist-700 transition-colors group-hover:text-volt-400" />
             </a>
           </div>
+          {/* 推荐提示 */}
+          <p className="mt-6 text-center text-xs text-mist-500">
+            推荐微信 or 邮箱
+          </p>
         </div>
       </div>
 

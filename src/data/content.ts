@@ -71,6 +71,7 @@ export const profile = {
   avatar: selfieImg,
   contacts: {
     phone: "19935072544",
+    phone2: "13084036670",
     email: "1767976037@qq.com",
     github: "https://github.com/TianmingLe",
     bilibili: "https://b23.tv/NPxHvW4",
