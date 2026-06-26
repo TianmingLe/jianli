@@ -132,7 +132,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 1.15 }}
-            className="mt-14 grid grid-cols-2 gap-px border border-ink-700 bg-ink-700 md:grid-cols-4"
+            className="mt-14 mb-16 grid grid-cols-2 gap-px border border-ink-700 bg-ink-700 md:mb-20 md:grid-cols-4"
           >
             {profile.coreTraits.map((t) => {
               const Icon = traitIcons[t.icon as keyof typeof traitIcons] ?? Flame;
