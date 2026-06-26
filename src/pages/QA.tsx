@@ -1,5 +1,6 @@
 import PageHeader from "@/components/PageHeader";
 import QandA from "@/components/QandA";
+import ScrollParallaxBg from "@/components/ScrollParallaxBg";
 
 const navItems = [
   { id: "qa-q1", label: "核心优势", cn: "核心竞争力" },
@@ -10,11 +11,8 @@ const navItems = [
 export default function QA() {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-ink-950 pb-20 pt-20 md:pt-24">
-      {/* 模糊背景图 */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center opacity-25 blur-md"
-        style={{ backgroundImage: "url(/qa-bg.webp)" }}
-      />
+      {/* 滚动视差背景 —— 顶部对应长图顶部，底部对应长图底部 */}
+      <ScrollParallaxBg image="/qa-bg.webp" className="opacity-25" />
       <div className="relative z-10">
         <PageHeader navItems={navItems} />
         <QandA />
