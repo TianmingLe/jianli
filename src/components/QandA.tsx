@@ -52,6 +52,22 @@ const BORDER_GLOW_PROPS = {
   fillOpacity: 0.45,
 } as const;
 
+// 剪贴板兜底：非安全上下文（http）下 navigator.clipboard 不可用
+function fallbackCopy(text: string) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand("copy");
+  } catch {
+    /* 忽略 */
+  }
+  document.body.removeChild(ta);
+}
+
 export default function QandA() {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [showToast, setShowToast] = useState(false);
@@ -72,7 +88,13 @@ export default function QandA() {
   }, []);
 
   const handleCopyEmail = useCallback(() => {
-    navigator.clipboard.writeText(EMAIL).catch(() => {});
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(EMAIL).catch(() => {
+        fallbackCopy(EMAIL);
+      });
+    } else {
+      fallbackCopy(EMAIL);
+    }
     setShowToast(true);
   }, []);
 
@@ -219,13 +241,11 @@ export default function QandA() {
                     </BorderGlow>
                   </div>
                 ) : (
-                  /* Q1/Q2 左右分栏布局 */
-                  <div className={`grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 ${
-                    isFullWidth ? "" : ""
-                  }`}>
+                  /* Q1/Q2 左右分栏布局 —— 问题卡按内容高度自适应并居中 */
+                  <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2 md:gap-5">
                     {/* 问题卡 —— Q1 在左，Q2 在右 */}
                     <div className={reversed ? "md:order-2" : "md:order-1"}>
-                      <BorderGlow {...BORDER_GLOW_PROPS} className="qna-card qna-card--question h-full">
+                      <BorderGlow {...BORDER_GLOW_PROPS} className="qna-card qna-card--question">
                         <div className="p-6 md:p-8">
                           <div className="flex items-start gap-4 md:gap-6">
                             <span className="mt-1 font-mono text-2xl font-bold tracking-tighter text-volt-400 md:text-3xl">
@@ -245,7 +265,7 @@ export default function QandA() {
                     </div>
                     {/* 答案卡 —— Q1 在右，Q2 在左 */}
                     <div className={reversed ? "md:order-1" : "md:order-2"}>
-                      <BorderGlow {...BORDER_GLOW_PROPS} className="qna-card qna-card--answer h-full">
+                      <BorderGlow {...BORDER_GLOW_PROPS} className="qna-card qna-card--answer">
                         <div className="p-6 md:p-8">
                           <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
                             / Answer
