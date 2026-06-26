@@ -103,6 +103,17 @@ export default function Timeline() {
                     className="group relative w-full md:w-[calc(50%-3rem)]"
                   >
                     <div className="relative border border-ink-700 bg-ink-950/80 backdrop-blur-sm transition-colors hover:border-ink-600 hover:bg-ink-900">
+                      {/* 配图 */}
+                      {ev.image && (
+                        <div className="relative aspect-[16/9] overflow-hidden border-b border-ink-700">
+                          <img
+                            src={ev.image}
+                            alt={ev.title}
+                            className="h-full w-full object-cover opacity-70 transition-all duration-500 group-hover:scale-105 group-hover:opacity-90"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 to-transparent" />
+                        </div>
+                      )}
                       <div className="flex gap-4 p-5 md:p-6">
                         {/* 文本主体 */}
                         <div className="min-w-0 flex-1">
