@@ -27,6 +27,14 @@ import artPhoto5 from "@/data/self-media/艺术作品5.png";
 import xhsQingcaoImg2 from "@/data/self-media/baoer/小红书青草计划图片二.jpeg";
 import englishCompetitionImg from "@/data/self-media/baoer/英语比赛.png";
 import englishCompetitionVideoImg from "@/data/self-media/baoer/英语比赛视频展示.png";
+import xhsVideoShowImg from "@/data/self-media/小红书视频展示.png";
+import mathModelingImg from "@/data/self-media/baoer/数学建模比赛题目.png";
+import mathModelingRecord1Img from "@/data/self-media/baoer/数学建模比赛实录.png";
+import mathModelingRecord2Img from "@/data/self-media/baoer/数学建模比赛实录2.png";
+import marketResearch1Img from "@/data/self-media/baoer/市调作品展示.png";
+import marketResearch2Img from "@/data/self-media/baoer/市调作品展示2.png";
+import marketResearch3Img from "@/data/self-media/baoer/市调作品展示三.png";
+import wechatQrImg from "@/data/self-media/baoer/微信账号.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -54,6 +62,7 @@ export const profile = {
     bilibili: "https://b23.tv/NPxHvW4",
     xiaohongshu: "https://xhslink.com/m/5h3GEynfA7n",
     douyin: "https://v.douyin.com/mMECQWKw-Vs/",
+    wechatQr: wechatQrImg,
   },
   coreTraits: [
     { icon: "Flame", title: "扎实的工程专业能力", desc: "ANSYS / AutoCAD / 实践操作技术" },
@@ -161,7 +170,7 @@ export const abilityMap = [
     gallery: [
       { src: devConferenceImg, caption: "2024 全球开发者先锋大会参会证" },
       { src: msReactorImg, caption: "微软 Reactor 线下技术聚会" },
-      { src: baiduNetdiskIcon, caption: "百度网盘校园大使 & 技术推广" },
+      { src: promptEngineeringImg, caption: "AI 提示工程与智能体开发" },
     ],
   },
   {
@@ -176,7 +185,7 @@ export const abilityMap = [
     summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 12K+ / 抖音 4.9K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
     skills: ["OmniScraper Pro 视频抓取", "AI 视频 / 4K 修复技术", "B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PS / Audition"],
     gallery: [
-      { src: baoer4kImg, caption: "《钢铁是怎样炼成的》4K 修复视频" },
+      { src: xhsVideoShowImg, caption: "小红书视频创作展示" },
       { src: bilibiliSpaceImg, caption: "哔哩哔哩主页 12K+ 粉丝" },
       { src: douyinHomeImg, caption: "抖音创作者主页" },
     ],
@@ -599,7 +608,7 @@ export const timeline = [
       { month: "03", title: "4K 修复项目", desc: "《钢铁是怎样炼成的》4K 修复启动", image: baoer4kImg },
       { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场" },
       { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg2 },
-      { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）" },
+      { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）", image: mathModelingImg },
       { month: "—", title: "全年自媒体", desc: "抖音 4600+ / 小红书 4000+ / B 站 9800+" },
     ],
   },
@@ -625,7 +634,8 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（5人）",
     project: "《康养五寨，药韵文旅——山西五寨中医药康养旅游游客体验及文旅提升路径研究》",
-    image: "/awards/market-research-provincial-1.png",
+    image: marketResearch1Img,
+    gallery: [marketResearch1Img, marketResearch2Img, marketResearch3Img],
   },
   {
     id: "a02",
@@ -634,7 +644,8 @@ export const awards = [
     level: "省级一等奖",
     role: "核心成员（3人）",
     project: "《烟幕干扰弹的投放策略》— 负责模型构建与数据分析",
-    image: "/awards/math-modeling-provincial-1.jpg",
+    image: mathModelingImg,
+    gallery: [mathModelingImg, mathModelingRecord1Img, mathModelingRecord2Img],
   },
   {
     id: "a03",
@@ -643,7 +654,7 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "《2024 年 LLM 的市场应用及发展前景调研》",
-    image: "/awards/market-research-school-2.jpg",
+    image: marketResearch2Img,
   },
   {
     id: "a04",
