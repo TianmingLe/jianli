@@ -62,7 +62,7 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
         <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
           {p.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-mist-400">
+        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-amber-200/80">
           {p.summary}
         </p>
         <div className="mt-3 flex flex-wrap gap-1">
@@ -97,7 +97,7 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
             <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
               / 概要 · What it does
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-mist-200">{p.summary}</p>
+            <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
             {/* 电厂价值 */}
             <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
               <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
@@ -179,7 +179,7 @@ function AIListItem({ p, i }: { p: Project; i: number }) {
           <h3 className="mt-1 font-display text-lg font-bold leading-tight text-mist-50 md:text-xl">
             {p.title}
           </h3>
-          <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-mist-400 md:hidden">
+          <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-amber-200/80 md:hidden">
             {p.summary}
           </p>
           <div className="mt-2 flex flex-wrap gap-1">
@@ -223,7 +223,7 @@ function AIListItem({ p, i }: { p: Project; i: number }) {
                 <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
                   / 概要 · What it does
                 </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-mist-200">{p.summary}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-amber-200">{p.summary}</p>
                 <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
                   <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
                 </p>
@@ -305,7 +305,7 @@ function VibeProductSpotlight({ items }: { items: Project[] }) {
               <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
                 / 概要 · What it does
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-mist-300">
+              <p className="mt-2 text-sm leading-relaxed text-amber-200">
                 {p.summary}
               </p>
               {/* 电厂价值 */}
@@ -403,7 +403,7 @@ function MediaFeature({ items }: { items: Project[] }) {
               <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
                 / 概要 · What it does
               </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-mist-300">{p.summary}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-amber-200">{p.summary}</p>
               {/* 电厂价值 */}
               <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
                 <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
