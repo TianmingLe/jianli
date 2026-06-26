@@ -290,11 +290,11 @@ export default function QandA() {
       <AnimatePresence>
         {showToast && (
           <motion.div
-            initial={{ opacity: 0, y: 80, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9, transition: { duration: 0.6 } }}
+            initial={{ opacity: 0, y: 80, x: "-50%", scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
+            exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.9, transition: { duration: 0.6 } }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            className="fixed bottom-10 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border border-volt-400/30 bg-ink-900/90 px-6 py-3 backdrop-blur-md"
+            className="fixed bottom-10 left-1/2 z-50 flex items-center gap-3 rounded-full border border-volt-400/30 bg-ink-900/90 px-6 py-3 backdrop-blur-md"
           >
             <span className="h-2 w-2 animate-pulse-soft rounded-full bg-volt-400" />
             <span className="font-mono text-xs tracking-wider text-mist-50">
