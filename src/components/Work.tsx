@@ -157,7 +157,7 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
       {/* 封面：奇数项在左，偶数项在右 */}
       <div
         className={`relative aspect-[16/10] w-full overflow-hidden md:aspect-auto ${
-          reversed ? "md:order-2 md:col-span-5" : "md:order-1 md:col-span-5"
+          reversed ? "md:order-2 md:col-span-4" : "md:order-1 md:col-span-4"
         }`}
       >
         <img
@@ -177,7 +177,7 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
       {/* 信息面板 */}
       <div
         className={`flex flex-col p-4 md:p-6 ${
-          reversed ? "md:order-1 md:col-span-7" : "md:order-2 md:col-span-7"
+          reversed ? "md:order-1 md:col-span-8" : "md:order-2 md:col-span-8"
         }`}
       >
         <div className="flex items-center gap-3">
@@ -196,12 +196,12 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
         <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
           / 概要 · What it does
         </p>
-        <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">{p.summary}</p>
+        <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
         {/* 电厂价值 */}
         <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-mist-300">
           <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
         </p>
-        <p className="mt-1 text-xs leading-relaxed text-mist-200 line-clamp-2">{p.valueToPower}</p>
+        <p className="mt-1 text-xs leading-relaxed text-mist-200">{p.valueToPower}</p>
         {/* 技术栈 + 成果：横向并排 */}
         <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end">
           <div className="flex-1">
@@ -230,7 +230,7 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
                   className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200"
                 >
                   <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-mist-300" />
-                  <span className="line-clamp-1">{a}</span>
+                  <span>{a}</span>
                 </li>
               ))}
             </ul>
