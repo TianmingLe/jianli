@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, Zap } from "lucide-react";
 import { projects, Project } from "@/data/content";
 
@@ -15,7 +14,7 @@ function fitClass(p: Project) {
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
 function EnergyGrid({ items }: { items: Project[] }) {
   return (
-    <div className="grid grid-cols-1 items-start gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
       {items.map((p, i) => (
         <EnergyCard key={p.id} p={p} i={i} />
       ))}
@@ -24,7 +23,6 @@ function EnergyGrid({ items }: { items: Project[] }) {
 }
 
 function EnergyCard({ p, i }: { p: Project; i: number }) {
-  const [hovered, setHovered] = useState(false);
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -32,8 +30,6 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease, delay: i * 0.08 }}
       className="group relative bg-ink-900 transition-colors hover:bg-ink-850"
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
     >
       {/* 顶部：序号 + 封面缩略 + 年份 */}
       <div className="flex items-stretch border-b border-ink-700">
@@ -54,8 +50,9 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
           </span>
         </div>
       </div>
-      {/* 主体（默认展示） */}
-      <div className="p-5">
+      {/* 主体：完整渲染所有内容撑开卡片高度，默认隐藏详情部分 */}
+      <div className="relative p-5">
+        {/* 默认可见部分 */}
         <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
           {p.category}
         </p>
@@ -75,51 +72,79 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
             </span>
           ))}
         </div>
-      </div>
 
-      {/* Hover 展开详情：高度自适应增长，不再被卡片高度限制 */}
-      <AnimatePresence initial={false}>
-        {hovered && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease }}
-            className="overflow-hidden border-t border-ink-700"
-          >
-            <div className="bg-ink-850/50 p-5">
-              {/* 电厂价值 */}
-              <p className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
-                <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-              </p>
-              <p className="mt-1.5 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
-              {/* 成果 */}
-              <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                / Achievements
-              </p>
-              <ul className="mt-1.5 space-y-1.5">
-                {p.achievements.map((a, idx) => (
-                  <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
-                    <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
-                    {a}
-                  </li>
-                ))}
-              </ul>
-              {/* 技术栈 */}
-              <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                / Stack
-              </p>
-              <div className="mt-1.5 flex flex-wrap gap-1">
-                {p.stack.map((s) => (
-                  <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* 预留详情占位：默认不可见，仅撑高度 */}
+        <div className="invisible mt-0">
+          <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
+            <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+          </p>
+          <p className="mt-1.5 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
+          <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+            / Achievements
+          </p>
+          <ul className="mt-1.5 space-y-1.5">
+            {p.achievements.map((a, idx) => (
+              <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
+                <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                {a}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+            / Stack
+          </p>
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            {p.stack.map((s) => (
+              <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Hover 遮罩浮层：absolute 覆盖，淡入显示完整内容 */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col overflow-y-auto bg-ink-900/95 p-5 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+            {p.category}
+          </p>
+          <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
+            {p.title}
+          </h3>
+          {/* 概要 */}
+          <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+            / 概要 · What it does
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
+          {/* 电厂价值 */}
+          <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
+            <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+          </p>
+          <p className="mt-1.5 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
+          {/* 成果 */}
+          <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+            / Achievements
+          </p>
+          <ul className="mt-1.5 space-y-1.5">
+            {p.achievements.map((a, idx) => (
+              <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
+                <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                {a}
+              </li>
+            ))}
+          </ul>
+          {/* 技术栈 */}
+          <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+            / Stack
+          </p>
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            {p.stack.map((s) => (
+              <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </motion.article>
   );
 }
