@@ -18,11 +18,68 @@ const certIcons: Record<string, LucideIcon> = {
   Award,
 };
 
-const levelStyle: Record<string, string> = {
-  省级一等奖: "border-volt-400/60 text-volt-400 bg-volt-400/5",
-  校级二等奖: "border-mist-500/60 text-mist-300 bg-mist-500/5",
-  参赛认证: "border-mist-500/60 text-mist-300 bg-mist-500/5",
+// 排名配置：省级一等奖最醒目（金色实心 + 呼吸光晕动效）
+const levelConfig: Record<
+  string,
+  { badge: string; top: boolean; icon: LucideIcon }
+> = {
+  省级一等奖: {
+    badge:
+      "bg-amber-400 text-ink-950 shadow-[0_0_14px_rgba(251,191,36,0.55)]",
+    top: true,
+    icon: Trophy,
+  },
+  校级二等奖: {
+    badge: "border border-amber-300/70 text-amber-200 bg-amber-300/10",
+    top: false,
+    icon: Award,
+  },
+  参赛认证: {
+    badge: "border border-mist-500/50 text-mist-300 bg-mist-500/5",
+    top: false,
+    icon: Award,
+  },
 };
+
+function LevelBadge({ level }: { level: string }) {
+  const cfg = levelConfig[level] ?? {
+    badge: "border border-ink-600 text-mist-300",
+    top: false,
+    icon: Award,
+  };
+  const Icon = cfg.icon;
+  return (
+    <motion.div
+      initial={{ scale: 0.7, opacity: 0, y: 6 }}
+      whileInView={{ scale: 1, opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ type: "spring", stiffness: 380, damping: 15, delay: 0.18 }}
+      className="relative inline-flex w-fit"
+    >
+      {/* 省级一等奖：常驻呼吸光晕 */}
+      {cfg.top && (
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute -inset-1 rounded"
+          animate={{
+            boxShadow: [
+              "0 0 0 0 rgba(251,191,36,0.0)",
+              "0 0 18px 5px rgba(251,191,36,0.5)",
+              "0 0 0 0 rgba(251,191,36,0.0)",
+            ],
+          }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+      <span
+        className={`relative inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-bold tracking-wider ${cfg.badge}`}
+      >
+        <Icon className="h-3.5 w-3.5" />
+        {level}
+      </span>
+    </motion.div>
+  );
+}
 
 export default function Awards() {
   return (
@@ -83,25 +140,10 @@ export default function Awards() {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
-                    {/* 级别标签浮层 */}
-                    <span
-                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest backdrop-blur-sm ${
-                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
-                      }`}
-                    >
-                      {a.level}
-                    </span>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between border-b border-ink-700 bg-ink-850 px-5 py-3">
-                    <Trophy className="h-5 w-5 text-ink-600" />
-                    <span
-                      className={`border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
-                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
-                      }`}
-                    >
-                      {a.level}
-                    </span>
+                  <div className="flex aspect-[4/3] items-center justify-center border-b border-ink-700 bg-ink-850">
+                    <Trophy className="h-10 w-10 text-ink-600" />
                   </div>
                 )}
 
@@ -113,7 +155,10 @@ export default function Awards() {
                   <p className="mt-2 font-display text-base font-bold leading-tight text-mist-50">
                     {a.title}
                   </p>
-                  <p className="mt-2 flex-1 text-xs leading-relaxed text-mist-300">
+                  <div className="mt-3">
+                    <LevelBadge level={a.level} />
+                  </div>
+                  <p className="mt-3 flex-1 text-xs leading-relaxed text-mist-300">
                     {a.project}
                   </p>
                   <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-mist-500">
