@@ -85,7 +85,9 @@ export default function QandA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, ease, delay: index * 0.1 }}
-              className="group scroll-mt-24 space-y-4 md:space-y-5"
+              className={`group scroll-mt-24 space-y-4 md:space-y-5 w-full max-w-3xl ${
+                index % 2 === 0 ? "mr-auto" : "ml-auto"
+              }`}
             >
               {/* ============ 问题模块 ============ */}
               <BorderGlow
