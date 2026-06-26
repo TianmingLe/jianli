@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, Zap, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects, Project } from "@/data/content";
 import ScrollParallaxBg from "./ScrollParallaxBg";
+import GlareHover from "./GlareHover";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -334,109 +335,118 @@ function VibeProductSpotlight({ items, onZoom }: { items: Project[]; onZoom: Zoo
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease, delay: i * 0.08 }}
-          className="group relative grid grid-cols-1 overflow-hidden border border-ink-700 bg-ink-900 md:grid-cols-12"
         >
-          {/* 左：封面（占 5/12） */}
-          <div className="relative aspect-[16/10] w-full overflow-hidden md:col-span-5 md:aspect-auto">
-            <img loading="lazy" decoding="async"
-              src={p.cover}
-              alt={p.title}
-              className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
-              onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
-            <span className="absolute left-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
-              {p.index}
-            </span>
-          </div>
-          {/* 右：信息面板（占 7/12） */}
-          <div className="flex flex-col justify-between p-4 md:col-span-7 md:p-6">
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300">
-                  {p.category}
-                </span>
-                <span className="h-px flex-1 bg-amber-300/30" />
-                <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
-                  {p.year}
-                </span>
-              </div>
-              <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
-                {p.title}
-              </h3>
-              {/* 概要 */}
-              <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                / 概要 · What it does
-              </p>
-              <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">
-                {p.summary}
-              </p>
-              {/* 电厂价值 */}
-              <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-amber-300">
-                <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-              </p>
-              <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">
-                {p.valueToPower}
-              </p>
+          <GlareHover
+            glareColor="#FBBF24"
+            glareOpacity={0.18}
+            glareAngle={-30}
+            glareSize={260}
+            transitionDuration={650}
+            playOnce={false}
+            className="group relative grid grid-cols-1 overflow-hidden border border-ink-700 bg-ink-900 transition-colors hover:border-amber-300/40 md:grid-cols-12"
+          >
+            {/* 左：封面（占 5/12） */}
+            <div className="relative aspect-[16/10] w-full overflow-hidden md:col-span-5 md:aspect-auto">
+              <img loading="lazy" decoding="async"
+                src={p.cover}
+                alt={p.title}
+                className={`h-full w-full cursor-zoom-in ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+                onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
+              <span className="absolute left-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
+                {p.index}
+              </span>
             </div>
-            {/* 技术栈 + 成果：横向并排，节省纵向空间 */}
-            <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end">
-              <div className="flex-1">
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Stack
+            {/* 右：信息面板（占 7/12） */}
+            <div className="relative z-30 flex flex-col justify-between p-4 md:col-span-7 md:p-6">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-amber-300">
+                    {p.category}
+                  </span>
+                  <span className="h-px flex-1 bg-amber-300/30" />
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
+                    {p.year}
+                  </span>
+                </div>
+                <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
+                  {p.title}
+                </h3>
+                {/* 概要 */}
+                <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                  / 概要 · What it does
                 </p>
-                <div className="mt-1.5 flex flex-wrap gap-1">
-                  {p.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="border border-amber-300/40 bg-amber-300/5 px-1.5 py-0.5 text-[9px] text-amber-200"
+                <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">
+                  {p.summary}
+                </p>
+                {/* 电厂价值 */}
+                <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-amber-300">
+                  <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">
+                  {p.valueToPower}
+                </p>
+              </div>
+              {/* 技术栈 + 成果：横向并排，节省纵向空间 */}
+              <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end">
+                <div className="flex-1">
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                    / Stack
+                  </p>
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    {p.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="border border-amber-300/40 bg-amber-300/5 px-1.5 py-0.5 text-[9px] text-amber-200"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                    / Achievements
+                  </p>
+                  <ul className="mt-1.5 space-y-0.5">
+                    {p.achievements.slice(0, 2).map((a, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200"
+                      >
+                        <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-amber-300" />
+                        <span className="line-clamp-1">{a}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            {/* Gallery 画廊 */}
+            {p.gallery && p.gallery.length > 0 && (
+              <div className="relative z-30 border-t border-ink-700 p-3 md:col-span-12">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                  / Gallery · 项目展示
+                </p>
+                <div className="grid grid-cols-4 gap-2">
+                  {p.gallery.map((g, gi) => (
+                    <div
+                      key={gi}
+                      className="group/gallery relative aspect-video cursor-zoom-in overflow-hidden border border-ink-700"
+                      onDoubleClick={() => onZoom(p.gallery!, gi)}
                     >
-                      {s}
-                    </span>
+                      <img loading="lazy" decoding="async"
+                        src={g}
+                        alt={`${p.title} - ${gi + 1}`}
+                        className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
-              <div className="flex-1">
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Achievements
-                </p>
-                <ul className="mt-1.5 space-y-0.5">
-                  {p.achievements.slice(0, 2).map((a, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200"
-                    >
-                      <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-amber-300" />
-                      <span className="line-clamp-1">{a}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-          {/* Gallery 画廊 */}
-          {p.gallery && p.gallery.length > 0 && (
-            <div className="border-t border-ink-700 p-3 md:col-span-12">
-              <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                / Gallery · 项目展示
-              </p>
-              <div className="grid grid-cols-4 gap-2">
-                {p.gallery.map((g, gi) => (
-                  <div
-                    key={gi}
-                    className="group/gallery relative aspect-video cursor-zoom-in overflow-hidden border border-ink-700"
-                    onDoubleClick={() => onZoom(p.gallery!, gi)}
-                  >
-                    <img loading="lazy" decoding="async"
-                      src={g}
-                      alt={`${p.title} - ${gi + 1}`}
-                      className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+            )}
+          </GlareHover>
         </motion.article>
       ))}
     </div>
@@ -454,102 +464,111 @@ function MediaFeature({ items, onZoom }: { items: Project[]; onZoom: ZoomFn }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease, delay: i * 0.08 }}
-          className="group relative overflow-hidden border border-ink-700 bg-ink-900 md:grid md:grid-cols-12"
         >
-          {/* 左：封面（占 4/12，更紧凑） */}
-          <div className={`relative aspect-[16/9] w-full overflow-hidden md:aspect-auto ${
-            p.coverFit === "contain"
-              ? `md:col-span-4 ${p.compact ? "md:min-h-[120px]" : "md:min-h-[200px]"}`
-              : "md:col-span-5"
-          }`}>
-            <img loading="lazy" decoding="async"
-              src={p.cover}
-              alt={p.title}
-              className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
-                p.coverFit === "contain" ? "p-4" : ""
-              } transition-transform duration-700 group-hover:scale-105`}
-              onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
-            <span className="absolute right-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
-              {p.index}
-            </span>
-          </div>
-          {/* 右：信息面板 */}
-          <div className={`flex flex-col p-4 ${p.compact ? "" : "md:p-6"} ${
-            p.coverFit === "contain" ? "md:col-span-8" : "md:col-span-7"
-          }`}>
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
-                {p.category}
-              </span>
-              <span className="h-px flex-1 bg-volt-400/30" />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
-                {p.year}
+          <GlareHover
+            glareColor="#7DD3FC"
+            glareOpacity={0.15}
+            glareAngle={-25}
+            glareSize={250}
+            transitionDuration={600}
+            playOnce={false}
+            className="group relative overflow-hidden border border-ink-700 bg-ink-900 transition-colors hover:border-volt-400/40 md:grid md:grid-cols-12"
+          >
+            {/* 左：封面（占 4/12，更紧凑） */}
+            <div className={`relative aspect-[16/9] w-full overflow-hidden md:aspect-auto ${
+              p.coverFit === "contain"
+                ? `md:col-span-4 ${p.compact ? "md:min-h-[120px]" : "md:min-h-[200px]"}`
+                : "md:col-span-5"
+            }`}>
+              <img loading="lazy" decoding="async"
+                src={p.cover}
+                alt={p.title}
+                className={`h-full w-full cursor-zoom-in ${fitClass(p)} ${
+                  p.coverFit === "contain" ? "p-4" : ""
+                } transition-transform duration-700 group-hover:scale-105`}
+                onDoubleClick={() => onZoom(p.gallery ?? [p.cover], 0)}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
+              <span className="absolute right-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
+                {p.index}
               </span>
             </div>
-            <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
-              {p.title}
-            </h3>
-            {/* 概要 */}
-            <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / 概要 · What it does
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">{p.summary}</p>
-            {/* 电厂价值 */}
-            <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
-              <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-volt-200 line-clamp-2">{p.valueToPower}</p>
-            {/* 关键词 + 技术栈 + 成果：横向并排，节省纵向空间 */}
-            <div className={`mt-3 grid grid-cols-1 gap-3 ${p.compact ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
-              {!p.compact && (
+            {/* 右：信息面板 */}
+            <div className={`relative z-30 flex flex-col p-4 ${p.compact ? "" : "md:p-6"} ${
+              p.coverFit === "contain" ? "md:col-span-8" : "md:col-span-7"
+            }`}>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                  {p.category}
+                </span>
+                <span className="h-px flex-1 bg-volt-400/30" />
+                <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
+                  {p.year}
+                </span>
+              </div>
+              <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
+                {p.title}
+              </h3>
+              {/* 概要 */}
+              <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / 概要 · What it does
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">{p.summary}</p>
+              {/* 电厂价值 */}
+              <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
+                <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-volt-200 line-clamp-2">{p.valueToPower}</p>
+              {/* 关键词 + 技术栈 + 成果：横向并排，节省纵向空间 */}
+              <div className={`mt-3 grid grid-cols-1 gap-3 ${p.compact ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+                {!p.compact && (
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                      / Keywords
+                    </p>
+                    <div className="mt-1.5 flex flex-wrap gap-1">
+                      {p.keywords.slice(0, 3).map((k) => (
+                        <span
+                          key={k}
+                          className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
+                        >
+                          {k}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div>
                   <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                    / Keywords
+                    / Stack
                   </p>
                   <div className="mt-1.5 flex flex-wrap gap-1">
-                    {p.keywords.slice(0, 3).map((k) => (
+                    {p.stack.slice(0, 4).map((s) => (
                       <span
-                        key={k}
-                        className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
+                        key={s}
+                        className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300"
                       >
-                        {k}
+                        {s}
                       </span>
                     ))}
                   </div>
                 </div>
-              )}
-              <div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Stack
-                </p>
-                <div className="mt-1.5 flex flex-wrap gap-1">
-                  {p.stack.slice(0, 4).map((s) => (
-                    <span
-                      key={s}
-                      className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300"
-                    >
-                      {s}
-                    </span>
-                  ))}
+                <div>
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                    / Achievements
+                  </p>
+                  <ul className="mt-1.5 space-y-0.5">
+                    {p.achievements.slice(0, 2).map((a, idx) => (
+                      <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200">
+                        <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                        <span className="line-clamp-1">{a}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-              <div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Achievements
-                </p>
-                <ul className="mt-1.5 space-y-0.5">
-                  {p.achievements.slice(0, 2).map((a, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200">
-                      <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
-                      <span className="line-clamp-1">{a}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
-          </div>
+          </GlareHover>
         </motion.article>
       ))}
     </div>
