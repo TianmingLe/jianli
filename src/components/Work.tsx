@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Check, Zap } from "lucide-react";
+import { Check, Zap } from "lucide-react";
 import { projects, Project } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -133,130 +133,110 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
   );
 }
 
-/* ============================ 分区二：AI 特种 · 列表流 ============================ */
+/* ============================ 分区二：AI 特种 · 左右交替 ============================ */
 function AIListFlow({ items }: { items: Project[] }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-4 md:gap-6">
       {items.map((p, i) => (
-        <AIListItem key={p.id} p={p} i={i} />
+        <AIAlternateItem key={p.id} p={p} i={i} />
       ))}
     </div>
   );
 }
 
-function AIListItem({ p, i }: { p: Project; i: number }) {
-  const [hovered, setHovered] = useState(false);
+function AIAlternateItem({ p, i }: { p: Project; i: number }) {
+  const reversed = i % 2 === 1;
   return (
     <motion.article
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, ease, delay: Math.min(i * 0.08, 0.4) }}
-      className="group relative flex flex-col border-b border-ink-700 py-5 transition-colors hover:bg-ink-850/50"
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, ease, delay: i * 0.08 }}
+      className="group relative overflow-hidden border border-ink-700 bg-ink-900 md:grid md:grid-cols-12"
     >
-      {/* 顶部行：序号 + 缩略图 + 标题 + 年份 */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
-        <div className="flex shrink-0 items-center md:w-16">
-          <span className="font-display text-3xl font-bold tracking-tighter text-mist-50/20 transition-colors group-hover:text-volt-400 md:text-4xl">
-            {p.index}
-          </span>
-        </div>
-        <div className="shrink-0 md:w-40">
-          <div className="relative aspect-[4/3] overflow-hidden border border-ink-700">
-            <img
-              src={p.cover}
-              alt={p.title}
-              className={`h-full w-full ${fitClass(p)} opacity-60 transition-all duration-500 group-hover:scale-110 group-hover:opacity-90`}
-            />
-          </div>
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+      {/* 封面：奇数项在左，偶数项在右 */}
+      <div
+        className={`relative aspect-[16/10] w-full overflow-hidden md:aspect-auto ${
+          reversed ? "md:order-2 md:col-span-5" : "md:order-1 md:col-span-5"
+        }`}
+      >
+        <img
+          src={p.cover}
+          alt={p.title}
+          className={`h-full w-full ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
+        <span
+          className={`absolute font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl ${
+            reversed ? "left-4 top-3" : "right-4 top-3"
+          }`}
+        >
+          {p.index}
+        </span>
+      </div>
+      {/* 信息面板 */}
+      <div
+        className={`flex flex-col p-4 md:p-6 ${
+          reversed ? "md:order-1 md:col-span-7" : "md:order-2 md:col-span-7"
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-mist-300">
             {p.category}
-          </p>
-          <h3 className="mt-1 font-display text-lg font-bold leading-tight text-mist-50 md:text-xl">
-            {p.title}
-          </h3>
-          <p className="mt-1.5 line-clamp-1 text-xs leading-relaxed text-amber-200/80 md:hidden">
-            {p.summary}
-          </p>
-          <div className="mt-2 flex flex-wrap gap-1">
-            {p.keywords.slice(0, 3).map((k) => (
-              <span
-                key={k}
-                className="font-mono text-[9px] uppercase tracking-wider text-mist-500"
-              >
-                /{k}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="flex shrink-0 items-center justify-end gap-3 md:w-32">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
+          </span>
+          <span className="h-px flex-1 bg-mist-300/30" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
             {p.year}
           </span>
-          <motion.span
-            animate={{ rotate: hovered ? 45 : 0 }}
-            transition={{ duration: 0.3, ease }}
-            className="flex h-8 w-8 shrink-0 items-center justify-center border border-ink-600 text-mist-400 transition-colors duration-300 group-hover:border-volt-400 group-hover:bg-volt-400 group-hover:text-ink-950"
-          >
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </motion.span>
+        </div>
+        <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
+          {p.title}
+        </h3>
+        {/* 概要 */}
+        <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+          / 概要 · What it does
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-amber-200 line-clamp-2">{p.summary}</p>
+        {/* 电厂价值 */}
+        <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-mist-300">
+          <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-mist-200 line-clamp-2">{p.valueToPower}</p>
+        {/* 技术栈 + 成果：横向并排 */}
+        <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end">
+          <div className="flex-1">
+            <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Stack
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {p.stack.map((s) => (
+                <span
+                  key={s}
+                  className="border border-mist-300/40 bg-mist-300/5 px-1.5 py-0.5 text-[9px] text-mist-200"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="flex-1">
+            <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Achievements
+            </p>
+            <ul className="mt-1.5 space-y-0.5">
+              {p.achievements.slice(0, 2).map((a, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200"
+                >
+                  <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-mist-300" />
+                  <span className="line-clamp-1">{a}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-
-      {/* Hover 展开详情：Framer Motion height auto 丝滑动画 */}
-      <AnimatePresence initial={false}>
-        {hovered && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.45, ease }}
-            className="overflow-hidden"
-          >
-            <div className="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2 md:pl-[5.5rem]">
-              {/* 左：概要 + 电厂价值 + 技术栈 */}
-              <div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / 概要 · What it does
-                </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-amber-200">{p.summary}</p>
-                <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
-                  <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-                </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
-                <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Stack
-                </p>
-                <div className="mt-1.5 flex flex-wrap gap-1">
-                  {p.stack.map((s) => (
-                    <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {/* 右：成果 */}
-              <div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
-                  / Achievements
-                </p>
-                <ul className="mt-1.5 space-y-1.5">
-                  {p.achievements.map((a, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
-                      <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
-                      {a}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.article>
   );
 }
