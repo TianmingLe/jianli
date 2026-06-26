@@ -7,14 +7,28 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const traitIcons = { Flame, Bot, BarChart3, Target };
 
-const VIDEO_DURATION_MS = 30_000;
+const VIDEO_DURATION_MS = 28_000; // 视频时长，结束时重载以实现循环
 const BILIBILI_EMBED =
-  "https://player.bilibili.com/player.html?bvid=BV1Vi7K69ERh&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
+  "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const [reloadKey, setReloadKey] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scheduleReload = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setReloadKey((k) => k + 1);
+    }, VIDEO_DURATION_MS);
+  };
+
+  useEffect(() => {
+    scheduleReload();
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [reloadKey]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -23,33 +37,20 @@ export default function Hero() {
   const blur = useTransform(scrollYProgress, [0, 1], [2, 16]);
   const blurFilter = useMotionTemplate`blur(${blur}px)`;
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const handleIframeLoad = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setReloadKey((k) => k + 1);
-    }, VIDEO_DURATION_MS);
-  };
-
   return (
     <section
       ref={containerRef}
       id="hero"
-      className="relative flex h-screen min-h-[720px] w-full items-center overflow-hidden"
+      className="relative flex h-screen min-h-[720px] w-full items-start overflow-hidden"
     >
       {/* 背景层 */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.iframe
+        <iframe
           key={reloadKey}
           src={BILIBILI_EMBED}
           title="Hero background video"
           allow="autoplay; fullscreen"
-          onLoad={handleIframeLoad}
+          onLoad={scheduleReload}
           style={{ filter: blurFilter }}
           className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 border-0"
         />
@@ -68,7 +69,7 @@ export default function Hero() {
       </div>
 
       {/* 内容 */}
-      <div className="shell relative z-10 w-full">
+      <div className="shell relative z-10 w-full pt-20 md:pt-24">
         <div className="max-w-[1300px]">
           {/* 顶部小标 */}
           <motion.div
@@ -159,7 +160,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.4 }}
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2"
       >
         <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
           Scroll

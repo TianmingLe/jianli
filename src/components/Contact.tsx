@@ -1,9 +1,12 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Phone,
   Mail,
   Github,
   ArrowUpRight,
+  MessageCircle,
+  X,
 } from "lucide-react";
 import { profile } from "@/data/content";
 import bilibiliIcon from "@/data/icon/bilibili.png";
@@ -22,6 +25,8 @@ const links = [
 ];
 
 export default function Contact() {
+  const [showWechat, setShowWechat] = useState(false);
+
   return (
     <section
       id="contact"
@@ -50,7 +55,7 @@ export default function Contact() {
           className="flex items-center gap-4"
         >
           <span className="h-px w-12 bg-volt-400" />
-          <span className="eyebrow">/ 04 — Let's Connect</span>
+          <span className="eyebrow">/ 06 — Let's Connect</span>
         </motion.div>
       </div>
 
@@ -78,18 +83,66 @@ export default function Contact() {
           Create<span className="text-volt-400">.</span>
         </motion.h2>
 
-        <motion.a
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease, delay: 0.35 }}
-          href={`mailto:${profile.contacts.email}`}
-          className="btn-ghost mt-10"
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          发送邮件
-          <ArrowUpRight className="h-4 w-4" />
-        </motion.a>
+          <a href={`mailto:${profile.contacts.email}`} className="btn-ghost">
+            发送邮件
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+          {/* 发起合作 · 微信二维码 */}
+          <button
+            type="button"
+            onClick={() => setShowWechat((v) => !v)}
+            onMouseEnter={() => setShowWechat(true)}
+            onMouseLeave={() => setShowWechat(false)}
+            className="btn-ghost flex items-center gap-2"
+          >
+            <MessageCircle className="h-4 w-4" />
+            发起合作
+          </button>
+        </motion.div>
       </div>
+
+      {/* 微信二维码浮层 — 固定在屏幕右侧 */}
+      <AnimatePresence>
+        {showWechat && (
+          <motion.div
+            key="wechat-qr"
+            initial={{ opacity: 0, scale: 0.6, x: 40 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.6, x: 40 }}
+            transition={{ type: "spring", stiffness: 260, damping: 22 }}
+            className="fixed right-6 top-1/2 z-50 -translate-y-1/2 md:right-10"
+          >
+            <div className="relative border border-volt-400/30 bg-ink-900/95 p-4 backdrop-blur-md shadow-2xl">
+              {/* 关闭按钮 */}
+              <button
+                type="button"
+                onClick={() => setShowWechat(false)}
+                className="absolute -right-2 -top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-ink-600 bg-ink-850 text-mist-400 transition-colors hover:text-volt-400"
+              >
+                <X className="h-3 w-3" />
+              </button>
+              <p className="mb-2 text-center font-mono text-[10px] uppercase tracking-widest text-volt-400">
+                / 微信合作
+              </p>
+              <div className="relative h-64 w-64 overflow-hidden border border-ink-700">
+                <img
+                  src={profile.contacts.wechatQr}
+                  alt="微信二维码"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <p className="mt-2 text-center text-xs text-mist-300">扫码添加微信</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 底部联系方式网格 */}
       <div className="shell relative z-10">

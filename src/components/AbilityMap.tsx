@@ -32,7 +32,7 @@ export default function AbilityMap() {
           className="mb-16 flex items-end justify-between"
         >
           <div>
-            <span className="eyebrow">/ 02 — Ability Map</span>
+            <span className="eyebrow">/ 03 — Ability Map</span>
             <h2 className="mt-4 font-display text-5xl font-bold tracking-tighter text-mist-50 md:text-7xl">
               能力地图
             </h2>

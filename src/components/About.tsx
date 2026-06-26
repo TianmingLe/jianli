@@ -4,16 +4,12 @@ import {
   Mail,
   Github,
   GraduationCap,
-  Compass,
-  Rocket,
-  Flag,
   Building2,
 } from "lucide-react";
 import {
   profile,
   basicInfo,
   education,
-  careerPlan,
   internships,
 } from "@/data/content";
 import bilibiliIcon from "@/data/icon/bilibili.png";
@@ -29,12 +25,6 @@ const contactLinks = [
   { iconSrc: bilibiliIcon, label: "Bilibili", value: "12K+ 粉丝", href: profile.contacts.bilibili },
   { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
   { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
-];
-
-const planMeta = [
-  { key: "short", label: "短期目标", en: "Short-term", icon: Compass, period: "1 — 3 年", items: careerPlan.short },
-  { key: "mid", label: "中期目标", en: "Mid-term", icon: Rocket, period: "3 — 5 年", items: careerPlan.mid },
-  { key: "long", label: "长期目标", en: "Long-term", icon: Flag, period: "5 — 10 年", items: careerPlan.long },
 ];
 
 export default function About() {
@@ -78,7 +68,7 @@ export default function About() {
               <img
                 src={profile.avatar}
                 alt={profile.name}
-                className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-transparent" />
               <div className="absolute left-4 top-4 flex items-center gap-2 border border-ink-600/60 bg-ink-950/60 px-3 py-1.5 backdrop-blur">
@@ -217,58 +207,6 @@ export default function About() {
             </div>
           ))}
         </motion.div>
-
-        {/* 职业规划 */}
-        <div className="mt-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease }}
-            className="mb-10"
-          >
-            <span className="eyebrow">/ Career Plan</span>
-            <h3 className="mt-3 font-display text-3xl font-bold tracking-tighter text-mist-50 md:text-4xl">
-              职业规划
-            </h3>
-          </motion.div>
-          <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 md:grid-cols-3">
-            {planMeta.map((p, i) => (
-              <motion.div
-                key={p.key}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, ease, delay: i * 0.1 }}
-                className="group bg-ink-900 p-7 transition-colors hover:bg-ink-850"
-              >
-                <div className="flex items-center justify-between">
-                  <p.icon className="h-6 w-6 text-volt-400" />
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-                    {p.period}
-                  </span>
-                </div>
-                <p className="mt-5 font-display text-xl font-bold text-mist-50">
-                  {p.label}
-                </p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-                  {p.en}
-                </p>
-                <ul className="mt-5 space-y-2.5">
-                  {p.items.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-2 text-xs leading-relaxed text-mist-300"
-                    >
-                      <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-volt-400" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
 
         {/* 实习经历 */}
         <div className="mt-24">

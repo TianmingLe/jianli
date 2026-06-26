@@ -34,7 +34,7 @@ export default function Strengths() {
           className="mb-20 flex items-end justify-between"
         >
           <div>
-            <span className="eyebrow">/ 06 — Core Edge</span>
+            <span className="eyebrow">/ 05 — Core Edge</span>
             <h2 className="mt-4 font-display text-5xl font-bold tracking-tighter text-mist-50 md:text-7xl">
               核心竞争力
             </h2>

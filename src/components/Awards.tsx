@@ -1,15 +1,85 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Award,
   Languages,
   Car,
   Plane,
   Trophy,
+  X,
+  ChevronLeft,
+  ChevronRight,
   type LucideIcon,
 } from "lucide-react";
 import { awards, certificates } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+/* 全局图片放大查看器 */
+function ImageLightbox({
+  images,
+  startIndex,
+  onClose,
+}: {
+  images: string[];
+  startIndex: number;
+  onClose: () => void;
+}) {
+  const [idx, setIdx] = useState(startIndex);
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-950/90 backdrop-blur-md"
+      onClick={onClose}
+      onDoubleClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+      >
+        <X className="h-5 w-5" />
+      </button>
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); }}
+            className="absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIdx((i) => (i + 1) % images.length); }}
+            className="absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-ink-600 text-mist-300 hover:text-volt-400"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+        </>
+      )}
+      <img
+        src={images[idx]}
+        alt="放大查看"
+        className="max-h-[85vh] max-w-[85vw] object-contain"
+        onClick={(e) => e.stopPropagation()}
+        onDoubleClick={(e) => { e.stopPropagation(); onClose(); }}
+      />
+      {images.length > 1 && (
+        <span className="absolute bottom-6 font-mono text-xs text-mist-500">
+          {idx + 1} / {images.length}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/* 图片双击放大 hook */
+function useImageZoom() {
+  const [state, setState] = useState<{ images: string[]; index: number } | null>(null);
+  const open = (images: string[], index = 0) => setState({ images, index });
+  const close = () => setState(null);
+  return { state, open, close };
+}
 
 const certIcons: Record<string, LucideIcon> = {
   Languages,
@@ -18,15 +88,82 @@ const certIcons: Record<string, LucideIcon> = {
   Award,
 };
 
-const levelStyle: Record<string, string> = {
-  省级一等奖: "border-volt-400/60 text-volt-400 bg-volt-400/5",
-  校级二等奖: "border-mist-500/60 text-mist-300 bg-mist-500/5",
-  参赛认证: "border-mist-500/60 text-mist-300 bg-mist-500/5",
+// 排名配置：省级一等奖最醒目（金色实心 + 呼吸光晕动效）
+const levelConfig: Record<
+  string,
+  { badge: string; top: boolean; icon: LucideIcon }
+> = {
+  省级一等奖: {
+    badge:
+      "bg-amber-400 text-ink-950 shadow-[0_0_14px_rgba(251,191,36,0.55)]",
+    top: true,
+    icon: Trophy,
+  },
+  校级二等奖: {
+    badge: "border border-amber-300/70 text-amber-200 bg-amber-300/10",
+    top: false,
+    icon: Award,
+  },
+  参赛认证: {
+    badge: "border border-mist-500/50 text-mist-300 bg-mist-500/5",
+    top: false,
+    icon: Award,
+  },
 };
 
+function LevelBadge({ level }: { level: string }) {
+  const cfg = levelConfig[level] ?? {
+    badge: "border border-ink-600 text-mist-300",
+    top: false,
+    icon: Award,
+  };
+  const Icon = cfg.icon;
+  return (
+    <motion.div
+      initial={{ scale: 0.7, opacity: 0, y: 6 }}
+      whileInView={{ scale: 1, opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ type: "spring", stiffness: 380, damping: 15, delay: 0.18 }}
+      className="relative inline-flex w-fit"
+    >
+      {/* 省级一等奖：常驻呼吸光晕 */}
+      {cfg.top && (
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute -inset-1 rounded"
+          animate={{
+            boxShadow: [
+              "0 0 0 0 rgba(251,191,36,0.0)",
+              "0 0 18px 5px rgba(251,191,36,0.5)",
+              "0 0 0 0 rgba(251,191,36,0.0)",
+            ],
+          }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+      <span
+        className={`relative inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-bold tracking-wider ${cfg.badge}`}
+      >
+        <Icon className="h-3.5 w-3.5" />
+        {level}
+      </span>
+    </motion.div>
+  );
+}
+
 export default function Awards() {
+  const zoom = useImageZoom();
   return (
     <section id="awards" className="relative w-full bg-ink-950 py-28 md:py-40">
+      <AnimatePresence>
+        {zoom.state && (
+          <ImageLightbox
+            images={zoom.state.images}
+            startIndex={zoom.state.index}
+            onClose={zoom.close}
+          />
+        )}
+      </AnimatePresence>
       <div className="shell">
         {/* 章节标 */}
         <motion.div
@@ -37,7 +174,7 @@ export default function Awards() {
           className="mb-16 flex items-end justify-between"
         >
           <div>
-            <span className="eyebrow">/ 05 — Awards & Certs</span>
+            <span className="eyebrow">/ 02 — Awards & Certs</span>
             <h2 className="mt-4 font-display text-5xl font-bold tracking-tighter text-mist-50 md:text-7xl">
               获奖与证书
             </h2>
@@ -80,28 +217,14 @@ export default function Awards() {
                     <img
                       src={a.image}
                       alt={a.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-full w-full cursor-zoom-in object-cover transition-transform duration-700 group-hover:scale-105"
+                      onDoubleClick={() => zoom.open(a.gallery ?? [a.image!], 0)}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
-                    {/* 级别标签浮层 */}
-                    <span
-                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest backdrop-blur-sm ${
-                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
-                      }`}
-                    >
-                      {a.level}
-                    </span>
                   </div>
                 ) : (
                   <div className="flex aspect-[4/3] items-center justify-center border-b border-ink-700 bg-ink-850">
                     <Trophy className="h-10 w-10 text-ink-600" />
-                    <span
-                      className={`absolute right-3 top-3 border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
-                        levelStyle[a.level] ?? "border-ink-600 text-mist-300"
-                      }`}
-                    >
-                      {a.level}
-                    </span>
                   </div>
                 )}
 
@@ -113,12 +236,38 @@ export default function Awards() {
                   <p className="mt-2 font-display text-base font-bold leading-tight text-mist-50">
                     {a.title}
                   </p>
-                  <p className="mt-2 flex-1 text-xs leading-relaxed text-mist-300">
+                  <div className="mt-3">
+                    <LevelBadge level={a.level} />
+                  </div>
+                  <p className="mt-3 flex-1 text-xs leading-relaxed text-mist-300">
                     {a.project}
                   </p>
                   <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-mist-500">
                     {a.role}
                   </p>
+                  {/* Gallery 比赛实录 */}
+                  {a.gallery && a.gallery.length > 0 && (
+                    <div className="mt-4 border-t border-ink-700 pt-3">
+                      <p className="mb-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                        / Gallery · 比赛实录
+                      </p>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {a.gallery.map((g, gi) => (
+                          <div
+                            key={gi}
+                            className="relative aspect-square cursor-zoom-in overflow-hidden border border-ink-700"
+                            onDoubleClick={() => zoom.open(a.gallery!, gi)}
+                          >
+                            <img
+                              src={g}
+                              alt={`${a.title} - ${gi + 1}`}
+                              className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -138,7 +287,7 @@ export default function Awards() {
             <span className="eyebrow">/ Certificates</span>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 sm:grid-cols-2 lg:grid-cols-5">
             {certificates.map((c, i) => {
               const Icon = certIcons[c.icon] ?? Award;
               return (
@@ -158,7 +307,8 @@ export default function Awards() {
                       <img
                         src={c.image}
                         alt={c.title}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="h-full w-full cursor-zoom-in object-cover transition-transform duration-700 group-hover:scale-105"
+                        onDoubleClick={() => zoom.open([c.image!])}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
                     </div>

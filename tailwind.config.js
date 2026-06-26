@@ -30,6 +30,11 @@ export default {
           500: "#38BDF8",
           600: "#0EA5E9",
         },
+        amber: {
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FBBF24",
+        },
       },
       fontFamily: {
         display: ['"Syne"', '"Noto Sans SC"', "sans-serif"],
@@ -48,6 +53,7 @@ export default {
         "fade-up": "fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "slow-pan": "slowPan 30s ease-in-out infinite alternate",
         "pulse-soft": "pulseSoft 4s ease-in-out infinite",
+        "ping-slow": "pingSlow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
       keyframes: {
         fadeUp: {
@@ -61,6 +67,10 @@ export default {
         pulseSoft: {
           "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "0.8" },
+        },
+        pingSlow: {
+          "0%": { transform: "scale(1)", opacity: "0.6" },
+          "75%, 100%": { transform: "scale(2)", opacity: "0" },
         },
       },
     },

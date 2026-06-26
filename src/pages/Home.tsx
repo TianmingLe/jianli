@@ -13,9 +13,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
+      <Awards />
       <AbilityMap />
       <Timeline />
-      <Awards />
       <Strengths />
       <Contact />
     </main>

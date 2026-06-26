@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
+import QA from "@/pages/QA";
 import BottomBar from "@/components/BottomBar";
 
 export default function App() {
@@ -9,6 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/qa" element={<QA />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <BottomBar />

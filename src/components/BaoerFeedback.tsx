@@ -6,22 +6,22 @@ import {
   Heart,
   BarChart3,
 } from "lucide-react";
-import audienceAge from "@/data/baoer/《钢铁是怎样炼成的》年龄画像受众.png";
-import pavelData from "@/data/baoer/保尔柯察金数据分析.png";
-import genderDist from "@/data/baoer/观众性别分布.png";
-import audienceProfile from "@/data/baoer/观众画像.png";
-import topicHeat from "@/data/baoer/钢铁是怎样炼成的巨量算数话题热度.png";
-import c1 from "@/data/baoer/评论区1.png";
-import c2 from "@/data/baoer/评论区2.png";
-import c3 from "@/data/baoer/评论区3.png";
-import c4 from "@/data/baoer/评论区4.png";
-import c5 from "@/data/baoer/评论区5.png";
-import c6 from "@/data/baoer/评论区6.png";
-import c7 from "@/data/baoer/评论区7.png";
-import c8 from "@/data/baoer/评论区8.jpg";
-import c10 from "@/data/baoer/评论区10.jpg";
-import c11 from "@/data/baoer/评论区11.jpg";
-import c12 from "@/data/baoer/评论区12.jpg";
+import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.png";
+import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.png";
+import genderDist from "@/data/self-media/baoer/观众性别分布.png";
+import audienceProfile from "@/data/self-media/baoer/观众画像.png";
+import topicHeat from "@/data/self-media/baoer/钢铁是怎样炼成的巨量算数话题热度.png";
+import c1 from "@/data/self-media/baoer/评论区1.png";
+import c2 from "@/data/self-media/baoer/评论区2.png";
+import c3 from "@/data/self-media/baoer/评论区3.png";
+import c4 from "@/data/self-media/baoer/评论区4.png";
+import c5 from "@/data/self-media/baoer/评论区5.png";
+import c6 from "@/data/self-media/baoer/评论区6.png";
+import c7 from "@/data/self-media/baoer/评论区7.png";
+import c8 from "@/data/self-media/baoer/评论区8.jpg";
+import c10 from "@/data/self-media/baoer/评论区10.jpg";
+import c11 from "@/data/self-media/baoer/评论区11.jpg";
+import c12 from "@/data/self-media/baoer/评论区12.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -83,7 +83,7 @@ const comments = [
 
 export default function BaoerFeedback() {
   return (
-    <section className="relative w-full bg-ink-950 py-28 md:py-40">
+    <section id="baoer-feedback" className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40">
       <div className="shell">
         {/* 章节标题 */}
         <motion.div
