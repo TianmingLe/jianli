@@ -604,6 +604,11 @@ export default function Work() {
 
   return (
     <section id="work" className="relative w-full bg-ink-950 py-20 md:py-28">
+      {/* 模糊星空背景 */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center opacity-20 blur-md"
+        style={{ backgroundImage: "url(/星空2.webp)" }}
+      />
       <AnimatePresence>
         {zoom.state && (
           <ImageLightbox
@@ -613,7 +618,7 @@ export default function Work() {
           />
         )}
       </AnimatePresence>
-      <div className="shell">
+      <div className="shell relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
