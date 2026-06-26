@@ -16,6 +16,7 @@ import devConferenceImg from "@/data/xiangmu/2024全球开发者先锋大会参�
 import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
 import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
 import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.png";
+import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -490,7 +491,7 @@ export const projects: Project[] = [
     title: "《钢铁是怎样炼成的》4K 修复",
     category: "Video Restoration / AIGC",
     year: "2025.04 — 2025.05",
-    cover: baoer4kImg,
+    cover: xhsBaoerImg,
     coverFit: "contain",
     keywords: ["视频修复", "4K", "AI 增强", "保尔·柯察金", "内容发布"],
     summary:
