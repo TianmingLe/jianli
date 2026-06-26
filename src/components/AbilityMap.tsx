@@ -134,7 +134,7 @@ export default function AbilityMap() {
                             className="group/img relative overflow-hidden border border-ink-700 bg-ink-900"
                           >
                             <div className="aspect-[4/3] w-full overflow-hidden">
-                              <img
+                              <img loading="lazy" decoding="async"
                                 src={g.src}
                                 alt={g.caption}
                                 className="h-full w-full object-cover opacity-80 transition-all duration-700 group-hover/img:scale-105 group-hover/img:opacity-100"

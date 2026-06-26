@@ -6,22 +6,22 @@ import {
   Heart,
   BarChart3,
 } from "lucide-react";
-import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.png";
-import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.png";
-import genderDist from "@/data/self-media/baoer/观众性别分布.png";
-import audienceProfile from "@/data/self-media/baoer/观众画像.png";
-import topicHeat from "@/data/self-media/baoer/钢铁是怎样炼成的巨量算数话题热度.png";
-import c1 from "@/data/self-media/baoer/评论区1.png";
-import c2 from "@/data/self-media/baoer/评论区2.png";
-import c3 from "@/data/self-media/baoer/评论区3.png";
-import c4 from "@/data/self-media/baoer/评论区4.png";
-import c5 from "@/data/self-media/baoer/评论区5.png";
-import c6 from "@/data/self-media/baoer/评论区6.png";
-import c7 from "@/data/self-media/baoer/评论区7.png";
-import c8 from "@/data/self-media/baoer/评论区8.jpg";
-import c10 from "@/data/self-media/baoer/评论区10.jpg";
-import c11 from "@/data/self-media/baoer/评论区11.jpg";
-import c12 from "@/data/self-media/baoer/评论区12.jpg";
+import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.webp";
+import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.webp";
+import genderDist from "@/data/self-media/baoer/观众性别分布.webp";
+import audienceProfile from "@/data/self-media/baoer/观众画像.webp";
+import topicHeat from "@/data/self-media/baoer/钢铁是怎样炼成的巨量算数话题热度.webp";
+import c1 from "@/data/self-media/baoer/评论区1.webp";
+import c2 from "@/data/self-media/baoer/评论区2.webp";
+import c3 from "@/data/self-media/baoer/评论区3.webp";
+import c4 from "@/data/self-media/baoer/评论区4.webp";
+import c5 from "@/data/self-media/baoer/评论区5.webp";
+import c6 from "@/data/self-media/baoer/评论区6.webp";
+import c7 from "@/data/self-media/baoer/评论区7.webp";
+import c8 from "@/data/self-media/baoer/评论区8.webp";
+import c10 from "@/data/self-media/baoer/评论区10.webp";
+import c11 from "@/data/self-media/baoer/评论区11.webp";
+import c12 from "@/data/self-media/baoer/评论区12.webp";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -155,7 +155,7 @@ export default function BaoerFeedback() {
                   </span>
                 </div>
                 <div className="relative aspect-video w-full overflow-hidden bg-ink-950">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={c.src}
                     alt={c.label}
                     className="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
@@ -234,7 +234,7 @@ export default function BaoerFeedback() {
                   className="shrink-0 snap-start"
                 >
                   <div className="h-[320px] md:h-[420px]">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={c.src}
                       alt={c.label}
                       className="h-full w-auto max-w-none rounded-sm border border-ink-700 object-contain shadow-lg"

@@ -9,9 +9,16 @@ const navItems = [
 
 export default function QA() {
   return (
-    <main className="relative min-h-screen w-full bg-ink-950 pb-20 pt-20 md:pt-24">
-      <PageHeader navItems={navItems} />
-      <QandA />
+    <main className="relative min-h-screen w-full overflow-hidden bg-ink-950 pb-20 pt-20 md:pt-24">
+      {/* 模糊背景图 */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center opacity-30 blur-2xl"
+        style={{ backgroundImage: "url(/qa-bg.webp)" }}
+      />
+      <div className="relative z-10">
+        <PageHeader navItems={navItems} />
+        <QandA />
+      </div>
     </main>
   );
 }

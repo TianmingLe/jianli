@@ -214,7 +214,7 @@ export default function Awards() {
                 {/* 证书图片 */}
                 {a.image ? (
                   <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink-700">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={a.image}
                       alt={a.title}
                       className="h-full w-full cursor-zoom-in object-cover transition-transform duration-700 group-hover:scale-105"
@@ -258,7 +258,7 @@ export default function Awards() {
                             className="relative aspect-square cursor-zoom-in overflow-hidden border border-ink-700"
                             onDoubleClick={() => zoom.open(a.gallery!, gi)}
                           >
-                            <img
+                            <img loading="lazy" decoding="async"
                               src={g}
                               alt={`${a.title} - ${gi + 1}`}
                               className="h-full w-full object-cover opacity-60 transition-all duration-500 hover:opacity-100 hover:scale-110"
@@ -304,7 +304,7 @@ export default function Awards() {
                   {/* 证书图片或图标 */}
                   {c.image ? (
                     <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink-700">
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={c.image}
                         alt={c.title}
                         className="h-full w-full cursor-zoom-in object-cover transition-transform duration-700 group-hover:scale-105"

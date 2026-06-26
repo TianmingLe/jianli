@@ -4,9 +4,13 @@ import { qnaData } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Render text with **bold** markup as styled spans */
+/**
+ * Render text with inline markup:
+ *  - **重点**  → 白色加粗（重点短语）
+ *  - [[关键词]] → 电光蓝高亮（技术 / 工具 / 数值关键词）
+ */
 function RichText({ text }: { text: string }) {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  const parts = text.split(/(\*\*[^*]+\*\*|\[\[[^\]]+\]\])/g);
   return (
     <>
       {parts.map((part, i) => {
@@ -17,6 +21,13 @@ function RichText({ text }: { text: string }) {
             </strong>
           );
         }
+        if (part.startsWith("[[") && part.endsWith("]]")) {
+          return (
+            <span key={i} className="font-semibold text-volt-400">
+              {part.slice(2, -2)}
+            </span>
+          );
+        }
         return <span key={i}>{part}</span>;
       })}
     </>
@@ -25,7 +36,7 @@ function RichText({ text }: { text: string }) {
 
 export default function QandA() {
   return (
-    <section id="qa" className="relative w-full bg-ink-950 py-28 md:py-40">
+    <section id="qa" className="relative w-full bg-transparent py-28 md:py-40">
       <div className="shell">
         {/* 章节标题 */}
         <motion.div
@@ -98,7 +109,7 @@ export default function QandA() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-60px" }}
                       transition={{ duration: 0.6, ease, delay: (sIdx % 2) * 0.1 }}
-                      className="relative bg-ink-900 p-6 transition-colors hover:bg-ink-850 md:p-7"
+                      className="relative bg-ink-900/80 p-6 backdrop-blur-sm transition-colors hover:bg-ink-850/80 md:p-7"
                     >
                       <span className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-volt-400 transition-transform duration-500 group-hover:scale-x-100" />
                       <h4 className="font-display text-lg font-bold tracking-tight text-mist-50">

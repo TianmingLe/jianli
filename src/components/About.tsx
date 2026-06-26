@@ -12,9 +12,9 @@ import {
   education,
   internships,
 } from "@/data/content";
-import bilibiliIcon from "@/data/icon/bilibili.png";
-import xiaohongshuIcon from "@/data/icon/xiaohongshu.png";
-import douyinIcon from "@/data/icon/douyin.png";
+import bilibiliIcon from "@/data/icon/bilibili.webp";
+import xiaohongshuIcon from "@/data/icon/xiaohongshu.webp";
+import douyinIcon from "@/data/icon/douyin.webp";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -22,7 +22,7 @@ const contactLinks = [
   { icon: Phone, label: "Phone", value: profile.contacts.phone, href: `tel:${profile.contacts.phone}` },
   { icon: Mail, label: "Email", value: profile.contacts.email, href: `mailto:${profile.contacts.email}` },
   { icon: Github, label: "GitHub", value: "TianmingLe", href: profile.contacts.github },
-  { iconSrc: bilibiliIcon, label: "Bilibili", value: "12K+ 粉丝", href: profile.contacts.bilibili },
+  { iconSrc: bilibiliIcon, label: "Bilibili", value: "11K+ 粉丝", href: profile.contacts.bilibili },
   { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
   { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
 ];
@@ -164,7 +164,7 @@ export default function About() {
                     className="group flex items-center gap-3 bg-ink-900 p-4 transition-colors hover:bg-ink-800"
                   >
                     {"iconSrc" in c ? (
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={c.iconSrc}
                         alt={c.label}
                         className="h-4 w-4 shrink-0 rounded-sm object-contain"
@@ -236,7 +236,7 @@ export default function About() {
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center overflow-hidden border border-ink-600 text-mist-300 transition-colors group-hover:border-volt-400 group-hover:text-volt-400">
                       {intern.icon ? (
-                        <img
+                        <img loading="lazy" decoding="async"
                           src={intern.icon}
                           alt={intern.company}
                           className="h-8 w-8 object-contain"
