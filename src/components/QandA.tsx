@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
 import { qnaData } from "@/data/content";
 import BorderGlow from "./BorderGlow";
+import BlurText from "./BlurText";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -175,6 +176,17 @@ export default function QandA() {
               </BorderGlow>
             </motion.article>
           ))}
+        </div>
+
+        {/* 底部 BlurText 标语 */}
+        <div className="mt-24 flex justify-center md:mt-32">
+          <BlurText
+            text="Work With YW—未来已来"
+            animateBy="words"
+            direction="top"
+            delay={150}
+            className="text-center font-display text-4xl font-bold tracking-tight text-mist-50 md:text-6xl"
+          />
         </div>
       </div>
     </section>
