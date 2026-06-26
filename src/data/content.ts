@@ -17,6 +17,7 @@ import msReactorImg from "@/data/xiangmu/微软 Reactor线下聚会.jpg";
 import selfieImg from "@/data/Profile Picture/角度自拍 (9).jpeg";
 import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.png";
 import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
+import promptEngineeringImg from "@/data/xiangmu/提示词工程.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -441,7 +442,7 @@ export const projects: Project[] = [
     title: "AI 提示工程与智能体开发",
     category: "Prompt 工程 / Agent 架构 / 工作流",
     year: "2024 — 2026",
-    cover: IMG("dark abstract prompt engineering concept, flowing text fragments transforming into structured data, cyan glow on black, minimal premium tech aesthetic", "landscape_16_9"),
+    cover: promptEngineeringImg,
     keywords: ["Prompt 工程", "思路链", "Few-shot", "Agent 架构", "ComfyUI", "n8n"],
     summary:
       "精通 Prompt 工程师技能，熟练运用思路链提示、小样本学习、系统提示等多种框架；具备 Agent 架构师能力，能搭建各类 Agent 智能体；熟悉 ComfyUI 及 n8n 工作流，会编写对应的 Skills 及 MCP。",
