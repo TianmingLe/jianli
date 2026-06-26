@@ -143,13 +143,15 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
       {/* 封面：奇数项在左，偶数项在右 */}
       <div
         className={`relative aspect-[16/10] w-full overflow-hidden md:aspect-auto ${
-          reversed ? "md:order-2 md:col-span-4" : "md:order-1 md:col-span-4"
+          reversed ? "md:order-2 md:col-span-5" : "md:order-1 md:col-span-5"
         }`}
       >
         <img
           src={p.cover}
           alt={p.title}
-          className={`h-full w-full ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+          className={`h-full w-full ${fitClass(p)} ${
+            p.coverFit === "contain" ? "p-4" : ""
+          } opacity-80 transition-transform duration-700 group-hover:scale-105`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
         <span
@@ -163,7 +165,7 @@ function AIAlternateItem({ p, i }: { p: Project; i: number }) {
       {/* 信息面板 */}
       <div
         className={`flex flex-col p-4 md:p-6 ${
-          reversed ? "md:order-1 md:col-span-8" : "md:order-2 md:col-span-8"
+          reversed ? "md:order-1 md:col-span-7" : "md:order-2 md:col-span-7"
         }`}
       >
         <div className="flex items-center gap-3">

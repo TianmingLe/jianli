@@ -25,6 +25,8 @@ import artPhoto3 from "@/data/self-media/艺术照片3.webp";
 import artPhoto4 from "@/data/self-media/艺术照片4.png";
 import artPhoto5 from "@/data/self-media/艺术作品5.png";
 import xhsQingcaoImg2 from "@/data/self-media/baoer/小红书青草计划图片二.jpeg";
+import englishCompetitionImg from "@/data/self-media/baoer/英语比赛.png";
+import englishCompetitionVideoImg from "@/data/self-media/baoer/英语比赛视频展示.png";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -585,7 +587,7 @@ export const timeline = [
       { month: "01", title: "自媒体创号", desc: "小红书首月斩获 1000+ 粉丝", image: xhsHomeImg },
       { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduCampusAmbassadorImg },
       { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记", image: internlmImg },
-      { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: baiduContentCertImg },
+      { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: englishCompetitionVideoImg },
       { month: "—", title: "全年自媒体", desc: "抖音 1600+ / 小红书 3000+ / B 站 800+" },
     ],
   },
@@ -659,7 +661,7 @@ export const awards = [
     level: "校级二等奖",
     role: "核心成员（3人）",
     project: "负责视频创意与制作",
-    image: "",
+    image: englishCompetitionImg,
   },
 ];
 
@@ -680,6 +682,7 @@ export const certificates = [
   },
   { id: "c03", icon: "Languages", title: "大学英语四级证书", desc: "CET-4，英语读写能力", image: cet4Img },
   { id: "c04", icon: "Car", title: "机动车驾驶证", desc: "C1，便于工程现场调研", image: driverLicenseImg },
+  { id: "c05", icon: "Award", title: "百度网盘校园大使", desc: "技术推广 & 小红书宣传大使", image: baiduCampusAmbassadorImg },
 ];
 
 /* ============================== 实习经历 ============================== */
