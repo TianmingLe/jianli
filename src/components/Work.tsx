@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, Zap } from "lucide-react";
 import { projects, Project } from "@/data/content";
 
@@ -15,7 +14,7 @@ function fitClass(p: Project) {
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
 function EnergyGrid({ items }: { items: Project[] }) {
   return (
-    <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
+    <div className="flex flex-col gap-4 md:gap-6">
       {items.map((p, i) => (
         <EnergyCard key={p.id} p={p} i={i} />
       ))}
@@ -24,111 +23,85 @@ function EnergyGrid({ items }: { items: Project[] }) {
 }
 
 function EnergyCard({ p, i }: { p: Project; i: number }) {
-  const [hovered, setHovered] = useState(false);
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease, delay: i * 0.08 }}
-      className="group relative bg-ink-900 transition-colors hover:bg-ink-850"
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      className="group relative overflow-hidden border border-ink-700 bg-ink-900 md:grid md:grid-cols-12"
     >
-      {/* 顶部：序号 + 封面缩略 + 年份 */}
-      <div className="flex items-stretch border-b border-ink-700">
-        <div className="flex w-16 shrink-0 flex-col items-center justify-center border-r border-ink-700 bg-ink-850 p-2">
-          <span className="font-display text-2xl font-bold tracking-tighter text-mist-50/30 transition-colors group-hover:text-volt-400 md:text-3xl">
-            {p.index}
+      {/* 左：封面（占 4/12） */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden md:col-span-4 md:aspect-auto">
+        <img
+          src={p.cover}
+          alt={p.title}
+          className={`h-full w-full ${fitClass(p)} opacity-80 transition-transform duration-700 group-hover:scale-105`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
+        <span className="absolute left-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
+          {p.index}
+        </span>
+      </div>
+      {/* 右：信息面板（占 8/12） */}
+      <div className="flex flex-col p-4 md:col-span-8 md:p-6">
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
+            {p.category}
           </span>
-        </div>
-        <div className="relative h-20 flex-1 overflow-hidden">
-          <img
-            src={p.cover}
-            alt={p.title}
-            className={`h-full w-full ${fitClass(p)} opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-80`}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-900/80 to-transparent" />
-          <span className="absolute right-3 top-2 font-mono text-[10px] uppercase tracking-widest text-mist-400">
+          <span className="h-px flex-1 bg-volt-400/30" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-mist-400">
             {p.year}
           </span>
         </div>
-      </div>
-      {/* 主体（默认展示） */}
-      <div className="p-5">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
-          {p.category}
-        </p>
-        <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
+        <h3 className="mt-2 font-display text-xl font-bold leading-tight tracking-tight text-mist-50 md:text-2xl">
           {p.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-amber-200/80">
-          {p.summary}
+        {/* 概要 */}
+        <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+          / 概要 · What it does
         </p>
-        <div className="mt-3 flex flex-wrap gap-1">
-          {p.achievements.slice(0, 2).map((a, idx) => (
-            <span
-              key={idx}
-              className="border border-ink-600 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-mist-300"
-            >
-              {a.length > 24 ? a.slice(0, 22) + "…" : a}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Hover 浮层：Framer Motion 丝滑淡入 + 微缩放 */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.35, ease }}
-            className="pointer-events-none absolute inset-0 z-10 flex flex-col overflow-y-auto bg-ink-900/97 p-5 backdrop-blur-sm"
-          >
-            <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
-              {p.category}
-            </p>
-            <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
-              {p.title}
-            </h3>
-            {/* 概要：项目做了什么 */}
-            <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / 概要 · What it does
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
-            {/* 电厂价值 */}
-            <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
-              <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
-            {/* 成果 */}
-            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / Achievements
-            </p>
-            <ul className="mt-1.5 space-y-1">
-              {p.achievements.map((a, idx) => (
-                <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
-                  <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
-                  {a}
-                </li>
-              ))}
-            </ul>
-            {/* 技术栈 */}
-            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+        <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
+        {/* 电厂价值 */}
+        <p className="mt-2 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
+          <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
+        {/* 技术栈 + 成果：横向并排 */}
+        <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end">
+          <div className="flex-1">
+            <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
               / Stack
             </p>
             <div className="mt-1.5 flex flex-wrap gap-1">
               {p.stack.map((s) => (
-                <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                <span
+                  key={s}
+                  className="border border-volt-400/40 bg-volt-400/5 px-1.5 py-0.5 text-[9px] text-volt-200"
+                >
                   {s}
                 </span>
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+          <div className="flex-1">
+            <p className="font-mono text-[9px] uppercase tracking-widest text-mist-700">
+              / Achievements
+            </p>
+            <ul className="mt-1.5 space-y-0.5">
+              {p.achievements.slice(0, 3).map((a, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-200"
+                >
+                  <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                  <span>{a}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </motion.article>
   );
 }
