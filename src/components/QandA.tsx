@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle } from "lucide-react";
-import { qnaData } from "@/data/content";
+import { HelpCircle, Phone, Mail, Github, ArrowUpRight } from "lucide-react";
+import { qnaData, profile } from "@/data/content";
 import BorderGlow from "./BorderGlow";
 import BlurText from "./BlurText";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const EMAIL = "1767976037@qq.com";
+const EMAIL = profile.contacts.email;
 
 /**
  * Render text with inline markup:
@@ -267,7 +267,7 @@ export default function QandA() {
           })}
         </div>
 
-        {/* 底部 BlurText 标语 + CTA */}
+        {/* 底部 BlurText 标语 + 胶囊联系方式 */}
         <div className="mt-24 flex flex-col items-center md:mt-32">
           <BlurText
             text="Work With YW—未来已来"
@@ -276,13 +276,41 @@ export default function QandA() {
             delay={150}
             className="text-center font-display text-4xl font-bold tracking-tight text-mist-50 md:text-6xl"
           />
-          <button
-            onClick={handleCopyEmail}
-            className="btn-ghost mt-10 cursor-pointer"
-          >
-            <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-volt-400" />
-            开始合作
-          </button>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            {/* 电话 */}
+            <a
+              href={`tel:${profile.contacts.phone}`}
+              className="group flex items-center gap-2.5 rounded-full border border-ink-600 bg-ink-900/80 px-5 py-2.5 transition-all duration-300 hover:border-volt-400/50 hover:bg-ink-850"
+            >
+              <Phone className="h-4 w-4 text-mist-500 transition-colors group-hover:text-volt-400" />
+              <span className="font-mono text-xs tracking-wider text-mist-300 group-hover:text-mist-50">
+                {profile.contacts.phone}
+              </span>
+            </a>
+            {/* 邮箱 —— 点击复制 */}
+            <button
+              onClick={handleCopyEmail}
+              className="group flex cursor-pointer items-center gap-2.5 rounded-full border border-ink-600 bg-ink-900/80 px-5 py-2.5 transition-all duration-300 hover:border-volt-400/50 hover:bg-ink-850"
+            >
+              <Mail className="h-4 w-4 text-mist-500 transition-colors group-hover:text-volt-400" />
+              <span className="font-mono text-xs tracking-wider text-mist-300 group-hover:text-mist-50">
+                {EMAIL}
+              </span>
+            </button>
+            {/* GitHub */}
+            <a
+              href={profile.contacts.github}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center gap-2.5 rounded-full border border-ink-600 bg-ink-900/80 px-5 py-2.5 transition-all duration-300 hover:border-volt-400/50 hover:bg-ink-850"
+            >
+              <Github className="h-4 w-4 text-mist-500 transition-colors group-hover:text-volt-400" />
+              <span className="font-mono text-xs tracking-wider text-mist-300 group-hover:text-mist-50">
+                GitHub
+              </span>
+              <ArrowUpRight className="h-3 w-3 text-mist-700 transition-colors group-hover:text-volt-400" />
+            </a>
+          </div>
         </div>
       </div>
 
