@@ -15,7 +15,7 @@ function fitClass(p: Project) {
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
 function EnergyGrid({ items }: { items: Project[] }) {
   return (
-    <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
+    <div className="grid grid-cols-1 items-start gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
       {items.map((p, i) => (
         <EnergyCard key={p.id} p={p} i={i} />
       ))}
@@ -77,54 +77,45 @@ function EnergyCard({ p, i }: { p: Project; i: number }) {
         </div>
       </div>
 
-      {/* Hover 浮层：Framer Motion 丝滑淡入 + 微缩放 */}
-      <AnimatePresence>
+      {/* Hover 展开详情：高度自适应增长，不再被卡片高度限制 */}
+      <AnimatePresence initial={false}>
         {hovered && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.35, ease }}
-            className="pointer-events-none absolute inset-0 z-10 flex flex-col overflow-y-auto bg-ink-900/97 p-5 backdrop-blur-sm"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease }}
+            className="overflow-hidden border-t border-ink-700"
           >
-            <p className="font-mono text-[10px] uppercase tracking-widest text-volt-400">
-              {p.category}
-            </p>
-            <h3 className="mt-2 font-display text-base font-bold leading-tight text-mist-50 md:text-lg">
-              {p.title}
-            </h3>
-            {/* 概要：项目做了什么 */}
-            <p className="mt-2 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / 概要 · What it does
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-amber-200">{p.summary}</p>
-            {/* 电厂价值 */}
-            <p className="mt-3 flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
-              <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
-            {/* 成果 */}
-            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / Achievements
-            </p>
-            <ul className="mt-1.5 space-y-1">
-              {p.achievements.map((a, idx) => (
-                <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
-                  <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
-                  {a}
-                </li>
-              ))}
-            </ul>
-            {/* 技术栈 */}
-            <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-mist-700">
-              / Stack
-            </p>
-            <div className="mt-1.5 flex flex-wrap gap-1">
-              {p.stack.map((s) => (
-                <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
-                  {s}
-                </span>
-              ))}
+            <div className="bg-ink-850/50 p-5">
+              {/* 电厂价值 */}
+              <p className="flex items-center gap-1 font-mono text-[9px] uppercase tracking-widest text-volt-400">
+                <Zap className="h-2.5 w-2.5" /> / 电厂价值 · Power Value
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-volt-200">{p.valueToPower}</p>
+              {/* 成果 */}
+              <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / Achievements
+              </p>
+              <ul className="mt-1.5 space-y-1.5">
+                {p.achievements.map((a, idx) => (
+                  <li key={idx} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-mist-300">
+                    <Check className="mt-0.5 h-2.5 w-2.5 shrink-0 text-volt-400" />
+                    {a}
+                  </li>
+                ))}
+              </ul>
+              {/* 技术栈 */}
+              <p className="mt-4 font-mono text-[9px] uppercase tracking-widest text-mist-700">
+                / Stack
+              </p>
+              <div className="mt-1.5 flex flex-wrap gap-1">
+                {p.stack.map((s) => (
+                  <span key={s} className="border border-ink-600 px-1.5 py-0.5 text-[9px] text-mist-300">
+                    {s}
+                  </span>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
