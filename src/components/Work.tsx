@@ -15,7 +15,7 @@ function fitClass(p: Project) {
 /* ============================ 分区一：能动技术 · 数据网格 ============================ */
 function EnergyGrid({ items }: { items: Project[] }) {
   return (
-    <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-px border border-ink-700 bg-ink-700 lg:grid-cols-2">
       {items.map((p, i) => (
         <EnergyCard key={p.id} p={p} i={i} />
       ))}
