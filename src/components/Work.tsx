@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Zap } from "lucide-react";
 import { projects, Project } from "@/data/content";
+import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -357,7 +358,7 @@ function MediaFeature({ items }: { items: Project[] }) {
               alt={p.title}
               className={`h-full w-full ${fitClass(p)} transition-transform duration-700 group-hover:scale-105`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent md:bg-gradient-to-r" />
+            <img src={xhsBaoerImg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
             <span className="absolute right-4 top-3 font-display text-5xl font-bold tracking-tighter text-mist-50/15 drop-shadow-2xl md:text-6xl">
               {p.index}
             </span>
