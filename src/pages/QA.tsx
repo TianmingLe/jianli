@@ -26,20 +26,21 @@ export default function QA() {
       {/* 滚动视差背景 —— 顶部对应长图顶部，底部对应长图底部 */}
       <ScrollParallaxBg image="/qa-bg.webp" className="opacity-25" />
       <div className="relative z-10">
-        {/* 挂绳工牌 3D 互动 —— 正面默认纹理，背面正装照 */}
-        <ErrorBoundary>
-          <Suspense fallback={<LanyardSkeleton />}>
-            <Lanyard
-              position={[0, 0, 20]}
-              gravity={[0, -40, 0]}
-              backImage="/正面照2.webp"
-              imageFit="cover"
-              lanyardWidth={0.55}
-            />
-          </Suspense>
-        </ErrorBoundary>
         <PageHeader navItems={navItems} />
-        <QandA />
+        <QandA>
+          {/* 挂绳工牌 3D 互动 —— 正面默认纹理，背面正装照；置于底部「Work With YW」标语前 */}
+          <ErrorBoundary>
+            <Suspense fallback={<LanyardSkeleton />}>
+              <Lanyard
+                position={[0, 0, 20]}
+                gravity={[0, -40, 0]}
+                backImage="/正面照2.webp"
+                imageFit="cover"
+                lanyardWidth={0.55}
+              />
+            </Suspense>
+          </ErrorBoundary>
+        </QandA>
       </div>
     </main>
   );

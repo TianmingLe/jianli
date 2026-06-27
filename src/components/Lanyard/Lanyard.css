@@ -1,27 +1,21 @@
 .lanyard-wrapper {
-  position: fixed;
-  /* 顶部对齐「常见问题」标题：PageHeader + main pt + section py + eyebrow */
-  top: 13rem;
-  left: 50%;
-  transform: translateX(-50%);
-  /* z 高于常见问题内容层(z-10)，低于右侧导航(z-30) */
-  z-index: 20;
+  /* 文档流定位：随页面滚动，置于底部「Work With YW」标语前 */
+  position: relative;
   width: 100%;
   max-width: 640px;
   height: 60vh;
   min-height: 420px;
   max-height: 640px;
+  margin-left: auto;
+  margin-right: auto;
   /* 不裁切：拖拽时卡片可飞出画布范围 */
   overflow: visible;
-  transform-origin: center;
   pointer-events: none;
 }
 
 /* R3F 的 ResizeObserver 测量此 host 作为画布尺寸基准 */
 .lanyard-canvas-host {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   /* 仅画布区域接收交互，wrapper 其余区域穿透到下层内容 */
@@ -32,15 +26,8 @@
   display: block;
 }
 
-@media (min-width: 768px) {
-  .lanyard-wrapper {
-    top: 18.5rem;
-  }
-}
-
 @media (max-width: 768px) {
   .lanyard-wrapper {
-    top: 11rem;
     height: 40vh;
     min-height: 300px;
   }

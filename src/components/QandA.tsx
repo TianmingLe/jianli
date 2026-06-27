@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HelpCircle, Phone, Mail, Github, ArrowUpRight } from "lucide-react";
 import { qnaData, profile } from "@/data/content";
@@ -68,7 +68,7 @@ function fallbackCopy(text: string) {
   document.body.removeChild(ta);
 }
 
-export default function QandA() {
+export default function QandA({ children }: { children?: ReactNode }) {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [showToast, setShowToast] = useState(false);
 
@@ -286,6 +286,9 @@ export default function QandA() {
             );
           })}
         </div>
+
+        {/* 挂绳工牌 3D 互动 —— 插槽注入，置于底部标语前 */}
+        {children}
 
         {/* 底部 BlurText 标语 + 胶囊联系方式 */}
         <div className="mt-24 flex flex-col items-center md:mt-32">
