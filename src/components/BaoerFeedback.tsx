@@ -91,6 +91,16 @@ const bounceImages = [
   comments[9].src,
 ];
 const bounceTransforms = [
+  "rotate(10deg) translate(-170px)",
+  "rotate(5deg) translate(-85px)",
+  "rotate(-3deg)",
+  "rotate(-10deg) translate(85px)",
+  "rotate(2deg) translate(170px)",
+];
+
+// 数据洞察 BounceCards 展示
+const chartBounceImages = charts.map((c) => c.src);
+const chartBounceTransforms = [
   "rotate(5deg) translate(-150px)",
   "rotate(0deg) translate(-70px)",
   "rotate(-5deg)",
@@ -155,31 +165,18 @@ export default function BaoerFeedback() {
               / 数据洞察
             </h3>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {charts.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, ease, delay: i * 0.06 }}
-                className="group overflow-hidden border border-ink-700 bg-ink-900"
-              >
-                <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
-                  <c.icon className="h-3.5 w-3.5 text-volt-400" />
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-                    {c.label}
-                  </span>
-                </div>
-                <div className="relative aspect-video w-full overflow-hidden bg-ink-950">
-                  <img loading="lazy" decoding="async"
-                    src={c.src}
-                    alt={c.label}
-                    className="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
-                  />
-                </div>
-              </motion.div>
-            ))}
+          <div className="flex w-full justify-center overflow-hidden py-4">
+            <BounceCards
+              className="custom-bounceCards"
+              images={chartBounceImages}
+              containerWidth={500}
+              containerHeight={250}
+              animationDelay={1.4}
+              animationStagger={0.12}
+              easeType="elastic.out(1, 0.5)"
+              transformStyles={chartBounceTransforms}
+              enableHover
+            />
           </div>
         </motion.div>
 
@@ -245,11 +242,10 @@ export default function BaoerFeedback() {
 
           <div className="flex w-full justify-center overflow-hidden py-4">
             <BounceCards
-              className="custom-bounceCards"
               images={bounceImages}
-              containerWidth={500}
-              containerHeight={250}
-              animationDelay={1.4}
+              containerWidth={520}
+              containerHeight={300}
+              animationDelay={0.4}
               animationStagger={0.12}
               easeType="elastic.out(1, 0.5)"
               transformStyles={bounceTransforms}
