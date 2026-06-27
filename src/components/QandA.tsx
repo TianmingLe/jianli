@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle, Phone, Mail, Github, ArrowUpRight } from "lucide-react";
+import { HelpCircle, Phone, Mail, Github, ArrowUpRight, Hand } from "lucide-react";
 import { qnaData, profile } from "@/data/content";
 import BorderGlow from "./BorderGlow";
 import BlurText from "./BlurText";
@@ -71,6 +71,30 @@ function fallbackCopy(text: string) {
 export default function QandA({ children }: { children?: ReactNode }) {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [showToast, setShowToast] = useState(false);
+
+  // 挂绳工牌拖拽提示 —— 进入视口后只弹一次，渐入渐出
+  const [showDragHint, setShowDragHint] = useState(false);
+  const lanyardRef = useRef<HTMLDivElement>(null);
+  const hintShownRef = useRef(false);
+
+  useEffect(() => {
+    const el = lanyardRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hintShownRef.current) {
+          hintShownRef.current = true;
+          setShowDragHint(true);
+          const t = setTimeout(() => setShowDragHint(false), 4000);
+          io.disconnect();
+          return () => clearTimeout(t);
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     // 缓存 Q&A 元素引用，避免每次滚动都 getElementById（触发布局查询）
@@ -298,7 +322,26 @@ export default function QandA({ children }: { children?: ReactNode }) {
         </div>
 
         {/* 挂绳工牌 3D 互动 —— 插槽注入，置于底部标语前 */}
-        {children}
+        <div ref={lanyardRef} className="relative">
+          {children}
+          {/* 拖拽提示弹窗 —— 仅触发一次，渐入渐出 */}
+          <AnimatePresence>
+            {showDragHint && (
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.85 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.85 }}
+                transition={{ duration: 0.6, ease }}
+                className="pointer-events-none absolute left-1/2 top-[28%] z-40 flex -translate-x-1/2 items-center gap-3 rounded-full border border-volt-400/30 bg-ink-900/90 px-6 py-3 backdrop-blur-md"
+              >
+                <Hand className="h-4 w-4 animate-pulse-soft text-volt-400" />
+                <span className="font-mono text-xs tracking-wider text-mist-50">
+                  按住工牌拖拽试试看
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* 底部 BlurText 标语 + 胶囊联系方式 */}
         <div className="mt-24 flex flex-col items-center md:mt-32">
