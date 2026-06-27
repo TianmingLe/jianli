@@ -7,22 +7,54 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("hero");
 
+  // 滚动状态：仅用一个轻量 scroll 监听判定是否过阈值，
+  // 且只在布尔值真正翻转时 setState，避免每帧无意义重渲染。
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-      const sections = navItems.map((n) => document.getElementById(n.id));
-      const y = window.scrollY + window.innerHeight / 3;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const s = sections[i];
-        if (s && s.offsetTop <= y) {
-          setActive(navItems[i].id);
-          break;
-        }
-      }
+      const next = window.scrollY > 40;
+      setScrolled((prev) => (prev === next ? prev : next));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // 当前高亮板块：用 IntersectionObserver 让板块自己报到，
+  // 替代原先每帧查询 offsetTop 的强制布局同步（layout thrashing）。
+  useEffect(() => {
+    const ids = navItems.map((n) => n.id);
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const visible = new Map<string, number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          visible.set(entry.target.id, entry.intersectionRatio);
+        }
+        // 选可见度最高的板块作为当前高亮
+        let bestId: string | null = null;
+        let bestRatio = -1;
+        for (const [id, ratio] of visible) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        }
+        if (bestId && bestRatio > 0) setActive(bestId);
+      },
+      {
+        // 以视口上 1/3 为活跃判定区域
+        rootMargin: "-33% 0px -55% 0px",
+        threshold: [0, 0.1, 0.25, 0.5, 1],
+      }
+    );
+
+    sections.forEach((s) => io.observe(s));
+    return () => io.disconnect();
   }, []);
 
   return (

@@ -30,17 +30,17 @@ const ClickSpark = ({
 }: ClickSparkProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
-  const startTimeRef = useRef<number | null>(null);
+  const animationIdRef = useRef<number | null>(null);
+  const startLoopRef = useRef<() => void>(() => {});
 
+  // 画布尺寸：随父容器变化，但只在必要时调整
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const parent = canvas.parentElement;
     if (!parent) return;
 
     let resizeTimeout: ReturnType<typeof setTimeout>;
-
     const resizeCanvas = () => {
       const { width, height } = parent.getBoundingClientRect();
       if (canvas.width !== width || canvas.height !== height) {
@@ -48,17 +48,13 @@ const ClickSpark = ({
         canvas.height = height;
       }
     };
-
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(resizeCanvas, 100);
     };
-
     const ro = new ResizeObserver(handleResize);
     ro.observe(parent);
-
     resizeCanvas();
-
     return () => {
       ro.disconnect();
       clearTimeout(resizeTimeout);
@@ -81,29 +77,23 @@ const ClickSpark = ({
     [easing]
   );
 
+  // 按需启停：只有存在火花时才跑 rAF，全部消散后立即停止，
+  // 避免无点击时仍每帧清空全屏 canvas 造成主线程空转。
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationId: number;
-
     const draw = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter((spark) => {
         const elapsed = timestamp - spark.startTime;
-        if (elapsed >= duration) {
-          return false;
-        }
+        if (elapsed >= duration) return false;
 
         const progress = elapsed / duration;
         const eased = easeFunc(progress);
-
         const distance = eased * sparkRadius * extraScale;
         const lineLength = sparkSize * (1 - eased);
 
@@ -118,17 +108,27 @@ const ClickSpark = ({
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
-
         return true;
       });
 
-      animationId = requestAnimationFrame(draw);
+      // 无火花剩余：停止 rAF，等下次点击再启动
+      if (sparksRef.current.length === 0) {
+        animationIdRef.current = null;
+        return;
+      }
+      animationIdRef.current = requestAnimationFrame(draw);
     };
 
-    animationId = requestAnimationFrame(draw);
+    startLoopRef.current = () => {
+      if (animationIdRef.current != null) return;
+      animationIdRef.current = requestAnimationFrame(draw);
+    };
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationIdRef.current != null) {
+        cancelAnimationFrame(animationIdRef.current);
+        animationIdRef.current = null;
+      }
     };
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale]);
 
@@ -148,6 +148,7 @@ const ClickSpark = ({
     }));
 
     sparksRef.current.push(...newSparks);
+    startLoopRef.current();
   };
 
   return (
