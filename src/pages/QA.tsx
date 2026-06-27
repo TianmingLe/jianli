@@ -34,10 +34,7 @@ export default function QA() {
               gravity={[0, -40, 0]}
               frontImage="/favicon.png"
               backImage="/正面照2.webp"
-              frontBg="#0A0A0B"
-              backBg="#0A0A0B"
-              imageFit="contain"
-              lanyardWidth={0.4}
+              imageFit="cover"
             />
           </Suspense>
         </ErrorBoundary>
