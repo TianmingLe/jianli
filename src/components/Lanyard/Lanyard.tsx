@@ -277,12 +277,22 @@ function Band({
       ctx.beginPath();
       ctx.rect(rx, ry, rw, rh);
       ctx.clip();
-      ctx.fillStyle = "#FFFFFF";
       ctx.font = `700 ${fontSize}px "Helvetica Neue", Arial, sans-serif`;
-      ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
-      // 文字基线置于正面区域底部偏上一点
-      ctx.fillText(frontText, rx + rw / 2, ry + rh - fontSize * 0.5);
+      // 按 "." 分段：黑色文字 + 蓝色点
+      const accentColor = "#1E90FF";
+      const baseColor = "#0A0A0B";
+      const segments = frontText.split(/(\.)/);
+      const widths = segments.map((s) => ctx.measureText(s).width);
+      const totalW = widths.reduce((a, b) => a + b, 0);
+      let cursor = rx + (rw - totalW) / 2;
+      const baselineY = ry + rh - fontSize * 0.5;
+      segments.forEach((seg, i) => {
+        if (!seg) return;
+        ctx.fillStyle = seg === "." ? accentColor : baseColor;
+        ctx.fillText(seg, cursor, baselineY);
+        cursor += widths[i];
+      });
       ctx.restore();
     }
 
