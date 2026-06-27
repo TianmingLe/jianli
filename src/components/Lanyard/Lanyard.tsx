@@ -323,7 +323,7 @@ function Band({
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.65]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.65]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useSphericalJoint(j3, card, [[0, 0, 0], [0, 2.4, 0]]);
+  useSphericalJoint(j3, card, [[0, 0, 0], [0, 2.6, 0]]);
 
   useEffect(() => {
     if (hovered) {
