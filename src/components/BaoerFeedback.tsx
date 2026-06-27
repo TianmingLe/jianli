@@ -82,23 +82,7 @@ const comments = [
   { src: c12, label: "评论区 12" },
 ];
 
-// BounceCards 精选展示（5 张错落卡片）
-const bounceImages = [
-  comments[0].src,
-  comments[2].src,
-  comments[5].src,
-  comments[7].src,
-  comments[9].src,
-];
-const bounceTransforms = [
-  "rotate(10deg) translate(-170px)",
-  "rotate(5deg) translate(-85px)",
-  "rotate(-3deg)",
-  "rotate(-10deg) translate(85px)",
-  "rotate(2deg) translate(170px)",
-];
-
-// 数据洞察 BounceCards 展示
+// 数据洞察 BounceCards 展示（5 张图表错落卡片）
 const chartBounceImages = charts.map((c) => c.src);
 const chartBounceTransforms = [
   "rotate(5deg) translate(-150px)",
@@ -221,7 +205,7 @@ export default function BaoerFeedback() {
           </div>
         </motion.div>
 
-        {/* 评论区截图 — BounceCards 错落弹跳展示 */}
+        {/* 评论区截图 — 网格展示 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -236,21 +220,35 @@ export default function BaoerFeedback() {
               </h3>
             </div>
             <span className="font-mono text-[10px] text-mist-600">
-              悬停卡片查看
+              真实观众评论截图
             </span>
           </div>
 
-          <div className="flex w-full justify-center overflow-hidden py-4">
-            <BounceCards
-              images={bounceImages}
-              containerWidth={520}
-              containerHeight={300}
-              animationDelay={0.4}
-              animationStagger={0.12}
-              easeType="elastic.out(1, 0.5)"
-              transformStyles={bounceTransforms}
-              enableHover
-            />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {comments.map((c, i) => (
+              <motion.div
+                key={c.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, ease, delay: i * 0.06 }}
+                className="group overflow-hidden border border-ink-700 bg-ink-900"
+              >
+                <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
+                  <Users className="h-3.5 w-3.5 text-volt-400" />
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
+                    {c.label}
+                  </span>
+                </div>
+                <div className="relative aspect-video w-full overflow-hidden bg-ink-950">
+                  <img loading="lazy" decoding="async"
+                    src={c.src}
+                    alt={c.label}
+                    className="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
+                  />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
