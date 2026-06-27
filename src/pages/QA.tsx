@@ -14,7 +14,7 @@ const navItems = [
 
 function LanyardSkeleton() {
   return (
-    <div className="flex h-[55vh] min-h-[380px] w-full items-center justify-center md:min-h-[380px]">
+    <div className="flex h-[70vh] min-h-[480px] w-full items-center justify-center">
       <div className="h-12 w-12 animate-pulse rounded-full bg-ink-700" />
     </div>
   );

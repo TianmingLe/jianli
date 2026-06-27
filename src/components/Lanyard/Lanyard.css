@@ -2,10 +2,10 @@
   /* 文档流定位：随页面滚动，置于底部「Work With YW」标语前 */
   position: relative;
   width: 100%;
-  max-width: 640px;
-  height: 60vh;
-  min-height: 420px;
-  max-height: 640px;
+  max-width: 1000px;
+  height: 70vh;
+  min-height: 480px;
+  max-height: 760px;
   margin-left: auto;
   margin-right: auto;
   /* 不裁切：拖拽时卡片可飞出画布范围 */
@@ -28,7 +28,7 @@
 
 @media (max-width: 768px) {
   .lanyard-wrapper {
-    height: 40vh;
-    min-height: 300px;
+    height: 50vh;
+    min-height: 360px;
   }
 }

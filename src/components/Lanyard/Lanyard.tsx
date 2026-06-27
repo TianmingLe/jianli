@@ -377,17 +377,17 @@ function Band({
     <>
       <group position={[0, 4.5, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.7, 0, 0]} ref={j1} {...segmentProps}>
+        <RigidBody position={[0, -1.45, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.4, 0, 0]} ref={j2} {...segmentProps}>
+        <RigidBody position={[0, -2.9, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[2.1, 0, 0]} ref={j3} {...segmentProps}>
+        <RigidBody position={[0, -4.35, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2.8, 0, 0]}
+          position={[0, -5.8, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
