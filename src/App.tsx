@@ -17,6 +17,30 @@ function ScrollToTop() {
   return null;
 }
 
+/** 路由级骨架屏：替代原 null fallback，避免切换瞬间整页空白闪烁 */
+function PageSkeleton() {
+  return (
+    <main className="relative min-h-screen w-full bg-ink-950">
+      {/* 顶部导航占位 */}
+      <div className="h-16 md:h-20" />
+      {/* 首屏占位块 */}
+      <div className="shell animate-pulse">
+        <div className="mt-24 space-y-6">
+          <div className="h-4 w-32 bg-ink-800" />
+          <div className="h-24 w-2/3 bg-ink-800" />
+          <div className="h-24 w-1/2 bg-ink-800" />
+          <div className="h-px w-full bg-ink-800" />
+          <div className="grid grid-cols-2 gap-px border border-ink-800 bg-ink-800 md:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-24 bg-ink-900" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -28,7 +52,7 @@ export default function App() {
         sparkCount={8}
         duration={500}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
