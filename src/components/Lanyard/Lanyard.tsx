@@ -90,6 +90,7 @@ function LanyardInner({
 
   return (
     <div className="lanyard-wrapper">
+      <div className="lanyard-canvas-host">
       <Canvas
         camera={{ position: position, fov: fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
@@ -142,6 +143,7 @@ function LanyardInner({
           </Environment>
         </Suspense>
       </Canvas>
+      </div>
     </div>
   );
 }
