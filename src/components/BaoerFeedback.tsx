@@ -95,11 +95,11 @@ const masonryItems: MasonryItem[] = comments.map((c, i) => ({
 // 数据洞察 BounceCards 展示（5 张图表错落卡片）
 const chartBounceImages = charts.map((c) => c.src);
 const chartBounceTransforms = [
-  "rotate(5deg) translate(-150px)",
-  "rotate(0deg) translate(-70px)",
+  "rotate(5deg) translate(-200px)",
+  "rotate(0deg) translate(-100px)",
   "rotate(-5deg)",
-  "rotate(5deg) translate(70px)",
-  "rotate(-5deg) translate(150px)",
+  "rotate(5deg) translate(100px)",
+  "rotate(-5deg) translate(200px)",
 ];
 
 export default function BaoerFeedback() {
@@ -166,7 +166,7 @@ export default function BaoerFeedback() {
               className="custom-bounceCards"
               images={chartBounceImages}
               labels={charts.map((c) => c.label)}
-              containerWidth={500}
+              containerWidth={640}
               containerHeight={250}
               animationDelay={1.4}
               animationStagger={0.12}
