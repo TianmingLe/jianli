@@ -6,6 +6,7 @@ import {
   Heart,
   BarChart3,
 } from "lucide-react";
+import BounceCards from "@/components/BounceCards/BounceCards";
 import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.webp";
 import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.webp";
 import genderDist from "@/data/self-media/baoer/观众性别分布.webp";
@@ -79,6 +80,22 @@ const comments = [
   { src: c10, label: "评论区 10" },
   { src: c11, label: "评论区 11" },
   { src: c12, label: "评论区 12" },
+];
+
+// BounceCards 精选展示（5 张错落卡片）
+const bounceImages = [
+  comments[0].src,
+  comments[2].src,
+  comments[5].src,
+  comments[7].src,
+  comments[9].src,
+];
+const bounceTransforms = [
+  "rotate(10deg) translate(-170px)",
+  "rotate(5deg) translate(-85px)",
+  "rotate(-3deg)",
+  "rotate(-10deg) translate(85px)",
+  "rotate(2deg) translate(170px)",
 ];
 
 export default function BaoerFeedback() {
@@ -207,7 +224,7 @@ export default function BaoerFeedback() {
           </div>
         </motion.div>
 
-        {/* 评论区截图 — 按实际比例横向滚动 */}
+        {/* 评论区截图 — BounceCards 错落弹跳展示 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -222,30 +239,21 @@ export default function BaoerFeedback() {
               </h3>
             </div>
             <span className="font-mono text-[10px] text-mist-600">
-              左右滑动查看更多
+              悬停卡片查看
             </span>
           </div>
 
-          <div className="relative">
-            <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-6">
-              {comments.map((c) => (
-                <div
-                  key={c.label}
-                  className="shrink-0 snap-start"
-                >
-                  <div className="h-[320px] md:h-[420px]">
-                    <img loading="lazy" decoding="async"
-                      src={c.src}
-                      alt={c.label}
-                      className="h-full w-auto max-w-none rounded-sm border border-ink-700 object-contain shadow-lg"
-                    />
-                  </div>
-                  <p className="mt-2 text-center font-mono text-[10px] text-mist-600">
-                    {c.label}
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div className="flex w-full justify-center overflow-hidden py-4">
+            <BounceCards
+              images={bounceImages}
+              containerWidth={520}
+              containerHeight={300}
+              animationDelay={0.4}
+              animationStagger={0.12}
+              easeType="elastic.out(1, 0.5)"
+              transformStyles={bounceTransforms}
+              enableHover
+            />
           </div>
         </motion.div>
       </div>

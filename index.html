@@ -8,10 +8,20 @@
     <title>HU Yawei — Visual / AI / Brand Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- 字体非阻塞加载：先以 print 媒体惰性下载，加载完成后切到 all，
+         避免阻塞首屏文字绘制；期间用系统字体兜底，字体到达后 swap 替换 -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@200;300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      />
+    </noscript>
     <script type="module">
       if (import.meta.hot?.on) {
         import.meta.hot.on('vite:error', (error) => {

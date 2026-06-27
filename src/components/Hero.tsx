@@ -41,7 +41,7 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="hero"
-      className="relative flex h-screen min-h-[720px] w-full items-start overflow-hidden"
+      className="relative flex min-h-screen w-full items-start overflow-hidden"
     >
       {/* 背景层 */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -132,7 +132,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 1.15 }}
-            className="mt-14 grid grid-cols-2 gap-px border border-ink-700 bg-ink-700 md:grid-cols-4"
+            className="mt-14 mb-24 grid grid-cols-2 gap-px border border-ink-700 bg-ink-700 md:grid-cols-4"
           >
             {profile.coreTraits.map((t) => {
               const Icon = traitIcons[t.icon as keyof typeof traitIcons] ?? Flame;

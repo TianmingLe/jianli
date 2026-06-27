@@ -14,7 +14,7 @@ const navItems = [
 
 function LanyardSkeleton() {
   return (
-    <div className="flex h-[70vh] min-h-[420px] w-full items-center justify-center md:min-h-[420px]">
+    <div className="flex h-[95vh] min-h-[640px] w-full items-center justify-center">
       <div className="h-12 w-12 animate-pulse rounded-full bg-ink-700" />
     </div>
   );
@@ -26,20 +26,23 @@ export default function QA() {
       {/* 滚动视差背景 —— 顶部对应长图顶部，底部对应长图底部 */}
       <ScrollParallaxBg image="/qa-bg.webp" className="opacity-25" />
       <div className="relative z-10">
-        {/* 挂绳工牌 3D 互动 —— 正面 favicon，背面正装照 */}
-        <ErrorBoundary>
-          <Suspense fallback={<LanyardSkeleton />}>
-            <Lanyard
-              position={[0, 0, 20]}
-              gravity={[0, -40, 0]}
-              frontImage="/favicon.png"
-              backImage="/正面照2.webp"
-              imageFit="cover"
-            />
-          </Suspense>
-        </ErrorBoundary>
         <PageHeader navItems={navItems} />
-        <QandA />
+        <QandA>
+          {/* 挂绳工牌 3D 互动 —— 正面正装照，背面默认纹理；置于底部「Work With YW」标语前 */}
+          <ErrorBoundary>
+            <Suspense fallback={<LanyardSkeleton />}>
+              <Lanyard
+                position={[0, 0, 20]}
+                gravity={[0, -40, 0]}
+                frontImage="/正面照2.webp"
+                imageFit="contain"
+                imageScale={0.95}
+                frontText="HU.YW"
+                lanyardWidth={0.6}
+              />
+            </Suspense>
+          </ErrorBoundary>
+        </QandA>
       </div>
     </main>
   );

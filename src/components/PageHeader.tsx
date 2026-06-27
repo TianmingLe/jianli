@@ -17,21 +17,30 @@ export default function PageHeader({ navItems }: Props) {
   const [active, setActive] = useState(navItems[0]?.id ?? "");
 
   useEffect(() => {
+    // 缓存 section 元素引用 + rAF 节流，避免每次滚动都 getElementById（触发布局）
+    const sections = navItems.map((n) => document.getElementById(n.id));
+    let raf = 0;
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-      const sections = navItems.map((n) => document.getElementById(n.id));
-      const y = window.scrollY + window.innerHeight / 3;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const s = sections[i];
-        if (s && s.offsetTop <= y) {
-          setActive(navItems[i].id);
-          break;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        setScrolled(window.scrollY > 40);
+        const y = window.scrollY + window.innerHeight / 3;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const s = sections[i];
+          if (s && s.offsetTop <= y) {
+            setActive(navItems[i].id);
+            break;
+          }
         }
-      }
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [navItems]);
 
   return (

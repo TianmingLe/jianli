@@ -33,6 +33,9 @@ if (typeof window !== "undefined") {
       return (m as { init: () => Promise<unknown> }).init();
     }
   });
+  // 并行预取 3D 资源：与 rapier WASM 编译同时进行，避免 ready 门控串行化加载链
+  useGLTF.preload(cardGLB);
+  useTexture.preload(lanyard);
 }
 
 function LanyardLoader() {
@@ -63,6 +66,8 @@ type LanyardProps = {
   frontImage?: string | null;
   backImage?: string | null;
   imageFit?: "cover" | "contain";
+  imageScale?: number;
+  frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -75,9 +80,12 @@ function LanyardInner({
   frontImage = null,
   backImage = null,
   imageFit = "cover",
+  imageScale = 1,
+  frontText,
   lanyardImage = null,
   lanyardWidth = 1,
-}: LanyardProps) {
+  physicsReady = false,
+}: LanyardProps & { physicsReady?: boolean }) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768
   );
@@ -90,6 +98,7 @@ function LanyardInner({
 
   return (
     <div className="lanyard-wrapper">
+      <div className="lanyard-canvas-host">
       <Canvas
         camera={{ position: position, fov: fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
@@ -100,16 +109,21 @@ function LanyardInner({
       >
         <ambientLight intensity={Math.PI} />
         <Suspense fallback={null}>
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-            <Band
-              isMobile={isMobile}
-              frontImage={frontImage}
-              backImage={backImage}
-              imageFit={imageFit}
-              lanyardImage={lanyardImage}
-              lanyardWidth={lanyardWidth}
-            />
-          </Physics>
+          {/* rapier WASM ready 前不挂载 <Physics>，但 Canvas/Environment/资源加载已并行启动 */}
+          {physicsReady ? (
+            <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+              <Band
+                isMobile={isMobile}
+                frontImage={frontImage}
+                backImage={backImage}
+                imageFit={imageFit}
+                imageScale={imageScale}
+                frontText={frontText}
+                lanyardImage={lanyardImage}
+                lanyardWidth={lanyardWidth}
+              />
+            </Physics>
+          ) : null}
           <Environment blur={0.75}>
             <Lightformer
               intensity={2}
@@ -142,12 +156,14 @@ function LanyardInner({
           </Environment>
         </Suspense>
       </Canvas>
+      </div>
     </div>
   );
 }
 
 export default function Lanyard(props: LanyardProps) {
-  // Wait for rapier WASM to initialize before rendering the physics canvas
+  // rapier WASM ready 门控：仅决定是否挂载 <Physics>，
+  // 不再阻塞整个 <Canvas>，让 glb/纹理/环境贴图与 WASM 编译并行加载
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (rapierInitPromise) {
@@ -157,11 +173,7 @@ export default function Lanyard(props: LanyardProps) {
     }
   }, []);
 
-  if (!ready) {
-    return <LanyardLoader />;
-  }
-
-  return <LanyardInner {...props} />;
+  return <LanyardInner {...props} physicsReady={ready} />;
 }
 
 type BandProps = {
@@ -171,6 +183,8 @@ type BandProps = {
   frontImage?: string | null;
   backImage?: string | null;
   imageFit?: "cover" | "contain";
+  imageScale?: number;
+  frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -182,6 +196,8 @@ function Band({
   frontImage = null,
   backImage = null,
   imageFit = "cover",
+  imageScale = 1,
+  frontText,
   lanyardImage = null,
   lanyardWidth = 1,
 }: BandProps) {
@@ -214,7 +230,7 @@ function Band({
   // half, back = right half). Each image is drawn aspect-preserving (no stretch).
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
-    if (!frontImage && !backImage) return baseMap;
+    if (!frontImage && !backImage && !frontText) return baseMap;
 
     const baseImg = baseMap.image;
     const W = baseImg.width;
@@ -236,7 +252,7 @@ function Band({
       const rw = rect.w * W;
       const rh = rect.h * H;
       const pick = imageFit === "contain" ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height);
+      const scale = pick(rw / img.width, rh / img.height) * imageScale;
       const dw = img.width * scale;
       const dh = img.height * scale;
       const dx = rx + (rw - dw) / 2;
@@ -254,13 +270,43 @@ function Band({
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
 
+    // 在正面底部绘制文字（HU.YW 之类）
+    if (frontText) {
+      const rx = FRONT_UV_RECT.x * W;
+      const ry = FRONT_UV_RECT.y * H;
+      const rw = FRONT_UV_RECT.w * W;
+      const rh = FRONT_UV_RECT.h * H;
+      const fontSize = Math.round(rw * 0.13);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rx, ry, rw, rh);
+      ctx.clip();
+      ctx.font = `700 ${fontSize}px "Helvetica Neue", Arial, sans-serif`;
+      ctx.textBaseline = "alphabetic";
+      // 按 "." 分段：黑色文字 + 蓝色点
+      const accentColor = "#1E90FF";
+      const baseColor = "#0A0A0B";
+      const segments = frontText.split(/(\.)/);
+      const widths = segments.map((s) => ctx.measureText(s).width);
+      const totalW = widths.reduce((a, b) => a + b, 0);
+      let cursor = rx + (rw - totalW) / 2;
+      const baselineY = ry + rh - fontSize * 0.5;
+      segments.forEach((seg, i) => {
+        if (!seg) return;
+        ctx.fillStyle = seg === "." ? accentColor : baseColor;
+        ctx.fillText(seg, cursor, baselineY);
+        cursor += widths[i];
+      });
+      ctx.restore();
+    }
+
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, imageScale, frontText, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
@@ -274,10 +320,10 @@ function Band({
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
-  useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.5, 0]]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.3]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.3]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.3]);
+  useSphericalJoint(j3, card, [[0, 0, 0], [0, 2.5, 0]]);
 
   useEffect(() => {
     if (hovered) {
@@ -329,26 +375,26 @@ function Band({
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={[0, 4.5, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
+        <RigidBody position={[0, -1.15, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
+        <RigidBody position={[0, -2.3, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
+        <RigidBody position={[0, -3.45, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2, 0, 0]}
+          position={[0, -4.6, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={3.24}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}

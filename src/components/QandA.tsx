@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HelpCircle, Phone, Mail, Github, ArrowUpRight } from "lucide-react";
 import { qnaData, profile } from "@/data/content";
@@ -68,23 +68,33 @@ function fallbackCopy(text: string) {
   document.body.removeChild(ta);
 }
 
-export default function QandA() {
+export default function QandA({ children }: { children?: ReactNode }) {
   const [activeIdx, setActiveIdx] = useState(-1);
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
+    // 缓存 Q&A 元素引用，避免每次滚动都 getElementById（触发布局查询）
+    const els = qnaData.map((_, i) => document.getElementById(`qa-q${i + 1}`));
+    let raf = 0;
     const onScroll = () => {
-      const y = window.scrollY + window.innerHeight / 2;
-      let current = -1;
-      for (let i = 0; i < qnaData.length; i++) {
-        const el = document.getElementById(`qa-q${i + 1}`);
-        if (el && el.offsetTop <= y) current = i;
-      }
-      setActiveIdx(current);
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY + window.innerHeight / 2;
+        let current = -1;
+        for (let i = 0; i < els.length; i++) {
+          const el = els[i];
+          if (el && el.offsetTop <= y) current = i;
+        }
+        setActiveIdx(current);
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const handleCopyEmail = useCallback(() => {
@@ -286,6 +296,9 @@ export default function QandA() {
             );
           })}
         </div>
+
+        {/* 挂绳工牌 3D 互动 —— 插槽注入，置于底部标语前 */}
+        {children}
 
         {/* 底部 BlurText 标语 + 胶囊联系方式 */}
         <div className="mt-24 flex flex-col items-center md:mt-32">
