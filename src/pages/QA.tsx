@@ -14,7 +14,7 @@ const navItems = [
 
 function LanyardSkeleton() {
   return (
-    <div className="flex h-[70vh] min-h-[420px] w-full items-center justify-center md:min-h-[420px]">
+    <div className="flex h-[55vh] min-h-[380px] w-full items-center justify-center md:min-h-[380px]">
       <div className="h-12 w-12 animate-pulse rounded-full bg-ink-700" />
     </div>
   );
@@ -34,6 +34,7 @@ export default function QA() {
               gravity={[0, -40, 0]}
               backImage="/正面照2.webp"
               imageFit="cover"
+              lanyardWidth={0.55}
             />
           </Suspense>
         </ErrorBoundary>
