@@ -13,7 +13,7 @@ import {
   Physics,
   RigidBody,
   useRopeJoint,
-  useFixedJoint,
+  useSphericalJoint,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
@@ -202,16 +202,11 @@ function Band({
   lanyardWidth = 1,
 }: BandProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const bandL = useRef<any>(null),
-    bandR = useRef<any>(null),
-    fixedL = useRef<any>(null),
-    fixedR = useRef<any>(null),
-    j1L = useRef<any>(null),
-    j2L = useRef<any>(null),
-    j1R = useRef<any>(null),
-    j2R = useRef<any>(null),
-    latchL = useRef<any>(null),
-    latchR = useRef<any>(null),
+  const band = useRef<any>(null),
+    fixed = useRef<any>(null),
+    j1 = useRef<any>(null),
+    j2 = useRef<any>(null),
+    j3 = useRef<any>(null),
     card = useRef<any>(null);
   const vec = new THREE.Vector3(),
     ang = new THREE.Vector3(),
@@ -313,16 +308,7 @@ function Band({
     return composite;
   }, [frontImage, backImage, imageFit, imageScale, frontText, frontTex, backTex, materials.base.map]);
 
-  const [curveL] = useState(
-    () =>
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-      ])
-  );
-  const [curveR] = useState(
+  const [curve] = useState(
     () =>
       new THREE.CatmullRomCurve3([
         new THREE.Vector3(),
@@ -334,14 +320,10 @@ function Band({
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixedL, j1L, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useRopeJoint(j1L, j2L, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useRopeJoint(j2L, latchL, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useRopeJoint(fixedR, j1R, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useRopeJoint(j1R, j2R, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useRopeJoint(j2R, latchR, [[0, 0, 0], [0, 0, 0], 1.65]);
-  useFixedJoint(latchL, card, [[0, 0, 0], [-0.65, 0, 0]]);
-  useFixedJoint(latchR, card, [[0, 0, 0], [0.65, 0, 0]]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.65]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.65]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.65]);
+  useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.75, 0]]);
 
   useEffect(() => {
     if (hovered) {
@@ -355,15 +337,15 @@ function Band({
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
-      [card, j1L, j2L, latchL, j1R, j2R, latchR].forEach((ref) => ref.current?.wakeUp());
+      [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
       card.current?.setNextKinematicTranslation({
         x: vec.x - dragged.x,
         y: vec.y - dragged.y,
         z: vec.z - dragged.z,
       });
     }
-    if (fixedL.current) {
-      [j1L, j2L, j1R, j2R].forEach((ref) => {
+    if (fixed.current) {
+      [j1, j2].forEach((ref) => {
         if (!ref.current.lerped)
           ref.current.lerped = new THREE.Vector3().copy(
             ref.current.translation()
@@ -377,51 +359,35 @@ function Band({
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      curveL.points[0].copy(latchL.current.translation());
-      curveL.points[1].copy(j2L.current.lerped);
-      curveL.points[2].copy(j1L.current.lerped);
-      curveL.points[3].copy(fixedL.current.translation());
-      bandL.current.geometry.setPoints(curveL.getPoints(isMobile ? 16 : 32));
-      curveR.points[0].copy(latchR.current.translation());
-      curveR.points[1].copy(j2R.current.lerped);
-      curveR.points[2].copy(j1R.current.lerped);
-      curveR.points[3].copy(fixedR.current.translation());
-      bandR.current.geometry.setPoints(curveR.getPoints(isMobile ? 16 : 32));
+      curve.points[0].copy(j3.current.translation());
+      curve.points[1].copy(j2.current.lerped);
+      curve.points[2].copy(j1.current.lerped);
+      curve.points[3].copy(fixed.current.translation());
+      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
   });
 
-  curveL.curveType = "chordal";
-  curveR.curveType = "chordal";
+  curve.curveType = "chordal";
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
   return (
     <>
       <group position={[0, 4.5, 0]}>
-        <RigidBody ref={fixedL} {...segmentProps} type="fixed" position={[-0.3, 0, 0]} />
-        <RigidBody ref={fixedR} {...segmentProps} type="fixed" position={[0.3, 0, 0]} />
-        <RigidBody position={[-0.4, -1.45, 0]} ref={j1L} {...segmentProps}>
+        <RigidBody ref={fixed} {...segmentProps} type="fixed" />
+        <RigidBody position={[0, -1.45, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[-0.55, -2.9, 0]} ref={j2L} {...segmentProps}>
+        <RigidBody position={[0, -2.9, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[-0.65, -4.35, 0]} ref={latchL} {...segmentProps}>
-          <BallCollider args={[0.05]} />
-        </RigidBody>
-        <RigidBody position={[0.4, -1.45, 0]} ref={j1R} {...segmentProps}>
+        <RigidBody position={[0, -4.35, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
-        </RigidBody>
-        <RigidBody position={[0.55, -2.9, 0]} ref={j2R} {...segmentProps}>
-          <BallCollider args={[0.1]} />
-        </RigidBody>
-        <RigidBody position={[0.65, -4.35, 0]} ref={latchR} {...segmentProps}>
-          <BallCollider args={[0.05]} />
         </RigidBody>
         <RigidBody
-          position={[0, -4.35, 0]}
+          position={[0, -5.4, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
@@ -460,19 +426,7 @@ function Band({
           </group>
         </RigidBody>
       </group>
-      <mesh ref={bandL}>
-        <meshLineGeometry />
-        <meshLineMaterial
-          color="white"
-          depthTest={false}
-          resolution={isMobile ? [1000, 2000] : [1000, 1000]}
-          useMap
-          map={texture}
-          repeat={[-4, 1]}
-          lineWidth={lanyardWidth}
-        />
-      </mesh>
-      <mesh ref={bandR}>
+      <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
