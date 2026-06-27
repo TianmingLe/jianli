@@ -8,6 +8,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import BounceCards from "@/components/BounceCards/BounceCards";
+import Masonry, { type MasonryItem } from "@/components/Masonry/Masonry";
 import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.webp";
 import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.webp";
 import genderDist from "@/data/self-media/baoer/观众性别分布.webp";
@@ -82,6 +83,14 @@ const comments = [
   { src: c11, label: "评论区 11" },
   { src: c12, label: "评论区 12" },
 ];
+
+// 评论区精选 Masonry 瀑布流（错落高度）
+const masonryHeights = [520, 380, 640, 440, 580, 400, 680, 460, 600, 420, 560];
+const masonryItems: MasonryItem[] = comments.map((c, i) => ({
+  id: String(i + 1),
+  img: c.src,
+  height: masonryHeights[i % masonryHeights.length],
+}));
 
 // 数据洞察 BounceCards 展示（5 张图表错落卡片）
 const chartBounceImages = charts.map((c) => c.src);
@@ -225,37 +234,23 @@ export default function BaoerFeedback() {
               </h3>
             </div>
             <span className="font-mono text-[10px] text-mist-600">
-              ← 左右滑动查看 →
+              双击图片放大查看
             </span>
           </div>
 
-          <div className="comments-scroll -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4">
-            {comments.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, ease, delay: i * 0.05 }}
-                onDoubleClick={() => setLightbox(c.src)}
-                className="group w-[300px] shrink-0 cursor-zoom-in snap-start overflow-hidden border border-ink-700 bg-ink-900 sm:w-[360px]"
-              >
-                <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
-                  <Users className="h-3.5 w-3.5 text-volt-400" />
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-                    {c.label}
-                  </span>
-                </div>
-                <div className="relative aspect-[9/16] w-full overflow-hidden bg-ink-950">
-                  <img loading="lazy" decoding="async"
-                    src={c.src}
-                    alt={c.label}
-                    className="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <Masonry
+            items={masonryItems}
+            ease="power3.out"
+            duration={0.6}
+            stagger={0.16}
+            animateFrom="bottom"
+            scaleOnHover
+            hoverScale={0.95}
+            blurToFocus={false}
+            colorShiftOnHover
+            onItemDoubleClick={(item) => setLightbox(item.img)}
+          />
+          <div style={{ height: 20 }} />
         </motion.div>
       </div>
 

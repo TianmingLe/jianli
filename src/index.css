@@ -81,14 +81,4 @@ section[id] {
   .btn-ghost {
     @apply inline-flex items-center gap-2 border border-ink-600 px-6 py-3 text-xs uppercase tracking-widest text-mist-50 transition-all duration-300 hover:border-volt-400 hover:bg-volt-400 hover:text-ink-950;
   }
-
-  /* 评论区精选 — 横向滑动容器 */
-  .comments-scroll {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .comments-scroll::-webkit-scrollbar {
-    display: none;
-  }
 }
