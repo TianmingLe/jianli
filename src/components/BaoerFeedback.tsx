@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -93,6 +94,8 @@ const chartBounceTransforms = [
 ];
 
 export default function BaoerFeedback() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
   return (
     <section id="baoer-feedback" className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40">
       <div className="shell">
@@ -153,6 +156,7 @@ export default function BaoerFeedback() {
             <BounceCards
               className="custom-bounceCards"
               images={chartBounceImages}
+              labels={charts.map((c) => c.label)}
               containerWidth={500}
               containerHeight={250}
               animationDelay={1.4}
@@ -160,6 +164,7 @@ export default function BaoerFeedback() {
               easeType="elastic.out(1, 0.5)"
               transformStyles={chartBounceTransforms}
               enableHover
+              onCardDoubleClick={(i) => setLightbox(chartBounceImages[i])}
             />
           </div>
         </motion.div>
@@ -232,7 +237,8 @@ export default function BaoerFeedback() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, ease, delay: i * 0.05 }}
-                className="group w-[300px] shrink-0 snap-start overflow-hidden border border-ink-700 bg-ink-900 sm:w-[360px]"
+                onDoubleClick={() => setLightbox(c.src)}
+                className="group w-[300px] shrink-0 cursor-zoom-in snap-start overflow-hidden border border-ink-700 bg-ink-900 sm:w-[360px]"
               >
                 <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
                   <Users className="h-3.5 w-3.5 text-volt-400" />
@@ -252,6 +258,21 @@ export default function BaoerFeedback() {
           </div>
         </motion.div>
       </div>
+
+      {/* 图片放大查看 — 点击其他地方退出 */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setLightbox(null)}
+        >
+          <img
+            src={lightbox}
+            alt="放大查看"
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </section>
   );
 }

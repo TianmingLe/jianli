@@ -27,6 +27,22 @@
   pointer-events: none;
 }
 
+.card-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f5f5f7;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  z-index: 2;
+}
+
 /* 小屏自适应缩放，避免固定 px 容器溢出 */
 @media (max-width: 640px) {
   .bounceCardsContainer {
