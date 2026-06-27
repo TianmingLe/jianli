@@ -28,13 +28,13 @@ export default function QA() {
       <div className="relative z-10">
         <PageHeader navItems={navItems} />
         <QandA>
-          {/* 挂绳工牌 3D 互动 —— 正面默认纹理，背面正装照；置于底部「Work With YW」标语前 */}
+          {/* 挂绳工牌 3D 互动 —— 正面正装照，背面默认纹理；置于底部「Work With YW」标语前 */}
           <ErrorBoundary>
             <Suspense fallback={<LanyardSkeleton />}>
               <Lanyard
                 position={[0, 0, 20]}
                 gravity={[0, -40, 0]}
-                backImage="/正面照2.webp"
+                frontImage="/正面照2.webp"
                 imageFit="cover"
                 lanyardWidth={0.55}
               />
