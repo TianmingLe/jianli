@@ -33,6 +33,9 @@ if (typeof window !== "undefined") {
       return (m as { init: () => Promise<unknown> }).init();
     }
   });
+  // 并行预取 3D 资源：与 rapier WASM 编译同时进行，避免 ready 门控串行化加载链
+  useGLTF.preload(cardGLB);
+  useTexture.preload(lanyard);
 }
 
 function LanyardLoader() {
@@ -81,7 +84,8 @@ function LanyardInner({
   frontText,
   lanyardImage = null,
   lanyardWidth = 1,
-}: LanyardProps) {
+  physicsReady = false,
+}: LanyardProps & { physicsReady?: boolean }) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768
   );
@@ -105,18 +109,21 @@ function LanyardInner({
       >
         <ambientLight intensity={Math.PI} />
         <Suspense fallback={null}>
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-            <Band
-              isMobile={isMobile}
-              frontImage={frontImage}
-              backImage={backImage}
-              imageFit={imageFit}
-              imageScale={imageScale}
-              frontText={frontText}
-              lanyardImage={lanyardImage}
-              lanyardWidth={lanyardWidth}
-            />
-          </Physics>
+          {/* rapier WASM ready 前不挂载 <Physics>，但 Canvas/Environment/资源加载已并行启动 */}
+          {physicsReady ? (
+            <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+              <Band
+                isMobile={isMobile}
+                frontImage={frontImage}
+                backImage={backImage}
+                imageFit={imageFit}
+                imageScale={imageScale}
+                frontText={frontText}
+                lanyardImage={lanyardImage}
+                lanyardWidth={lanyardWidth}
+              />
+            </Physics>
+          ) : null}
           <Environment blur={0.75}>
             <Lightformer
               intensity={2}
@@ -155,7 +162,8 @@ function LanyardInner({
 }
 
 export default function Lanyard(props: LanyardProps) {
-  // Wait for rapier WASM to initialize before rendering the physics canvas
+  // rapier WASM ready 门控：仅决定是否挂载 <Physics>，
+  // 不再阻塞整个 <Canvas>，让 glb/纹理/环境贴图与 WASM 编译并行加载
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (rapierInitPromise) {
@@ -165,11 +173,7 @@ export default function Lanyard(props: LanyardProps) {
     }
   }, []);
 
-  if (!ready) {
-    return <LanyardLoader />;
-  }
-
-  return <LanyardInner {...props} />;
+  return <LanyardInner {...props} physicsReady={ready} />;
 }
 
 type BandProps = {
