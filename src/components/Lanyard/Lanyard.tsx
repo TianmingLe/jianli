@@ -64,6 +64,7 @@ type LanyardProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -77,6 +78,7 @@ function LanyardInner({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  frontText,
   lanyardImage = null,
   lanyardWidth = 1,
 }: LanyardProps) {
@@ -110,6 +112,7 @@ function LanyardInner({
               backImage={backImage}
               imageFit={imageFit}
               imageScale={imageScale}
+              frontText={frontText}
               lanyardImage={lanyardImage}
               lanyardWidth={lanyardWidth}
             />
@@ -177,6 +180,7 @@ type BandProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -189,6 +193,7 @@ function Band({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  frontText,
   lanyardImage = null,
   lanyardWidth = 1,
 }: BandProps) {
@@ -221,7 +226,7 @@ function Band({
   // half, back = right half). Each image is drawn aspect-preserving (no stretch).
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
-    if (!frontImage && !backImage) return baseMap;
+    if (!frontImage && !backImage && !frontText) return baseMap;
 
     const baseImg = baseMap.image;
     const W = baseImg.width;
@@ -261,13 +266,33 @@ function Band({
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
 
+    // 在正面底部绘制文字（HU.YW 之类）
+    if (frontText) {
+      const rx = FRONT_UV_RECT.x * W;
+      const ry = FRONT_UV_RECT.y * H;
+      const rw = FRONT_UV_RECT.w * W;
+      const rh = FRONT_UV_RECT.h * H;
+      const fontSize = Math.round(rw * 0.13);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rx, ry, rw, rh);
+      ctx.clip();
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = `700 ${fontSize}px "Helvetica Neue", Arial, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
+      // 文字基线置于正面区域底部偏上一点
+      ctx.fillText(frontText, rx + rw / 2, ry + rh - fontSize * 0.5);
+      ctx.restore();
+    }
+
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, imageScale, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, imageScale, frontText, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
