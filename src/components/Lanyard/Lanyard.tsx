@@ -316,9 +316,9 @@ function Band({
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.5]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.5]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.5]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.8]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.8]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.8]);
   useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.5, 0]]);
 
   useEffect(() => {
