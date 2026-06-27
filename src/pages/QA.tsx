@@ -34,7 +34,9 @@ export default function QA() {
               gravity={[0, -40, 0]}
               frontImage="/favicon.png"
               backImage="/正面照2.webp"
-              imageFit="cover"
+              frontBg="#7DD3FC"
+              backBg="#0A0A0B"
+              imageFit="contain"
             />
           </Suspense>
         </ErrorBoundary>

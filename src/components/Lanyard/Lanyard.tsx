@@ -62,6 +62,8 @@ type LanyardProps = {
   transparent?: boolean;
   frontImage?: string | null;
   backImage?: string | null;
+  frontBg?: string | null;
+  backBg?: string | null;
   imageFit?: "cover" | "contain";
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -74,9 +76,11 @@ function LanyardInner({
   transparent = true,
   frontImage = null,
   backImage = null,
+  frontBg = null,
+  backBg = null,
   imageFit = "cover",
   lanyardImage = null,
-  lanyardWidth = 1,
+  lanyardWidth = 0.6,
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768
@@ -105,6 +109,8 @@ function LanyardInner({
               isMobile={isMobile}
               frontImage={frontImage}
               backImage={backImage}
+              frontBg={frontBg}
+              backBg={backBg}
               imageFit={imageFit}
               lanyardImage={lanyardImage}
               lanyardWidth={lanyardWidth}
@@ -170,6 +176,8 @@ type BandProps = {
   isMobile?: boolean;
   frontImage?: string | null;
   backImage?: string | null;
+  frontBg?: string | null;
+  backBg?: string | null;
   imageFit?: "cover" | "contain";
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -181,6 +189,8 @@ function Band({
   isMobile = false,
   frontImage = null,
   backImage = null,
+  frontBg = null,
+  backBg = null,
   imageFit = "cover",
   lanyardImage = null,
   lanyardWidth = 1,
@@ -229,30 +239,36 @@ function Band({
 
     const drawFitted = (
       img: HTMLImageElement,
-      rect: { x: number; y: number; w: number; h: number }
+      rect: { x: number; y: number; w: number; h: number },
+      bgColor?: string
     ) => {
       const rx = rect.x * W;
       const ry = rect.y * H;
       const rw = rect.w * W;
       const rh = rect.h * H;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rx, ry, rw, rh);
+      ctx.clip();
+      // 先填充底色，避免透明 PNG 与卡片黑底重合、看不出主色
+      if (bgColor) {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(rx, ry, rw, rh);
+      }
       const pick = imageFit === "contain" ? Math.min : Math.max;
       const scale = pick(rw / img.width, rh / img.height);
       const dw = img.width * scale;
       const dh = img.height * scale;
       const dx = rx + (rw - dw) / 2;
       const dy = ry + (rh - dh) / 2;
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(rx, ry, rw, rh);
-      ctx.clip();
       ctx.drawImage(img, dx, dy, dw, dh);
       ctx.restore();
     };
 
     if (frontImage && frontTex.image)
-      drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT);
+      drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT, frontBg ?? undefined);
     if (backImage && backTex.image)
-      drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
+      drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT, backBg ?? undefined);
 
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
@@ -260,7 +276,7 @@ function Band({
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, frontBg, backBg, imageFit, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
@@ -274,9 +290,9 @@ function Band({
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.6]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.6]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1.6]);
   useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.5, 0]]);
 
   useEffect(() => {
@@ -331,17 +347,17 @@ function Band({
     <>
       <group position={[0, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
+        <RigidBody position={[0.8, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
+        <RigidBody position={[1.6, 0, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
+        <RigidBody position={[2.4, 0, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2, 0, 0]}
+          position={[3.2, 0, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
@@ -367,8 +383,8 @@ function Band({
                 map-anisotropy={16}
                 clearcoat={isMobile ? 0 : 1}
                 clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
+                roughness={0.5}
+                metalness={0.2}
               />
             </mesh>
             <mesh
