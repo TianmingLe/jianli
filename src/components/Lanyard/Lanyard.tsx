@@ -63,6 +63,7 @@ type LanyardProps = {
   frontImage?: string | null;
   backImage?: string | null;
   imageFit?: "cover" | "contain";
+  imageScale?: number;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -75,6 +76,7 @@ function LanyardInner({
   frontImage = null,
   backImage = null,
   imageFit = "cover",
+  imageScale = 1,
   lanyardImage = null,
   lanyardWidth = 1,
 }: LanyardProps) {
@@ -107,6 +109,7 @@ function LanyardInner({
               frontImage={frontImage}
               backImage={backImage}
               imageFit={imageFit}
+              imageScale={imageScale}
               lanyardImage={lanyardImage}
               lanyardWidth={lanyardWidth}
             />
@@ -173,6 +176,7 @@ type BandProps = {
   frontImage?: string | null;
   backImage?: string | null;
   imageFit?: "cover" | "contain";
+  imageScale?: number;
   lanyardImage?: string | null;
   lanyardWidth?: number;
 };
@@ -184,6 +188,7 @@ function Band({
   frontImage = null,
   backImage = null,
   imageFit = "cover",
+  imageScale = 1,
   lanyardImage = null,
   lanyardWidth = 1,
 }: BandProps) {
@@ -238,7 +243,7 @@ function Band({
       const rw = rect.w * W;
       const rh = rect.h * H;
       const pick = imageFit === "contain" ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height);
+      const scale = pick(rw / img.width, rh / img.height) * imageScale;
       const dw = img.width * scale;
       const dh = img.height * scale;
       const dx = rx + (rw - dw) / 2;
@@ -262,7 +267,7 @@ function Band({
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, imageScale, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
