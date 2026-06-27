@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -105,8 +105,32 @@ const chartBounceTransforms = [
 export default function BaoerFeedback() {
   const [lightbox, setLightbox] = useState<string | null>(null);
 
+  // 整个区段进入视口附近再挂载重资源子组件（BounceCards/Masonry），
+  // 避免页面进入瞬间就触发图片预加载与 gsap 动画
+  const sectionRef = useRef<HTMLElement>(null);
+  const [shouldRenderHeavy, setShouldRenderHeavy] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldRenderHeavy(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section id="baoer-feedback" className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40">
+    <section
+      id="baoer-feedback"
+      ref={sectionRef}
+      className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40"
+    >
       <div className="shell">
         {/* 章节标题 */}
         <motion.div
@@ -162,19 +186,23 @@ export default function BaoerFeedback() {
             </h3>
           </div>
           <div className="flex w-full justify-center overflow-hidden py-4">
-            <BounceCards
-              className="custom-bounceCards"
-              images={chartBounceImages}
-              labels={charts.map((c) => c.label)}
-              containerWidth={640}
-              containerHeight={250}
-              animationDelay={1.4}
-              animationStagger={0.12}
-              easeType="elastic.out(1, 0.5)"
-              transformStyles={chartBounceTransforms}
-              enableHover
-              onCardDoubleClick={(i) => setLightbox(chartBounceImages[i])}
-            />
+            {shouldRenderHeavy ? (
+              <BounceCards
+                className="custom-bounceCards"
+                images={chartBounceImages}
+                labels={charts.map((c) => c.label)}
+                containerWidth={640}
+                containerHeight={250}
+                animationDelay={0.4}
+                animationStagger={0.12}
+                easeType="elastic.out(1, 0.5)"
+                transformStyles={chartBounceTransforms}
+                enableHover
+                onCardDoubleClick={(i) => setLightbox(chartBounceImages[i])}
+              />
+            ) : (
+              <div style={{ width: 640, height: 250 }} />
+            )}
           </div>
         </motion.div>
 
@@ -238,18 +266,22 @@ export default function BaoerFeedback() {
             </span>
           </div>
 
-          <Masonry
-            items={masonryItems}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.16}
-            animateFrom="bottom"
-            scaleOnHover
-            hoverScale={0.95}
-            blurToFocus={false}
-            colorShiftOnHover
-            onItemDoubleClick={(item) => setLightbox(item.img)}
-          />
+          {shouldRenderHeavy ? (
+            <Masonry
+              items={masonryItems}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.16}
+              animateFrom="bottom"
+              scaleOnHover
+              hoverScale={0.95}
+              blurToFocus={false}
+              colorShiftOnHover
+              onItemDoubleClick={(item) => setLightbox(item.img)}
+            />
+          ) : (
+            <div style={{ minHeight: 400 }} />
+          )}
           <div style={{ height: 20 }} />
         </motion.div>
       </div>

@@ -55,27 +55,6 @@ const useMeasure = () => {
   return [ref, size] as const;
 };
 
-const preloadImages = async (urls: string[]) => {
-  const ratios: Record<string, number> = {};
-  await Promise.all(
-    urls.map(
-      src =>
-        new Promise<void>(resolve => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => {
-            if (img.width && img.height) {
-              ratios[src] = img.width / img.height;
-            }
-            resolve();
-          };
-          img.onerror = () => resolve();
-        })
-    )
-  );
-  return ratios;
-};
-
 type GridItem = MasonryItem & { x: number; y: number; w: number; h: number };
 
 export default function Masonry({
@@ -98,7 +77,8 @@ export default function Masonry({
   );
 
   const [containerRef, { width }] = useMeasure();
-  const [imagesReady, setImagesReady] = useState(false);
+  // 不再阻塞渲染等待图片预加载，直接用默认高度布局
+  const imagesReady = true;
   const [ratios, setRatios] = useState<Record<string, number>>({});
 
   const getInitialPosition = (item: GridItem) => {
@@ -131,11 +111,24 @@ export default function Masonry({
     }
   };
 
+  // 首次挂载立即用默认高度布局并渲染，不等图片加载。
+  // 图片宽高比陆续返回后异步 setRatios 触发 grid 重算（带过渡动画）。
   useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(r => {
-      setRatios(r);
-      setImagesReady(true);
+    let cancelled = false;
+    items.forEach(it => {
+      const img = new Image();
+      img.src = it.img;
+      const apply = () => {
+        if (cancelled) return;
+        if (img.width && img.height) {
+          setRatios(prev => (prev[it.img] ? prev : { ...prev, [it.img]: img.width / img.height }));
+        }
+      };
+      if (img.complete) apply();
+      else img.onload = apply;
+      img.onerror = () => {};
     });
+    return () => { cancelled = true; };
   }, [items]);
 
   const grid = useMemo<GridItem[]>(() => {
@@ -164,7 +157,9 @@ export default function Masonry({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!imagesReady) return;
+    if (!imagesReady || grid.length === 0) return;
+
+    const selectors = grid.map(item => `[data-key="${item.id}"]`);
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -192,7 +187,9 @@ export default function Masonry({
           ...(blurToFocus && { filter: 'blur(0px)' }),
           duration: 0.8,
           ease: 'power3.out',
-          delay: index * stagger
+          // 限制入场 delay 上限，避免最后一张等太久造成长时间空白
+          delay: Math.min(index * stagger, 0.6),
+          overwrite: 'auto'
         });
       } else {
         gsap.to(selector, {
@@ -205,6 +202,10 @@ export default function Masonry({
     });
 
     hasMounted.current = true;
+    // 卸载或重跑前清理 tween，避免泄漏与动画叠加
+    return () => {
+      selectors.forEach(s => gsap.killTweensOf(s));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
