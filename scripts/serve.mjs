@@ -34,6 +34,9 @@ const MIME = {
   ".txt": "text/plain; charset=utf-8",
   ".xml": "application/xml; charset=utf-8",
   ".webmanifest": "application/manifest+json",
+  ".glb": "model/gltf-binary",
+  ".gltf": "model/gltf+json",
+  ".wasm": "application/wasm",
 };
 
 const server = http.createServer((req, res) => {
