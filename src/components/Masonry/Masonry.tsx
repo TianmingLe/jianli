@@ -112,23 +112,34 @@ export default function Masonry({
   };
 
   // 首次挂载立即用默认高度布局并渲染，不等图片加载。
-  // 图片宽高比陆续返回后异步 setRatios 触发 grid 重算（带过渡动画）。
+  // 图片宽高比陆续返回后用 rAF 批量合并一次 setRatios，避免 11 次 grid 重算。
   useEffect(() => {
     let cancelled = false;
+    let raf = 0;
+    const pending: Record<string, number> = {};
+    const flush = () => {
+      raf = 0;
+      if (cancelled || Object.keys(pending).length === 0) return;
+      setRatios(prev => ({ ...prev, ...pending }));
+    };
     items.forEach(it => {
       const img = new Image();
       img.src = it.img;
       const apply = () => {
         if (cancelled) return;
         if (img.width && img.height) {
-          setRatios(prev => (prev[it.img] ? prev : { ...prev, [it.img]: img.width / img.height }));
+          pending[it.img] = img.width / img.height;
+          if (!raf) raf = requestAnimationFrame(flush);
         }
       };
       if (img.complete) apply();
       else img.onload = apply;
       img.onerror = () => {};
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [items]);
 
   const grid = useMemo<GridItem[]>(() => {
@@ -158,8 +169,6 @@ export default function Masonry({
 
   useLayoutEffect(() => {
     if (!imagesReady || grid.length === 0) return;
-
-    const selectors = grid.map(item => `[data-key="${item.id}"]`);
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -194,6 +203,8 @@ export default function Masonry({
       } else {
         gsap.to(selector, {
           ...animationProps,
+          // 重定位时确保可见，避免入场动画被 overwrite 中断后卡在 opacity:0
+          opacity: 1,
           duration: duration,
           ease: ease,
           overwrite: 'auto'
@@ -202,10 +213,9 @@ export default function Masonry({
     });
 
     hasMounted.current = true;
-    // 卸载或重跑前清理 tween，避免泄漏与动画叠加
-    return () => {
-      selectors.forEach(s => gsap.killTweensOf(s));
-    };
+    // 不在这里 kill tween：原版靠 overwrite:'auto' 处理冲突，
+    // 主动 kill 会把还在跑的入场动画斩断在 opacity:0，导致卡片不可见。
+    // 组件卸载时 DOM 节点消失，gsap 自动清理对应 tween。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
