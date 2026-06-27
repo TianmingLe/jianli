@@ -56,24 +56,16 @@ const useMeasure = () => {
 };
 
 const preloadImages = async (urls: string[]) => {
-  const ratios: Record<string, number> = {};
   await Promise.all(
     urls.map(
       src =>
         new Promise<void>(resolve => {
           const img = new Image();
           img.src = src;
-          img.onload = () => {
-            if (img.width && img.height) {
-              ratios[src] = img.width / img.height;
-            }
-            resolve();
-          };
-          img.onerror = () => resolve();
+          img.onload = img.onerror = () => resolve();
         })
     )
   );
-  return ratios;
 };
 
 type GridItem = MasonryItem & { x: number; y: number; w: number; h: number };
@@ -99,7 +91,6 @@ export default function Masonry({
 
   const [containerRef, { width }] = useMeasure();
   const [imagesReady, setImagesReady] = useState(false);
-  const [ratios, setRatios] = useState<Record<string, number>>({});
 
   const getInitialPosition = (item: GridItem) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -132,10 +123,7 @@ export default function Masonry({
   };
 
   useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(r => {
-      setRatios(r);
-      setImagesReady(true);
-    });
+    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
   }, [items]);
 
   const grid = useMemo<GridItem[]>(() => {
@@ -147,19 +135,14 @@ export default function Masonry({
     return items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      // 优先用真实图片宽高比计算高度，竖图（宽<高）保持原比例不截断
-      // 未知比例时回退到 child.height
-      const ratio = ratios[child.img];
-      const height = ratio
-        ? columnWidth / ratio
-        : child.height / 2;
+      const height = child.height / 2;
       const y = colHeights[col];
 
       colHeights[col] += height;
 
       return { ...child, x, y, w: columnWidth, h: height };
     });
-  }, [columns, items, width, ratios]);
+  }, [columns, items, width]);
 
   const hasMounted = useRef(false);
 
