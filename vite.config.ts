@@ -4,6 +4,16 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
+  assetsInclude: ['**/*.glb'],
+  optimizeDeps: {
+    exclude: ['@dimforge/rapier3d-compat', '@react-three/rapier'],
+  },
+  server: {
+    watch: {
+      // Avoid ENOSPC in containers with low inotify limits by ignoring pnpm store
+      ignored: ['**/node_modules/**', '**/.pnpm-store/**', '**/.git/**'],
+    },
+  },
   build: {
     sourcemap: 'hidden',
   },
@@ -11,7 +21,11 @@ export default defineConfig({
     react({
       babel: {
         plugins: [
-          'react-dev-locator',
+          // 排除 Lanyard 文件：react-dev-locator 会给 JSX 注入 trae-inspector-*
+          // 属性，meshline 的 meshLineMaterial/meshLineGeometry 不在插件内置的
+          // three 元素白名单里，R3F 会把这些属性当成 three 对象的嵌套属性链应用
+          // （material.trae.inspector...）而崩溃。排除该文件可避免注入。
+          ['react-dev-locator', { excludes: [/Lanyard/] }],
         ],
       },
     }),

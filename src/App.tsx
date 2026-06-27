@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import BottomBar from "@/components/BottomBar";
+import ClickSpark from "@/components/ClickSpark";
 
 // 路由级 code splitting：各页面拆为独立 chunk，首屏只加载当前路由
 const Home = lazy(() => import("@/pages/Home"));
@@ -20,15 +21,23 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Suspense fallback={null}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/qa" element={<QA />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-      <BottomBar />
+      <ClickSpark
+        sparkColor="#7DD3FC"
+        sparkSize={15}
+        sparkRadius={25}
+        sparkCount={8}
+        duration={500}
+      >
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/qa" element={<QA />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+        <BottomBar />
+      </ClickSpark>
     </BrowserRouter>
   );
 }
