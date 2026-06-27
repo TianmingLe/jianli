@@ -4,6 +4,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
+  assetsInclude: ['**/*.glb'],
+  optimizeDeps: {
+    exclude: ['@dimforge/rapier3d-compat'],
+  },
   build: {
     sourcemap: 'hidden',
   },
