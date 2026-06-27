@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -7,6 +8,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import BounceCards from "@/components/BounceCards/BounceCards";
+import Masonry, { type MasonryItem } from "@/components/Masonry/Masonry";
 import audienceAge from "@/data/self-media/baoer/《钢铁是怎样炼成的》年龄画像受众.webp";
 import pavelData from "@/data/self-media/baoer/保尔柯察金数据分析.webp";
 import genderDist from "@/data/self-media/baoer/观众性别分布.webp";
@@ -82,25 +84,53 @@ const comments = [
   { src: c12, label: "评论区 12" },
 ];
 
-// BounceCards 精选展示（5 张错落卡片）
-const bounceImages = [
-  comments[0].src,
-  comments[2].src,
-  comments[5].src,
-  comments[7].src,
-  comments[9].src,
-];
-const bounceTransforms = [
-  "rotate(10deg) translate(-170px)",
-  "rotate(5deg) translate(-85px)",
-  "rotate(-3deg)",
-  "rotate(-10deg) translate(85px)",
-  "rotate(2deg) translate(170px)",
+// 评论区精选 Masonry 瀑布流（错落高度）
+const masonryHeights = [520, 380, 640, 440, 580, 400, 680, 460, 600, 420, 560];
+const masonryItems: MasonryItem[] = comments.map((c, i) => ({
+  id: String(i + 1),
+  img: c.src,
+  height: masonryHeights[i % masonryHeights.length],
+}));
+
+// 数据洞察 BounceCards 展示（5 张图表错落卡片）
+const chartBounceImages = charts.map((c) => c.src);
+const chartBounceTransforms = [
+  "rotate(5deg) translate(-200px)",
+  "rotate(0deg) translate(-100px)",
+  "rotate(-5deg)",
+  "rotate(5deg) translate(100px)",
+  "rotate(-5deg) translate(200px)",
 ];
 
 export default function BaoerFeedback() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
+  // 整个区段进入视口附近再挂载重资源子组件（BounceCards/Masonry），
+  // 避免页面进入瞬间就触发图片预加载与 gsap 动画
+  const sectionRef = useRef<HTMLElement>(null);
+  const [shouldRenderHeavy, setShouldRenderHeavy] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldRenderHeavy(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section id="baoer-feedback" className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40">
+    <section
+      id="baoer-feedback"
+      ref={sectionRef}
+      className="relative w-full scroll-mt-24 bg-ink-950 py-28 md:py-40"
+    >
       <div className="shell">
         {/* 章节标题 */}
         <motion.div
@@ -155,31 +185,24 @@ export default function BaoerFeedback() {
               / 数据洞察
             </h3>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {charts.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, ease, delay: i * 0.06 }}
-                className="group overflow-hidden border border-ink-700 bg-ink-900"
-              >
-                <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
-                  <c.icon className="h-3.5 w-3.5 text-volt-400" />
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-mist-500">
-                    {c.label}
-                  </span>
-                </div>
-                <div className="relative aspect-video w-full overflow-hidden bg-ink-950">
-                  <img loading="lazy" decoding="async"
-                    src={c.src}
-                    alt={c.label}
-                    className="h-full w-full object-contain p-3 transition-transform duration-700 group-hover:scale-[1.02]"
-                  />
-                </div>
-              </motion.div>
-            ))}
+          <div className="flex w-full justify-center overflow-hidden py-4">
+            {shouldRenderHeavy ? (
+              <BounceCards
+                className="custom-bounceCards"
+                images={chartBounceImages}
+                labels={charts.map((c) => c.label)}
+                containerWidth={640}
+                containerHeight={250}
+                animationDelay={0.4}
+                animationStagger={0.12}
+                easeType="elastic.out(1, 0.5)"
+                transformStyles={chartBounceTransforms}
+                enableHover
+                onCardDoubleClick={(i) => setLightbox(chartBounceImages[i])}
+              />
+            ) : (
+              <div style={{ width: 640, height: 250 }} />
+            )}
           </div>
         </motion.div>
 
@@ -224,7 +247,7 @@ export default function BaoerFeedback() {
           </div>
         </motion.div>
 
-        {/* 评论区截图 — BounceCards 错落弹跳展示 */}
+        {/* 评论区截图 — 网格展示 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -239,24 +262,44 @@ export default function BaoerFeedback() {
               </h3>
             </div>
             <span className="font-mono text-[10px] text-mist-600">
-              悬停卡片查看
+              双击图片放大查看
             </span>
           </div>
 
-          <div className="flex w-full justify-center overflow-hidden py-4">
-            <BounceCards
-              images={bounceImages}
-              containerWidth={520}
-              containerHeight={300}
-              animationDelay={0.4}
-              animationStagger={0.12}
-              easeType="elastic.out(1, 0.5)"
-              transformStyles={bounceTransforms}
-              enableHover
+          {shouldRenderHeavy ? (
+            <Masonry
+              items={masonryItems}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.16}
+              animateFrom="bottom"
+              scaleOnHover
+              hoverScale={0.95}
+              blurToFocus={false}
+              colorShiftOnHover
+              onItemDoubleClick={(item) => setLightbox(item.img)}
             />
-          </div>
+          ) : (
+            <div style={{ minHeight: 400 }} />
+          )}
+          <div style={{ height: 20 }} />
         </motion.div>
       </div>
+
+      {/* 图片放大查看 — 点击其他地方退出 */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setLightbox(null)}
+        >
+          <img
+            src={lightbox}
+            alt="放大查看"
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </section>
   );
 }

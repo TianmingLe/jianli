@@ -5,6 +5,7 @@ import './BounceCards.css';
 interface BounceCardsProps {
   className?: string;
   images?: string[];
+  labels?: string[];
   containerWidth?: number;
   containerHeight?: number;
   animationDelay?: number;
@@ -12,11 +13,13 @@ interface BounceCardsProps {
   easeType?: string;
   transformStyles?: string[];
   enableHover?: boolean;
+  onCardDoubleClick?: (idx: number) => void;
 }
 
 export default function BounceCards({
   className = '',
   images = [],
+  labels = [],
   containerWidth = 400,
   containerHeight = 400,
   animationDelay = 0.5,
@@ -29,7 +32,8 @@ export default function BounceCards({
     'rotate(-10deg) translate(85px)',
     'rotate(2deg) translate(170px)'
   ],
-  enableHover = true
+  enableHover = true,
+  onCardDoubleClick
 }: BounceCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -145,8 +149,10 @@ export default function BounceCards({
           }}
           onMouseEnter={() => pushSiblings(idx)}
           onMouseLeave={resetSiblings}
+          onDoubleClick={() => onCardDoubleClick?.(idx)}
         >
           <img className="image" src={src} alt={`card-${idx}`} loading="lazy" />
+          {labels[idx] && <span className="card-label">{labels[idx]}</span>}
         </div>
       ))}
     </div>
