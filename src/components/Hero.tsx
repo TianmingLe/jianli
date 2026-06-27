@@ -41,7 +41,7 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="hero"
-      className="relative flex h-screen min-h-[720px] w-full items-start overflow-hidden"
+      className="relative flex min-h-screen w-full items-start overflow-hidden"
     >
       {/* 背景层 */}
       <div className="absolute inset-0 z-0 overflow-hidden">

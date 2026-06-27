@@ -2,15 +2,31 @@
   /* 文档流定位：随页面滚动，置于底部「Work With YW」标语前 */
   position: relative;
   width: 100%;
-  max-width: 640px;
-  height: 60vh;
-  min-height: 420px;
-  max-height: 640px;
+  max-width: 1700px;
+  height: 95vh;
+  min-height: 640px;
+  max-height: 980px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   /* 不裁切：拖拽时卡片可飞出画布范围 */
   overflow: visible;
   pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .lanyard-wrapper {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lanyard-wrapper {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
 }
 
 /* R3F 的 ResizeObserver 测量此 host 作为画布尺寸基准 */
@@ -28,7 +44,7 @@
 
 @media (max-width: 768px) {
   .lanyard-wrapper {
-    height: 40vh;
-    min-height: 300px;
+    height: 72vh;
+    min-height: 520px;
   }
 }
