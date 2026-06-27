@@ -91,11 +91,11 @@ const bounceImages = [
   comments[9].src,
 ];
 const bounceTransforms = [
-  "rotate(10deg) translate(-170px)",
-  "rotate(5deg) translate(-85px)",
-  "rotate(-3deg)",
-  "rotate(-10deg) translate(85px)",
-  "rotate(2deg) translate(170px)",
+  "rotate(5deg) translate(-150px)",
+  "rotate(0deg) translate(-70px)",
+  "rotate(-5deg)",
+  "rotate(5deg) translate(70px)",
+  "rotate(-5deg) translate(150px)",
 ];
 
 export default function BaoerFeedback() {
@@ -245,10 +245,11 @@ export default function BaoerFeedback() {
 
           <div className="flex w-full justify-center overflow-hidden py-4">
             <BounceCards
+              className="custom-bounceCards"
               images={bounceImages}
-              containerWidth={520}
-              containerHeight={300}
-              animationDelay={0.4}
+              containerWidth={500}
+              containerHeight={250}
+              animationDelay={1.4}
               animationStagger={0.12}
               easeType="elastic.out(1, 0.5)"
               transformStyles={bounceTransforms}
