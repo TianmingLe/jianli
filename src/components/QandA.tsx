@@ -73,18 +73,28 @@ export default function QandA({ children }: { children?: ReactNode }) {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
+    // 缓存 Q&A 元素引用，避免每次滚动都 getElementById（触发布局查询）
+    const els = qnaData.map((_, i) => document.getElementById(`qa-q${i + 1}`));
+    let raf = 0;
     const onScroll = () => {
-      const y = window.scrollY + window.innerHeight / 2;
-      let current = -1;
-      for (let i = 0; i < qnaData.length; i++) {
-        const el = document.getElementById(`qa-q${i + 1}`);
-        if (el && el.offsetTop <= y) current = i;
-      }
-      setActiveIdx(current);
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY + window.innerHeight / 2;
+        let current = -1;
+        for (let i = 0; i < els.length; i++) {
+          const el = els[i];
+          if (el && el.offsetTop <= y) current = i;
+        }
+        setActiveIdx(current);
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const handleCopyEmail = useCallback(() => {

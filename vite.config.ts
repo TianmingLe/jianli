@@ -16,6 +16,19 @@ export default defineConfig({
   },
   build: {
     sourcemap: 'hidden',
+    rollupOptions: {
+      output: {
+        // 拆分大型 3D/动画依赖，避免 Lanyard lazy chunk 过大、改善并行加载与缓存命中
+        manualChunks: {
+          three: ['three'],
+          'react-three-fiber': ['@react-three/fiber'],
+          'react-three-drei': ['@react-three/drei'],
+          'react-three-rapier': ['@react-three/rapier', '@dimforge/rapier3d-compat'],
+          meshline: ['meshline'],
+          'framer-motion': ['framer-motion'],
+        },
+      },
+    },
   },
   plugins: [
     react({
