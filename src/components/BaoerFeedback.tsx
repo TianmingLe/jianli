@@ -220,19 +220,19 @@ export default function BaoerFeedback() {
               </h3>
             </div>
             <span className="font-mono text-[10px] text-mist-600">
-              真实观众评论截图
+              ← 左右滑动查看 →
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="comments-scroll -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4">
             {comments.map((c, i) => (
               <motion.div
                 key={c.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, ease, delay: i * 0.06 }}
-                className="group overflow-hidden border border-ink-700 bg-ink-900"
+                transition={{ duration: 0.6, ease, delay: i * 0.05 }}
+                className="group w-[300px] shrink-0 snap-start overflow-hidden border border-ink-700 bg-ink-900 sm:w-[360px]"
               >
                 <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
                   <Users className="h-3.5 w-3.5 text-volt-400" />
@@ -240,7 +240,7 @@ export default function BaoerFeedback() {
                     {c.label}
                   </span>
                 </div>
-                <div className="relative aspect-video w-full overflow-hidden bg-ink-950">
+                <div className="relative aspect-[9/16] w-full overflow-hidden bg-ink-950">
                   <img loading="lazy" decoding="async"
                     src={c.src}
                     alt={c.label}
