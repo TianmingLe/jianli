@@ -38,7 +38,7 @@ export default function QA() {
                 imageFit="cover"
                 imageScale={0.55}
                 frontText="HU.YW"
-                lanyardWidth={0.7}
+                lanyardWidth={0.85}
               />
             </Suspense>
           </ErrorBoundary>
