@@ -326,7 +326,7 @@ function Band({
   );
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
-  // 鼠标悬停时的局部亮度增强：光标附近的纹理区域亮度略微提升
+  // 鼠标悬停时的局部对比度降低：光标附近的纹理区域对比度略微降低
   const uMouseUV = useRef(new THREE.Vector2(0.5, 0.5));
   const uHover = useRef({ value: 0 });
   const hoveredRef = useRef(false);
@@ -379,7 +379,7 @@ function Band({
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
-    // 平滑过渡悬停强度并同步到着色器，实现鼠标附近的局部亮度增强
+    // 平滑过渡悬停强度并同步到着色器，实现鼠标附近的局部对比度降低
     uHover.current.value = THREE.MathUtils.lerp(
       uHover.current.value,
       hoveredRef.current ? 1 : 0,
@@ -447,7 +447,7 @@ function Band({
                        {
                          float d = distance(vMapUv, uMouseUV);
                          float f = smoothstep(0.12, 0.0, d) * uHover;
-                         diffuseColor.rgb += vec3(0.12) * f;
+                         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.5), 0.12 * f);
                        }
                        #endif`
                     );
