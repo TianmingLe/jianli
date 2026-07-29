@@ -283,7 +283,7 @@ function Band({
       ctx.beginPath();
       ctx.rect(frx, fry, frw, frh);
       ctx.clip();
-      ctx.fillStyle = "#E8E8E8";
+      ctx.fillStyle = "#808080";
       ctx.fillRect(frx, fry, frw, frh);
       ctx.restore();
       // 再叠加清晰的正面照片（保持原有缩放与位置）
