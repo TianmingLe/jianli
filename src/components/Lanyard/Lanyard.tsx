@@ -67,6 +67,8 @@ type LanyardProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  // 纵向独立缩放：未传时退回 imageScale，保持原有各向同性行为
+  imageScaleY?: number;
   frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -81,6 +83,7 @@ function LanyardInner({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  imageScaleY,
   frontText,
   lanyardImage = null,
   lanyardWidth = 1,
@@ -118,6 +121,7 @@ function LanyardInner({
                 backImage={backImage}
                 imageFit={imageFit}
                 imageScale={imageScale}
+                imageScaleY={imageScaleY ?? imageScale}
                 frontText={frontText}
                 lanyardImage={lanyardImage}
                 lanyardWidth={lanyardWidth}
@@ -184,6 +188,7 @@ type BandProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  imageScaleY?: number;
   frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -197,6 +202,7 @@ function Band({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  imageScaleY = imageScale,
   frontText,
   lanyardImage = null,
   lanyardWidth = 1,
@@ -245,28 +251,66 @@ function Band({
 
     const drawFitted = (
       img: HTMLImageElement,
-      rect: { x: number; y: number; w: number; h: number }
+      rect: { x: number; y: number; w: number; h: number },
+      feather = 0
     ) => {
       const rx = rect.x * W;
       const ry = rect.y * H;
       const rw = rect.w * W;
       const rh = rect.h * H;
       const pick = imageFit === "contain" ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height) * imageScale;
-      const dw = img.width * scale;
-      const dh = img.height * scale;
+      const baseScale = pick(rw / img.width, rh / img.height);
+      // 宽度与高度独立缩放：宽度保持 imageScale，高度使用 imageScaleY
+      const dw = img.width * baseScale * imageScale;
+      const dh = img.height * baseScale * imageScaleY;
       const dx = rx + (rw - dw) / 2;
       const dy = ry + (rh - dh) / 2;
       ctx.save();
       ctx.beginPath();
       ctx.rect(rx, ry, rw, rh);
       ctx.clip();
-      ctx.drawImage(img, dx, dy, dw, dh);
+      if (feather > 0) {
+        // 在临时 canvas 上绘制图片并对四条边做很小的羽化，再叠加到主 canvas
+        const tw = Math.ceil(dw);
+        const th = Math.ceil(dh);
+        const tmp = document.createElement("canvas");
+        tmp.width = tw;
+        tmp.height = th;
+        const tctx = tmp.getContext("2d");
+        if (tctx) {
+          tctx.drawImage(img, 0, 0, tw, th);
+          tctx.globalCompositeOperation = "destination-in";
+          tctx.filter = `blur(${feather}px)`;
+          tctx.fillStyle = "#fff";
+          tctx.fillRect(feather, feather, tw - feather * 2, th - feather * 2);
+          tctx.filter = "none";
+          ctx.drawImage(tmp, dx, dy, dw, dh);
+        } else {
+          ctx.drawImage(img, dx, dy, dw, dh);
+        }
+      } else {
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
       ctx.restore();
     };
 
-    if (frontImage && frontTex.image)
-      drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT);
+    if (frontImage && frontTex.image) {
+      // 用浅灰色铺满整个正面作为背景
+      const fImg = frontTex.image as HTMLImageElement;
+      const frx = FRONT_UV_RECT.x * W;
+      const fry = FRONT_UV_RECT.y * H;
+      const frw = FRONT_UV_RECT.w * W;
+      const frh = FRONT_UV_RECT.h * H;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(frx, fry, frw, frh);
+      ctx.clip();
+      ctx.fillStyle = "#555555";
+      ctx.fillRect(frx, fry, frw, frh);
+      ctx.restore();
+      // 再叠加清晰的正面照片，四边带很小的羽化与背景柔和过渡
+      drawFitted(fImg, FRONT_UV_RECT, Math.round(frw * 0.012));
+    }
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
 
@@ -283,9 +327,9 @@ function Band({
       ctx.clip();
       ctx.font = `700 ${fontSize}px "Helvetica Neue", Arial, sans-serif`;
       ctx.textBaseline = "alphabetic";
-      // 按 "." 分段：黑色文字 + 蓝色点
+      // 按 "." 分段：白色文字 + 蓝色点
       const accentColor = "#1E90FF";
-      const baseColor = "#0A0A0B";
+      const baseColor = "#FFFFFF";
       const segments = frontText.split(/(\.)/);
       const widths = segments.map((s) => ctx.measureText(s).width);
       const totalW = widths.reduce((a, b) => a + b, 0);
@@ -306,7 +350,7 @@ function Band({
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, imageScale, frontText, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, imageScale, imageScaleY, frontText, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
@@ -319,6 +363,10 @@ function Band({
   );
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
+  // 鼠标悬停时的局部对比度降低：光标附近的纹理区域对比度略微降低
+  const uMouseUV = useRef(new THREE.Vector2(0.5, 0.5));
+  const uHover = useRef({ value: 0 });
+  const hoveredRef = useRef(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.3]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.3]);
@@ -368,6 +416,12 @@ function Band({
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
+    // 平滑过渡悬停强度并同步到着色器，实现鼠标附近的局部对比度降低
+    uHover.current.value = THREE.MathUtils.lerp(
+      uHover.current.value,
+      hoveredRef.current ? 1 : 0,
+      Math.min(1, delta * 8)
+    );
   });
 
   curve.curveType = "chordal";
@@ -396,8 +450,11 @@ function Band({
           <group
             scale={3.24}
             position={[0, -1.2, -0.05]}
-            onPointerOver={() => hover(true)}
-            onPointerOut={() => hover(false)}
+            onPointerOver={() => { hover(true); hoveredRef.current = true; }}
+            onPointerOut={() => { hover(false); hoveredRef.current = false; }}
+            onPointerMove={(e) => {
+              if (e.uv) uMouseUV.current.set(e.uv.x, e.uv.y);
+            }}
             onPointerUp={(e) => (
               (e.target as HTMLElement).releasePointerCapture(e.pointerId),
               drag(false)
@@ -415,6 +472,23 @@ function Band({
                 clearcoatRoughness={0.15}
                 roughness={0.9}
                 metalness={0.8}
+                onBeforeCompile={(shader) => {
+                  shader.uniforms.uMouseUV = { value: uMouseUV.current };
+                  shader.uniforms.uHover = uHover.current;
+                  shader.fragmentShader =
+                    `uniform vec2 uMouseUV; uniform float uHover;\n` +
+                    shader.fragmentShader.replace(
+                      "#include <map_fragment>",
+                      `#include <map_fragment>
+                       #ifdef USE_MAP
+                       {
+                         float d = distance(vMapUv, uMouseUV);
+                         float f = smoothstep(0.12, 0.0, d) * uHover;
+                         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.5), 0.12 * f);
+                       }
+                       #endif`
+                    );
+                }}
               />
             </mesh>
             <mesh
