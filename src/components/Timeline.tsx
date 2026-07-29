@@ -220,15 +220,6 @@ export default function Timeline() {
           </motion.div>
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease, delay: 0.3 }}
-          className="mt-12 text-right font-mono text-[10px] uppercase tracking-widest text-mist-700"
-        >
-          * 时间线基于《简历二版》附录：时间线总览
-        </motion.p>
       </div>
     </section>
   );

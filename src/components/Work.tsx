@@ -649,11 +649,6 @@ export default function Work() {
               精选项目
             </h2>
           </div>
-          <p className="hidden max-w-xs text-right text-sm text-mist-500 md:block">
-            按《简历二版》四大分区组织，
-            <br />
-            每区采用差异化的视觉语法。
-          </p>
         </motion.div>
 
         <div className="flex flex-col gap-12 md:gap-16">

@@ -1,4 +1,3 @@
-// 所有作品集内容数据集中于此，按《简历二版》结构与格式完整抽取
 import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.webp";
 import writingMachineImg from "@/data/xiangmu/写字机项目.webp";
 import smartGlassesImg from "@/data/xiangmu/AI眼镜.webp";

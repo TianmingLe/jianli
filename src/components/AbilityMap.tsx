@@ -160,16 +160,6 @@ export default function AbilityMap() {
           })}
         </div>
 
-        {/* 底部说明 */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease, delay: 0.3 }}
-          className="mt-8 text-right font-mono text-[10px] uppercase tracking-widest text-mist-700"
-        >
-          * 能力地图基于《简历二版》能力地图章节，熟练度自评
-        </motion.p>
       </div>
     </section>
   );
