@@ -251,7 +251,8 @@ function Band({
 
     const drawFitted = (
       img: HTMLImageElement,
-      rect: { x: number; y: number; w: number; h: number }
+      rect: { x: number; y: number; w: number; h: number },
+      feather = 0
     ) => {
       const rx = rect.x * W;
       const ry = rect.y * H;
@@ -268,7 +269,28 @@ function Band({
       ctx.beginPath();
       ctx.rect(rx, ry, rw, rh);
       ctx.clip();
-      ctx.drawImage(img, dx, dy, dw, dh);
+      if (feather > 0) {
+        // 在临时 canvas 上绘制图片并对四条边做很小的羽化，再叠加到主 canvas
+        const tw = Math.ceil(dw);
+        const th = Math.ceil(dh);
+        const tmp = document.createElement("canvas");
+        tmp.width = tw;
+        tmp.height = th;
+        const tctx = tmp.getContext("2d");
+        if (tctx) {
+          tctx.drawImage(img, 0, 0, tw, th);
+          tctx.globalCompositeOperation = "destination-in";
+          tctx.filter = `blur(${feather}px)`;
+          tctx.fillStyle = "#fff";
+          tctx.fillRect(feather, feather, tw - feather * 2, th - feather * 2);
+          tctx.filter = "none";
+          ctx.drawImage(tmp, dx, dy, dw, dh);
+        } else {
+          ctx.drawImage(img, dx, dy, dw, dh);
+        }
+      } else {
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
       ctx.restore();
     };
 
@@ -286,8 +308,8 @@ function Band({
       ctx.fillStyle = "#808080";
       ctx.fillRect(frx, fry, frw, frh);
       ctx.restore();
-      // 再叠加清晰的正面照片（保持原有缩放与位置）
-      drawFitted(fImg, FRONT_UV_RECT);
+      // 再叠加清晰的正面照片，四边带很小的羽化与背景柔和过渡
+      drawFitted(fImg, FRONT_UV_RECT, Math.round(frw * 0.012));
     }
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
