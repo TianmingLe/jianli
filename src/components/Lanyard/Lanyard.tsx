@@ -446,7 +446,7 @@ function Band({
                        #ifdef USE_MAP
                        {
                          float d = distance(vMapUv, uMouseUV);
-                         float f = smoothstep(0.22, 0.0, d) * uHover;
+                         float f = smoothstep(0.12, 0.0, d) * uHover;
                          diffuseColor.rgb += vec3(0.12) * f;
                        }
                        #endif`
