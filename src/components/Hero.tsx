@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Flame, Bot, BarChart3, Target } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/content";
@@ -10,10 +10,12 @@ const traitIcons = { Flame, Bot, BarChart3, Target };
 const VIDEO_DURATION_MS = 28_000; // 视频时长，结束时重载以实现循环
 const BILIBILI_EMBED =
   "https://player.bilibili.com/player.html?bvid=BV1617T6iEGj&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0";
+const HERO_POSTER = "/星空2.webp";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [iframeReady, setIframeReady] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scheduleReload = () => {
@@ -23,19 +25,42 @@ export default function Hero() {
     }, VIDEO_DURATION_MS);
   };
 
+  // 延迟加载 Bilibili iframe：首屏先用静态海报图占位，
+  // 等浏览器空闲后再加载视频播放器，避免首屏卡顿
   useEffect(() => {
+    const ric =
+      "requestIdleCallback" in window
+        ? (window as unknown as {
+            requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number;
+          }).requestIdleCallback
+        : null;
+    if (ric) {
+      const id = ric(() => setIframeReady(true), { timeout: 2500 });
+      return () =>
+        (
+          window as unknown as { cancelIdleCallback: (id: number) => void }
+        ).cancelIdleCallback(id);
+    }
+    const id = setTimeout(() => setIframeReady(true), 1500);
+    return () => clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
+    if (!iframeReady) return;
     scheduleReload();
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [reloadKey]);
+  }, [reloadKey, iframeReady]);
 
+  // 用 opacity 渐隐替代 blur 滤镜：对 iframe/video 施加 filter:blur
+  // 会强制每帧重新栅格化视频内容，是首屏卡顿的主因。
+  // opacity 是合成器友好属性，开销极低。
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
-  const blur = useTransform(scrollYProgress, [0, 1], [2, 16]);
-  const blurFilter = useMotionTemplate`blur(${blur}px)`;
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.25]);
 
   return (
     <section
@@ -45,15 +70,26 @@ export default function Hero() {
     >
       {/* 背景层 */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <iframe
-          key={reloadKey}
-          src={BILIBILI_EMBED}
-          title="Hero background video"
-          allow="autoplay; fullscreen"
-          onLoad={scheduleReload}
-          style={{ filter: blurFilter }}
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 border-0"
+        {/* 静态海报图：首屏立即可见，仅对静态图片施加 blur（开销低） */}
+        <img
+          src={HERO_POSTER}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 object-cover"
+          style={{ filter: "blur(3px)" }}
         />
+        {/* Bilibili 视频：延迟加载，不施加 blur filter，用 opacity 控制可见度 */}
+        {iframeReady && (
+          <motion.iframe
+            key={reloadKey}
+            src={BILIBILI_EMBED}
+            title="Hero background video"
+            allow="autoplay; fullscreen"
+            onLoad={scheduleReload}
+            style={{ opacity: bgOpacity }}
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 scale-110 border-0"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-ink-950/85 via-ink-950/65 to-ink-950" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-950/90 via-transparent to-ink-950/40" />
         <div
