@@ -251,7 +251,8 @@ function Band({
 
     const drawFitted = (
       img: HTMLImageElement,
-      rect: { x: number; y: number; w: number; h: number }
+      rect: { x: number; y: number; w: number; h: number },
+      feather = 0
     ) => {
       const rx = rect.x * W;
       const ry = rect.y * H;
@@ -268,32 +269,42 @@ function Band({
       ctx.beginPath();
       ctx.rect(rx, ry, rw, rh);
       ctx.clip();
-      ctx.drawImage(img, dx, dy, dw, dh);
+      if (feather > 0) {
+        // 用径向渐变在图片边缘做很小的羽化，使图片与背景柔和过渡
+        const cx = dx + dw / 2;
+        const cy = dy + dh / 2;
+        const innerR = Math.max(1, Math.min(dw, dh) / 2 - feather);
+        const outerR = Math.max(innerR + 1, Math.min(dw, dh) / 2);
+        const grad = ctx.createRadialGradient(cx, cy, innerR, cx, cy, outerR);
+        grad.addColorStop(0, "rgba(0,0,0,0)");
+        grad.addColorStop(1, "rgba(0,0,0,1)");
+        ctx.drawImage(img, dx, dy, dw, dh);
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fillStyle = grad;
+        ctx.fillRect(dx, dy, dw, dh);
+        ctx.globalCompositeOperation = "source-over";
+      } else {
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
       ctx.restore();
     };
 
     if (frontImage && frontTex.image) {
-      // 先用模糊化的照片铺满整个正面作为背景
+      // 用浅灰色铺满整个正面作为背景
       const fImg = frontTex.image as HTMLImageElement;
       const frx = FRONT_UV_RECT.x * W;
       const fry = FRONT_UV_RECT.y * H;
       const frw = FRONT_UV_RECT.w * W;
       const frh = FRONT_UV_RECT.h * H;
-      const coverScale = Math.max(frw / fImg.width, frh / fImg.height);
-      const bdw = fImg.width * coverScale;
-      const bdh = fImg.height * coverScale;
-      const bdx = frx + (frw - bdw) / 2;
-      const bdy = fry + (frh - bdh) / 2;
       ctx.save();
       ctx.beginPath();
       ctx.rect(frx, fry, frw, frh);
       ctx.clip();
-      ctx.filter = `blur(${Math.round(frw * 0.04)}px)`;
-      ctx.drawImage(fImg, bdx, bdy, bdw, bdh);
-      ctx.filter = "none";
+      ctx.fillStyle = "#E8E8E8";
+      ctx.fillRect(frx, fry, frw, frh);
       ctx.restore();
-      // 再叠加清晰的正面照片（保持原有缩放与位置）
-      drawFitted(fImg, FRONT_UV_RECT);
+      // 再叠加清晰的正面照片，边缘带很小的羽化与背景柔和过渡
+      drawFitted(fImg, FRONT_UV_RECT, Math.round(frw * 0.015));
     }
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
