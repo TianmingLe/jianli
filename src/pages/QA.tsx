@@ -36,7 +36,7 @@ export default function QA() {
                 gravity={[0, -40, 0]}
                 frontImage="/正面照2.webp"
                 imageFit="contain"
-                imageScale={0.9975}
+                imageScale={1.01745}
                 imageScaleY={1.045}
                 frontText="HU.YW"
                 lanyardWidth={0.6}
