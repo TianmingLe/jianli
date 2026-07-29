@@ -326,6 +326,10 @@ function Band({
   );
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
+  // 鼠标悬停时的局部对比度增强：光标附近的纹理区域对比度略微提升
+  const uMouseUV = useRef(new THREE.Vector2(0.5, 0.5));
+  const uHover = useRef({ value: 0 });
+  const hoveredRef = useRef(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.3]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1.3]);
@@ -375,6 +379,12 @@ function Band({
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
+    // 平滑过渡悬停强度并同步到着色器，实现鼠标附近的局部对比度增强
+    uHover.current.value = THREE.MathUtils.lerp(
+      uHover.current.value,
+      hoveredRef.current ? 1 : 0,
+      Math.min(1, delta * 8)
+    );
   });
 
   curve.curveType = "chordal";
@@ -403,8 +413,11 @@ function Band({
           <group
             scale={3.24}
             position={[0, -1.2, -0.05]}
-            onPointerOver={() => hover(true)}
-            onPointerOut={() => hover(false)}
+            onPointerOver={() => { hover(true); hoveredRef.current = true; }}
+            onPointerOut={() => { hover(false); hoveredRef.current = false; }}
+            onPointerMove={(e) => {
+              if (e.uv) uMouseUV.current.set(e.uv.x, e.uv.y);
+            }}
             onPointerUp={(e) => (
               (e.target as HTMLElement).releasePointerCapture(e.pointerId),
               drag(false)
@@ -422,6 +435,24 @@ function Band({
                 clearcoatRoughness={0.15}
                 roughness={0.9}
                 metalness={0.8}
+                onBeforeCompile={(shader) => {
+                  shader.uniforms.uMouseUV = { value: uMouseUV.current };
+                  shader.uniforms.uHover = uHover.current;
+                  shader.fragmentShader =
+                    `uniform vec2 uMouseUV; uniform float uHover;\n` +
+                    shader.fragmentShader.replace(
+                      "#include <map_fragment>",
+                      `#include <map_fragment>
+                       #ifdef USE_MAP
+                       {
+                         float d = distance(vMapUv, uMouseUV);
+                         float f = smoothstep(0.22, 0.0, d) * uHover;
+                         vec3 mid = vec3(0.5);
+                         diffuseColor.rgb = mix(diffuseColor.rgb, mid + (diffuseColor.rgb - mid) * 1.7, f);
+                       }
+                       #endif`
+                    );
+                }}
               />
             </mesh>
             <mesh
