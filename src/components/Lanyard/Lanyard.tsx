@@ -311,9 +311,9 @@ function Band({
       ctx.clip();
       ctx.font = `700 ${fontSize}px "Helvetica Neue", Arial, sans-serif`;
       ctx.textBaseline = "alphabetic";
-      // 按 "." 分段：黑色文字 + 蓝色点
+      // 按 "." 分段：白色文字 + 蓝色点
       const accentColor = "#1E90FF";
-      const baseColor = "#0A0A0B";
+      const baseColor = "#FFFFFF";
       const segments = frontText.split(/(\.)/);
       const widths = segments.map((s) => ctx.measureText(s).width);
       const totalW = widths.reduce((a, b) => a + b, 0);
