@@ -67,6 +67,8 @@ type LanyardProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  // 纵向独立缩放：未传时退回 imageScale，保持原有各向同性行为
+  imageScaleY?: number;
   frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -81,6 +83,7 @@ function LanyardInner({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  imageScaleY,
   frontText,
   lanyardImage = null,
   lanyardWidth = 1,
@@ -118,6 +121,7 @@ function LanyardInner({
                 backImage={backImage}
                 imageFit={imageFit}
                 imageScale={imageScale}
+                imageScaleY={imageScaleY ?? imageScale}
                 frontText={frontText}
                 lanyardImage={lanyardImage}
                 lanyardWidth={lanyardWidth}
@@ -184,6 +188,7 @@ type BandProps = {
   backImage?: string | null;
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  imageScaleY?: number;
   frontText?: string;
   lanyardImage?: string | null;
   lanyardWidth?: number;
@@ -197,6 +202,7 @@ function Band({
   backImage = null,
   imageFit = "cover",
   imageScale = 1,
+  imageScaleY = imageScale,
   frontText,
   lanyardImage = null,
   lanyardWidth = 1,
@@ -252,9 +258,10 @@ function Band({
       const rw = rect.w * W;
       const rh = rect.h * H;
       const pick = imageFit === "contain" ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height) * imageScale;
-      const dw = img.width * scale;
-      const dh = img.height * scale;
+      const baseScale = pick(rw / img.width, rh / img.height);
+      // 宽度与高度独立缩放：宽度保持 imageScale，高度使用 imageScaleY
+      const dw = img.width * baseScale * imageScale;
+      const dh = img.height * baseScale * imageScaleY;
       const dx = rx + (rw - dw) / 2;
       const dy = ry + (rh - dh) / 2;
       ctx.save();
@@ -306,7 +313,7 @@ function Band({
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, imageScale, frontText, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, imageScale, imageScaleY, frontText, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(
     () =>
