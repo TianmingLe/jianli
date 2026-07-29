@@ -305,7 +305,7 @@ function Band({
       ctx.beginPath();
       ctx.rect(frx, fry, frw, frh);
       ctx.clip();
-      ctx.fillStyle = "#808080";
+      ctx.fillStyle = "#555555";
       ctx.fillRect(frx, fry, frw, frh);
       ctx.restore();
       // 再叠加清晰的正面照片，四边带很小的羽化与背景柔和过渡
