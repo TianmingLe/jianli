@@ -272,8 +272,29 @@ function Band({
       ctx.restore();
     };
 
-    if (frontImage && frontTex.image)
-      drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT);
+    if (frontImage && frontTex.image) {
+      // 先用模糊化的照片铺满整个正面作为背景
+      const fImg = frontTex.image as HTMLImageElement;
+      const frx = FRONT_UV_RECT.x * W;
+      const fry = FRONT_UV_RECT.y * H;
+      const frw = FRONT_UV_RECT.w * W;
+      const frh = FRONT_UV_RECT.h * H;
+      const coverScale = Math.max(frw / fImg.width, frh / fImg.height);
+      const bdw = fImg.width * coverScale;
+      const bdh = fImg.height * coverScale;
+      const bdx = frx + (frw - bdw) / 2;
+      const bdy = fry + (frh - bdh) / 2;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(frx, fry, frw, frh);
+      ctx.clip();
+      ctx.filter = `blur(${Math.round(frw * 0.04)}px)`;
+      ctx.drawImage(fImg, bdx, bdy, bdw, bdh);
+      ctx.filter = "none";
+      ctx.restore();
+      // 再叠加清晰的正面照片（保持原有缩放与位置）
+      drawFitted(fImg, FRONT_UV_RECT);
+    }
     if (backImage && backTex.image)
       drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
 
