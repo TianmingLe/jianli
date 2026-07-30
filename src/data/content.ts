@@ -56,6 +56,14 @@ import omiShow1Img from "@/data/xiangmu/omi项目展示1.webp";
 import omiShow4Img from "@/data/xiangmu/omi项目展示4.webp";
 import omiShow2Img from "@/data/xiangmu/omi展示项目2.webp";
 import openclawShowImg from "@/data/xiangmu/openclaw展示.webp";
+import shanxiUnivLogo from "@/data/xiangmu/山西大学校徽.png";
+import volunteerLogo from "@/data/xiangmu/志愿者标志.png";
+import selfMediaIcon from "@/data/xiangmu/自媒体图标.svg";
+import marketResearchIcon from "@/data/xiangmu/市场调研图标.svg";
+import windPowerIcon from "@/data/xiangmu/风力发电图标.svg";
+import codeDevIcon from "@/data/xiangmu/代码开发图标.svg";
+import rocketIcon from "@/data/xiangmu/火箭图标.svg";
+import smartGlassesIcon from "@/data/xiangmu/智能眼镜图标.svg";
 
 const IMG = (prompt: string, size = "landscape_16_9") =>
   `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(
@@ -613,8 +621,8 @@ export const timeline = [
     year: "2023",
     color: "volt",
     events: [
-      { month: "09", title: "入学山西大学", desc: "能源与动力工程，担任军训负责人", icon: "GraduationCap" },
-      { month: "10", title: "加入彩虹志愿者协会", desc: "开启校园组织生活", icon: "HeartHandshake" },
+      { month: "09", title: "入学山西大学", desc: "能源与动力工程，担任军训负责人", image: shanxiUnivLogo },
+      { month: "10", title: "加入彩虹志愿者协会", desc: "开启校园组织生活", image: volunteerLogo },
     ],
   },
   {
@@ -625,30 +633,30 @@ export const timeline = [
       { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduCampusAmbassadorImg },
       { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记", image: internlmImg },
       { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: englishCompetitionVideoImg },
-      { month: "—", title: "全年自媒体", desc: "抖音 1.6K+ / 小红书 3000+ / B 站 800+", icon: "Megaphone" },
+      { month: "—", title: "全年自媒体", desc: "抖音 1.6K+ / 小红书 3000+ / B 站 800+", image: selfMediaIcon },
     ],
   },
   {
     year: "2025",
     color: "volt",
     events: [
-      { month: "02", title: "市场调查大赛", desc: "《LLM 市场应用》校级二等奖", icon: "TrendingUp" },
+      { month: "02", title: "市场调查大赛", desc: "《LLM 市场应用》校级二等奖", image: marketResearchIcon },
       { month: "03", title: "4K 修复项目", desc: "《钢铁是怎样炼成的》4K 修复启动", image: baoer4kImg },
-      { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场", icon: "Wind" },
+      { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场", image: windPowerIcon },
       { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg2 },
       { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）", image: mathModelingImg },
-      { month: "—", title: "全年自媒体", desc: "抖音 5K+ / 小红书 4000+ / B 站 9800+", icon: "Megaphone" },
+      { month: "—", title: "全年自媒体", desc: "抖音 5K+ / 小红书 4000+ / B 站 9800+", image: selfMediaIcon },
     ],
   },
   {
     year: "2026",
     color: "mist",
     events: [
-      { month: "03", title: "市场调查大赛", desc: "省级一等奖（康养五寨文旅研究）", icon: "TrendingUp" },
-      { month: "03", title: "video-claw 开发", desc: "第一版视频抓取工具", icon: "Code2" },
+      { month: "03", title: "市场调查大赛", desc: "省级一等奖（康养五寨文旅研究）", image: marketResearchIcon },
+      { month: "03", title: "video-claw 开发", desc: "第一版视频抓取工具", image: codeDevIcon },
       { month: "04", title: "智能眼镜 v0.1", desc: "Altezhong-yanjing MVP", image: smartGlassesImg },
-      { month: "04", title: "video-tezhong 启动", desc: "第二版视频抓取工具", icon: "Rocket" },
-      { month: "05", title: "web-niu / 眼镜 v2", desc: "Ambient Dream v2 + AItezhongyanjing-2", icon: "Glasses" },
+      { month: "04", title: "video-tezhong 启动", desc: "第二版视频抓取工具", image: rocketIcon },
+      { month: "05", title: "web-niu / 眼镜 v2", desc: "Ambient Dream v2 + AItezhongyanjing-2", image: smartGlassesIcon },
       { month: "07", title: "能源局实习", desc: "大同市新荣区能源局 · 驻点调研", image: nengyuanjuWindImg },
     ],
   },
