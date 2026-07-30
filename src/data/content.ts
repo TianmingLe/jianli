@@ -697,15 +697,6 @@ export const awards = [
   },
   {
     id: "a05",
-    year: "2024.10 — 2024.11",
-    title: "英语高教杯英语视频制作比赛",
-    level: "校级二等奖",
-    role: "核心成员（3人）",
-    project: "负责视频创意与制作",
-    image: englishCompetitionImg,
-  },
-  {
-    id: "a06",
     year: "2026.07",
     title: "大同市新荣区能源局实习证明",
     level: "实习证明",
@@ -713,6 +704,15 @@ export const awards = [
     project: "驻点机关并深入能源保供一线，研读国家及省级能源政策文件百余份，参与政策文件研读、项目材料审核、风光电项目档案梳理及实地走访调研等核心工作。",
     image: nengyuanjuCert2Img,
     gallery: [nengyuanjuPhoto1Img, nengyuanjuPhoto2Img, nengyuanjuCert1Img],
+  },
+  {
+    id: "a06",
+    year: "2024.10 — 2024.11",
+    title: "英语高教杯英语视频制作比赛",
+    level: "校级二等奖",
+    role: "核心成员（3人）",
+    project: "负责视频创意与制作",
+    image: englishCompetitionImg,
   },
 ];
 
