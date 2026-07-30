@@ -280,6 +280,27 @@ export default function About() {
                     </li>
                   ))}
                 </ul>
+                {"images" in intern && intern.images && (
+                  <div className="mt-5 grid grid-cols-2 gap-2">
+                    {intern.images.map((img, idx) => (
+                      <figure
+                        key={idx}
+                        className="group/img overflow-hidden border border-ink-700 transition-colors hover:border-volt-400/60"
+                      >
+                        <img
+                          loading="lazy"
+                          decoding="async"
+                          src={img.src}
+                          alt={img.caption}
+                          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                        />
+                        <figcaption className="bg-ink-850 px-2 py-1 text-center font-mono text-[10px] uppercase tracking-widest text-mist-400">
+                          {img.caption}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>

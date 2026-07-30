@@ -18,6 +18,10 @@ import gzhTechArticle2Img from "@/data/self-media/公众号科技文章2.webp";
 import xhsBaoerImg from "@/data/self-media/小红书保尔柯察金.webp";
 import promptEngineeringImg from "@/data/xiangmu/提示词工程.webp";
 import aliyunEcsImg from "@/data/self-media/阿里云ecs控制展示.webp";
+import nengyuanjuPhoto1Img from "@/data/xiangmu/能源局实习照片1.webp";
+import nengyuanjuPhoto2Img from "@/data/xiangmu/能源局实习照片2.webp";
+import nengyuanjuCert1Img from "@/data/xiangmu/能源局实习证明一.webp";
+import nengyuanjuCert2Img from "@/data/xiangmu/能源局实习证明二.webp";
 import artPhoto1 from "@/data/self-media/艺术照片.webp";
 import artPhoto2 from "@/data/self-media/艺术照片2.webp";
 import artPhoto3 from "@/data/self-media/艺术照片3.webp";
@@ -750,6 +754,12 @@ export const internships = [
       "协助开展地方能源政策调研与分析",
       "参与新能源产业发展相关课题研究",
       "学习能源行政管理体系与政策制定流程",
+    ],
+    images: [
+      { src: nengyuanjuPhoto1Img, caption: "实习现场 · 照片一" },
+      { src: nengyuanjuPhoto2Img, caption: "实习现场 · 照片二" },
+      { src: nengyuanjuCert1Img, caption: "实习证明 · 其一" },
+      { src: nengyuanjuCert2Img, caption: "实习证明 · 其二" },
     ],
   },
   {
