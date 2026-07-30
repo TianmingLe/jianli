@@ -1,7 +1,29 @@
 import { motion } from "framer-motion";
+import {
+  GraduationCap,
+  HeartHandshake,
+  Megaphone,
+  TrendingUp,
+  Wind,
+  Code2,
+  Rocket,
+  Glasses,
+  type LucideIcon,
+} from "lucide-react";
 import { timeline } from "@/data/content";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const iconMap: Record<string, LucideIcon> = {
+  GraduationCap,
+  HeartHandshake,
+  Megaphone,
+  TrendingUp,
+  Wind,
+  Code2,
+  Rocket,
+  Glasses,
+};
 
 type FlatEvent = {
   year: string;
@@ -10,6 +32,7 @@ type FlatEvent = {
   title: string;
   desc: string;
   image?: string;
+  icon?: string;
 };
 
 export default function Timeline() {
@@ -24,6 +47,7 @@ export default function Timeline() {
         title: ev.title,
         desc: ev.desc,
         image: "image" in ev ? (ev.image as string) : undefined,
+        icon: "icon" in ev ? (ev.icon as string) : undefined,
       });
     });
   });
@@ -114,6 +138,19 @@ export default function Timeline() {
                             />
                           </div>
                         )}
+                        {/* 图标（无缩略图时显示） */}
+                        {!ev.image && ev.icon && (() => {
+                          const Icon = iconMap[ev.icon] ?? GraduationCap;
+                          return (
+                            <div className={`flex h-16 w-16 shrink-0 items-center justify-center border transition-colors duration-500 md:h-20 md:w-20 ${
+                              isVolt
+                                ? "border-volt-400/30 text-volt-400/60 group-hover:border-volt-400 group-hover:text-volt-400"
+                                : "border-ink-600 text-mist-400/60 group-hover:border-mist-400 group-hover:text-mist-400"
+                            }`}>
+                              <Icon className="h-7 w-7 md:h-8 md:w-8" />
+                            </div>
+                          );
+                        })()}
                         {/* 文本主体 */}
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-3">
