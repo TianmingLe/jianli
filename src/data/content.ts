@@ -704,6 +704,16 @@ export const awards = [
     project: "负责视频创意与制作",
     image: englishCompetitionImg,
   },
+  {
+    id: "a06",
+    year: "2026.07",
+    title: "大同市新荣区能源局实习证明",
+    level: "实习认证",
+    role: "能源政策助理实习生",
+    project: "驻点机关并深入能源保供一线，研读国家及省级能源政策文件百余份，参与政策文件研读、项目材料审核、风光电项目档案梳理及实地走访调研等核心工作。",
+    image: nengyuanjuCert1Img,
+    gallery: [nengyuanjuPhoto1Img, nengyuanjuPhoto2Img, nengyuanjuCert2Img],
+  },
 ];
 
 export const certificates = [
@@ -757,12 +767,6 @@ export const internships = [
       "主动申请深入一线，跟随业务骨干多次走访辖区新能源场站及重点用能单位，实地查看发电设备运行状态、调取安全生产台账、访谈一线运维人员，了解保供压力下的设备巡检频次、隐患上报流程及应急处理预案，建立起对“监管—企业—现场”三方联动机制的直接认知。",
       "围绕国家发改委2026年114号文件系统研读容量电价机制，逐步理解了煤电收益模式从发电量导向向可靠性支撑导向转变的逻辑。在审阅火电企业申报材料过程中，注意到新机组审批愈发侧重调峰响应速度与供热改造进度；同时梳理辖区“三改联动”推进情况，初步把握了存量机组改造全面铺开、CCUS碳捕集项目从示范走向规模化应用的行业态势。",
       "结合场站走访与政策研读的收获，逐渐形成对能源结构转型的整体认识：风光电出力波动需煤电提供可靠容量支撑，二者共同服务于碳达峰目标的多元供给体系。",
-    ],
-    images: [
-      { src: nengyuanjuPhoto1Img, caption: "实习现场 · 照片一" },
-      { src: nengyuanjuPhoto2Img, caption: "实习现场 · 照片二" },
-      { src: nengyuanjuCert1Img, caption: "实习证明 · 其一" },
-      { src: nengyuanjuCert2Img, caption: "实习证明 · 其二" },
     ],
   },
   {
