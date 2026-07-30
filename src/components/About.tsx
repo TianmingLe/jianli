@@ -29,12 +29,12 @@ const contactLinks = [
 
 /* 关键词高亮颜色映射 */
 const highlightColorMap: Record<string, string> = {
-  volt: "text-volt-400",
-  amber: "text-amber-300",
-  sky: "text-sky-300",
-  rose: "text-rose-300",
-  emerald: "text-emerald-300",
-  violet: "text-violet-300",
+  volt: "text-sky-400",
+  amber: "text-sky-400",
+  sky: "text-sky-400",
+  rose: "text-sky-400",
+  emerald: "text-sky-400",
+  violet: "text-sky-400",
 };
 
 /* 将文本按关键词高亮渲染 */
@@ -61,9 +61,9 @@ function renderWithHighlights(
     const match = part.match(/^\u0000(\d+)\u0000$/);
     if (match) {
       const h = placeholders[Number(match[1])];
-      const colorClass = highlightColorMap[h.color] ?? "text-volt-400";
+      const colorClass = highlightColorMap[h.color] ?? "text-sky-400";
       return (
-        <span key={i} className={`font-semibold ${colorClass}`}>
+        <span key={i} className={`font-bold ${colorClass}`}>
           {h.text}
         </span>
       );
@@ -312,7 +312,7 @@ export default function About() {
                   ))}
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-mist-300">
-                  {renderWithHighlights(intern.summary, intern.highlights)}
+                  {intern.summary}
                 </p>
                 <ul className="mt-4 space-y-2">
                   {intern.points.map((pt, idx) => (
