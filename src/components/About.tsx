@@ -1,11 +1,13 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Phone,
   Mail,
   Github,
   GraduationCap,
   Building2,
+  X,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   profile,
   basicInfo,
@@ -27,7 +29,25 @@ const contactLinks = [
   { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
 ];
 
+type LightboxData = { src: string; caption: string } | null;
+
 export default function About() {
+  const [lightbox, setLightbox] = useState<LightboxData>(null);
+
+  // ESC 关闭 + 打开时锁定滚动
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox]);
+
   return (
     <section id="about" className="relative w-full bg-ink-950 py-28 md:py-40">
       <div className="shell">
@@ -281,20 +301,21 @@ export default function About() {
                   ))}
                 </ul>
                 {"images" in intern && intern.images && (
-                  <div className="mt-5 grid grid-cols-2 gap-2">
+                  <div className="mt-5 grid grid-cols-4 gap-2">
                     {intern.images.map((img, idx) => (
                       <figure
                         key={idx}
-                        className="group/img overflow-hidden border border-ink-700 transition-colors hover:border-volt-400/60"
+                        onDoubleClick={() => setLightbox({ src: img.src, caption: img.caption })}
+                        className="group/img cursor-pointer overflow-hidden border border-ink-700 transition-colors hover:border-volt-400/60"
                       >
                         <img
                           loading="lazy"
                           decoding="async"
                           src={img.src}
                           alt={img.caption}
-                          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                          className="aspect-[3/4] w-full object-cover transition-transform duration-500 group-hover/img:scale-110"
                         />
-                        <figcaption className="bg-ink-850 px-2 py-1 text-center font-mono text-[10px] uppercase tracking-widest text-mist-400">
+                        <figcaption className="bg-ink-850 px-1 py-1 text-center font-mono text-[9px] uppercase tracking-widest text-mist-400">
                           {img.caption}
                         </figcaption>
                       </figure>
@@ -306,6 +327,45 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* 图片放大查看 Lightbox */}
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setLightbox(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          >
+            <button
+              onClick={() => setLightbox(null)}
+              aria-label="关闭"
+              className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <motion.figure
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.3, ease }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-[90vh] max-w-[90vw] overflow-hidden border border-white/10"
+            >
+              <img
+                src={lightbox.src}
+                alt={lightbox.caption}
+                className="max-h-[82vh] w-auto object-contain"
+              />
+              <figcaption className="bg-ink-900/80 px-4 py-2 text-center font-mono text-xs uppercase tracking-widest text-mist-300">
+                {lightbox.caption}
+              </figcaption>
+            </motion.figure>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
