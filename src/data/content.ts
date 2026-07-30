@@ -22,6 +22,7 @@ import nengyuanjuPhoto1Img from "@/data/xiangmu/能源局实习照片1.webp";
 import nengyuanjuPhoto2Img from "@/data/xiangmu/能源局实习照片2.webp";
 import nengyuanjuCert1Img from "@/data/xiangmu/能源局实习证明一.webp";
 import nengyuanjuCert2Img from "@/data/xiangmu/能源局实习证明二.webp";
+import nengyuanjuWindImg from "@/data/xiangmu/能源局实习风电巡查.webp";
 import artPhoto1 from "@/data/self-media/艺术照片.webp";
 import artPhoto2 from "@/data/self-media/艺术照片2.webp";
 import artPhoto3 from "@/data/self-media/艺术照片3.webp";
@@ -648,6 +649,7 @@ export const timeline = [
       { month: "04", title: "智能眼镜 v0.1", desc: "Altezhong-yanjing MVP", image: smartGlassesImg },
       { month: "04", title: "video-tezhong 启动", desc: "第二版视频抓取工具" },
       { month: "05", title: "web-niu / 眼镜 v2", desc: "Ambient Dream v2 + AItezhongyanjing-2" },
+      { month: "07", title: "能源局实习", desc: "大同市新荣区能源局 · 驻点调研", image: nengyuanjuWindImg },
     ],
   },
 ];
