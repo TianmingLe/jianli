@@ -29,12 +29,12 @@ const contactLinks = [
 
 /* 关键词高亮颜色映射 */
 const highlightColorMap: Record<string, string> = {
-  volt: "text-sky-400",
-  amber: "text-sky-400",
-  sky: "text-sky-400",
-  rose: "text-sky-400",
-  emerald: "text-sky-400",
-  violet: "text-sky-400",
+  volt: "text-volt-400",
+  amber: "text-volt-400",
+  sky: "text-volt-400",
+  rose: "text-volt-400",
+  emerald: "text-volt-400",
+  violet: "text-volt-400",
 };
 
 /* 将文本按关键词高亮渲染 */
@@ -61,7 +61,7 @@ function renderWithHighlights(
     const match = part.match(/^\u0000(\d+)\u0000$/);
     if (match) {
       const h = placeholders[Number(match[1])];
-      const colorClass = highlightColorMap[h.color] ?? "text-sky-400";
+      const colorClass = highlightColorMap[h.color] ?? "text-volt-400";
       return (
         <span key={i} className={`font-bold ${colorClass}`}>
           {h.text}
