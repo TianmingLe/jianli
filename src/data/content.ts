@@ -708,7 +708,7 @@ export const awards = [
     id: "a06",
     year: "2026.07",
     title: "大同市新荣区能源局实习证明",
-    level: "实习认证",
+    level: "实习证明",
     role: "能源政策助理实习生",
     project: "驻点机关并深入能源保供一线，研读国家及省级能源政策文件百余份，参与政策文件研读、项目材料审核、风光电项目档案梳理及实地走访调研等核心工作。",
     image: nengyuanjuCert1Img,

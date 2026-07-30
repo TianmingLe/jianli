@@ -88,25 +88,36 @@ const certIcons: Record<string, LucideIcon> = {
   Award,
 };
 
-// 排名配置：省级一等奖最醒目（金色实心 + 呼吸光晕动效）
+// 排名配置：省级一等奖最醒目（金色实心 + 呼吸光晕动效），银标为闪闪发光的银色呼吸效果
 const levelConfig: Record<
   string,
-  { badge: string; top: boolean; icon: LucideIcon }
+  { badge: string; top: boolean; silver: boolean; icon: LucideIcon }
 > = {
   省级一等奖: {
     badge:
       "bg-amber-400 text-ink-950 shadow-[0_0_14px_rgba(251,191,36,0.55)]",
     top: true,
+    silver: false,
     icon: Trophy,
   },
   校级二等奖: {
     badge: "border border-amber-300/70 text-amber-200 bg-amber-300/10",
     top: false,
+    silver: false,
     icon: Award,
   },
   参赛认证: {
-    badge: "border border-mist-500/50 text-mist-300 bg-mist-500/5",
+    badge:
+      "bg-gradient-to-r from-slate-100 via-slate-300 to-slate-500 text-ink-950 shadow-[0_0_12px_rgba(203,213,225,0.45)]",
     top: false,
+    silver: true,
+    icon: Award,
+  },
+  实习证明: {
+    badge:
+      "bg-gradient-to-r from-slate-100 via-slate-300 to-slate-500 text-ink-950 shadow-[0_0_12px_rgba(203,213,225,0.45)]",
+    top: false,
+    silver: true,
     icon: Award,
   },
 };
@@ -115,6 +126,7 @@ function LevelBadge({ level }: { level: string }) {
   const cfg = levelConfig[level] ?? {
     badge: "border border-ink-600 text-mist-300",
     top: false,
+    silver: false,
     icon: Award,
   };
   const Icon = cfg.icon;
@@ -141,11 +153,45 @@ function LevelBadge({ level }: { level: string }) {
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
+      {/* 银标：常驻呼吸光晕 + 闪烁 */}
+      {cfg.silver && (
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute -inset-1 rounded"
+          animate={{
+            boxShadow: [
+              "0 0 0 0 rgba(203,213,225,0.0)",
+              "0 0 16px 4px rgba(203,213,225,0.55)",
+              "0 0 0 0 rgba(203,213,225,0.0)",
+            ],
+          }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
       <span
-        className={`relative inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 text-xs font-bold tracking-wider ${cfg.badge}`}
+        className={`relative inline-flex items-center gap-1.5 overflow-hidden rounded-sm px-2.5 py-1 text-xs font-bold tracking-wider ${cfg.badge}`}
       >
-        <Icon className="h-3.5 w-3.5" />
-        {level}
+        {/* 银标：流光扫过效果 */}
+        {cfg.silver && (
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.85) 50%, transparent 70%)",
+              backgroundSize: "200% 100%",
+            }}
+            animate={{ backgroundPosition: ["200% 0", "-50% 0"] }}
+            transition={{
+              duration: 2.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              repeatDelay: 0.6,
+            }}
+          />
+        )}
+        <Icon className="relative h-3.5 w-3.5" />
+        <span className="relative">{level}</span>
       </span>
     </motion.div>
   );
