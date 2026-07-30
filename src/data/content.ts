@@ -711,8 +711,8 @@ export const awards = [
     level: "实习证明",
     role: "能源政策助理实习生",
     project: "驻点机关并深入能源保供一线，研读国家及省级能源政策文件百余份，参与政策文件研读、项目材料审核、风光电项目档案梳理及实地走访调研等核心工作。",
-    image: nengyuanjuCert1Img,
-    gallery: [nengyuanjuPhoto1Img, nengyuanjuPhoto2Img, nengyuanjuCert2Img],
+    image: nengyuanjuCert2Img,
+    gallery: [nengyuanjuPhoto1Img, nengyuanjuPhoto2Img, nengyuanjuCert1Img],
   },
 ];
 

@@ -259,12 +259,14 @@ export default function Awards() {
 
                 {/* 证书图片 */}
                 {a.image ? (
-                  <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink-700">
+                  <div
+                    className="relative aspect-[4/3] w-full cursor-zoom-in overflow-hidden border-b border-ink-700"
+                    onDoubleClick={() => zoom.open([a.image!, ...(a.gallery ?? [])], 0)}
+                  >
                     <img loading="lazy" decoding="async"
                       src={a.image}
                       alt={a.title}
-                      className="h-full w-full cursor-zoom-in object-cover transition-transform duration-700 group-hover:scale-105"
-                      onDoubleClick={() => zoom.open(a.gallery ?? [a.image!], 0)}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-transparent to-transparent" />
                   </div>
@@ -302,7 +304,7 @@ export default function Awards() {
                           <div
                             key={gi}
                             className="relative aspect-square cursor-zoom-in overflow-hidden border border-ink-700"
-                            onDoubleClick={() => zoom.open(a.gallery!, gi)}
+                            onDoubleClick={() => zoom.open([a.image!, ...a.gallery!], gi + 1)}
                           >
                             <img loading="lazy" decoding="async"
                               src={g}
