@@ -27,6 +27,51 @@ const contactLinks = [
   { iconSrc: douyinIcon, label: "抖音", value: "5K+ 粉丝", href: profile.contacts.douyin },
 ];
 
+/* 关键词高亮颜色映射 */
+const highlightColorMap: Record<string, string> = {
+  volt: "text-volt-400",
+  amber: "text-amber-300",
+  sky: "text-sky-300",
+  rose: "text-rose-300",
+  emerald: "text-emerald-300",
+  violet: "text-violet-300",
+};
+
+/* 将文本按关键词高亮渲染 */
+function renderWithHighlights(
+  text: string,
+  highlights?: { text: string; color: string }[],
+) {
+  if (!highlights || highlights.length === 0) return text;
+  // 按长度倒序匹配，避免短词先被替换导致长词无法匹配
+  const sorted = [...highlights].sort((a, b) => b.text.length - a.text.length);
+  // 用占位符替换避免嵌套匹配
+  const placeholders: { text: string; color: string }[] = [];
+  let processed = text;
+  sorted.forEach((h, idx) => {
+    if (processed.includes(h.text)) {
+      const placeholder = `\u0000${idx}\u0000`;
+      processed = processed.split(h.text).join(placeholder);
+      placeholders[idx] = h;
+    }
+  });
+  // 按占位符拆分并渲染
+  const parts = processed.split(/(\u0000\d+\u0000)/g);
+  return parts.map((part, i) => {
+    const match = part.match(/^\u0000(\d+)\u0000$/);
+    if (match) {
+      const h = placeholders[Number(match[1])];
+      const colorClass = highlightColorMap[h.color] ?? "text-volt-400";
+      return (
+        <span key={i} className={`font-semibold ${colorClass}`}>
+          {h.text}
+        </span>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 export default function About() {
   return (
     <section id="about" className="relative w-full bg-ink-950 py-28 md:py-40">
@@ -267,7 +312,7 @@ export default function About() {
                   ))}
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-mist-300">
-                  {intern.summary}
+                  {renderWithHighlights(intern.summary, intern.highlights)}
                 </p>
                 <ul className="mt-4 space-y-2">
                   {intern.points.map((pt, idx) => (
@@ -276,7 +321,7 @@ export default function About() {
                       className="flex items-start gap-2 text-xs leading-relaxed text-mist-100"
                     >
                       <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-volt-400" />
-                      {pt}
+                      <span>{renderWithHighlights(pt, intern.highlights)}</span>
                     </li>
                   ))}
                 </ul>
