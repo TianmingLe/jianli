@@ -26,7 +26,7 @@ const contactLinks = [
   { icon: Github, label: "GitHub", value: "TianmingLe", href: profile.contacts.github },
   { iconSrc: bilibiliIcon, label: "Bilibili", value: "11K+ 粉丝", href: profile.contacts.bilibili },
   { iconSrc: xiaohongshuIcon, label: "小红书", value: "4.6K+ 粉丝", href: profile.contacts.xiaohongshu },
-  { iconSrc: douyinIcon, label: "抖音", value: "4.9K+ 粉丝", href: profile.contacts.douyin },
+  { iconSrc: douyinIcon, label: "抖音", value: "5K+ 粉丝", href: profile.contacts.douyin },
 ];
 
 type LightboxData = { src: string; caption: string } | null;

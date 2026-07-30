@@ -204,7 +204,7 @@ export const abilityMap = [
     role: "内容创作",
     icon: "Video",
     keywords: ["视频抓取", "AI 视频", "新媒体运营", "4K 修复"],
-    summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 11K+ / 抖音 4.9K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
+    summary: "OmniScraper Pro 视频抓取工具链，AI 视频技术，B 站 11K+ / 抖音 5K+ / 小红书 4.6K+，4K 修复技术，剪映 / AE / PS / Audition。",
     skills: ["OmniScraper Pro 视频抓取", "AI 视频 / 4K 修复技术", "B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PS / Audition"],
     gallery: [
       { src: xhsVideoShowImg, caption: "小红书视频创作展示" },
@@ -599,7 +599,7 @@ export const projects: Project[] = [
     stack: ["B 站 / 抖音 / 小红书 / 公众号", "剪映 / AE / PR", "Photoshop / Audition", "内容运营策略"],
     achievements: [
       "哔哩哔哩 11,000+ 粉丝",
-      "抖音 4,900+ 粉丝",
+      "抖音 5,000+ 粉丝",
       "小红书 4,600+ 粉丝",
       "代表作《钢铁是怎样炼成的》4K 修复 200 万+ 播放，全网撬动 10 亿+ 话题",
     ],
@@ -625,7 +625,7 @@ export const timeline = [
       { month: "03", title: "百度网盘校园大使", desc: "同时担任小红书宣传大使", image: baiduCampusAmbassadorImg },
       { month: "05", title: "InternLM 学习", desc: "About-InternLM-study 笔记", image: internlmImg },
       { month: "10", title: "英语视频制作比赛", desc: "校级二等奖", image: englishCompetitionVideoImg },
-      { month: "—", title: "全年自媒体", desc: "抖音 1600+ / 小红书 3000+ / B 站 800+" },
+      { month: "—", title: "全年自媒体", desc: "抖音 1.6K+ / 小红书 3000+ / B 站 800+" },
     ],
   },
   {
@@ -637,7 +637,7 @@ export const timeline = [
       { month: "06", title: "风电场运维实习", desc: "山西粤电盂县粤鑫风电场" },
       { month: "06", title: "青草计划", desc: "小红书新媒体职业技能大赛", image: xhsQingcaoImg2 },
       { month: "09", title: "数学建模竞赛", desc: "省级一等奖（烟幕干扰弹投放策略）", image: mathModelingImg },
-      { month: "—", title: "全年自媒体", desc: "抖音 4600+ / 小红书 4000+ / B 站 9800+" },
+      { month: "—", title: "全年自媒体", desc: "抖音 5K+ / 小红书 4000+ / B 站 9800+" },
     ],
   },
   {
