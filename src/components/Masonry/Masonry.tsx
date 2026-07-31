@@ -148,7 +148,7 @@ export default function Masonry({
     const colHeights = new Array(columns).fill(0);
     const columnWidth = width / columns;
 
-    return items.map(child => {
+    const result = items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
       // 优先用真实图片宽高比计算高度，竖图（宽<高）保持原比例不截断
@@ -163,6 +163,14 @@ export default function Masonry({
 
       return { ...child, x, y, w: columnWidth, h: height };
     });
+
+    // 容器实际高度 = 最高一列的总高度，避免 absolute 子元素导致父容器塌陷
+    const maxColHeight = Math.max(...colHeights, 0);
+    if (containerRef.current && maxColHeight > 0) {
+      containerRef.current.style.height = `${maxColHeight}px`;
+    }
+
+    return result;
   }, [columns, items, width, ratios]);
 
   const hasMounted = useRef(false);
