@@ -130,9 +130,11 @@ export default function BaoerFeedback() {
     <section
       id="baoer-feedback"
       ref={sectionRef}
-      className="relative w-full scroll-mt-24 bg-ink-950/60 py-28 backdrop-blur-xl backdrop-saturate-150 md:py-40"
+      className="relative w-full scroll-mt-24 py-28 md:py-40"
       style={{
-        backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(148,163,184,0.04) 50%, rgba(255,255,255,0.05) 100%)",
+        backgroundImage: "radial-gradient(ellipse at center, rgba(148,163,184,0.18) 0%, rgba(148,163,184,0.10) 35%, rgba(15,23,42,0.02) 75%, rgba(0,0,0,0) 100%)",
+        backdropFilter: "blur(20px) saturate(140%)",
+        WebkitBackdropFilter: "blur(20px) saturate(140%)",
       }}
     >
       <div className="shell">
