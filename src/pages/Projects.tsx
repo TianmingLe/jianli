@@ -16,6 +16,11 @@ export default function Projects() {
       <PageHeader navItems={navItems} />
       <Work />
       <BaoerFeedback />
+      <footer className="mt-20 border-t border-ink-800/50 py-6 text-center">
+        <p className="font-mono text-[11px] tracking-wider text-mist-700 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+          Copyright © 2026胡亚伟-晋ICP备2026008906号-1
+        </p>
+      </footer>
     </main>
   );
 }
