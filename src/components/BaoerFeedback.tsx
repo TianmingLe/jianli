@@ -308,11 +308,33 @@ export default function BaoerFeedback() {
       )}
     </section>
 
-    {/* 备案号 — 紧贴评论区 section 之后 */}
-    <div className="w-full bg-ink-950 px-6 py-10 text-center">
-      <p className="text-[14px] tracking-wider text-mist-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]" style={{ fontFamily: '"FangSong", "仿宋", "STFangsong", serif' }}>
-        Copyright © 2026胡亚伟-晋ICP备2026008906号-1
-      </p>
+    {/* 备案号 — 科技感样式 */}
+    <div className="relative w-full overflow-hidden border-t border-volt-400/20 bg-ink-950/80 px-6 py-8 backdrop-blur-md">
+      {/* 扫描线背景 */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+        style={{
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(132,204,222,0.4) 2px, rgba(132,204,222,0.4) 3px)",
+        }}
+      />
+      {/* 顶部光带 */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-volt-400/60 to-transparent" />
+      <div className="relative flex items-center justify-center gap-3">
+        <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-volt-400 shadow-[0_0_8px_rgba(132,204,222,0.8)]" />
+        <p
+          className="font-mono text-[13px] tracking-[0.2em] text-mist-300"
+          style={{
+            textShadow: "0 0 10px rgba(132,204,222,0.5), 0 0 20px rgba(132,204,222,0.2)",
+          }}
+        >
+          <span className="text-volt-400">[ </span>
+          Copyright © 2026 胡亚伟
+          <span className="mx-2 text-mist-600">::</span>
+          <span className="text-volt-400/80">晋ICP备2026008906号-1</span>
+          <span className="text-volt-400"> ]</span>
+        </p>
+        <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-volt-400 shadow-[0_0_8px_rgba(132,204,222,0.8)]" />
+      </div>
     </div>
     </>
   );
