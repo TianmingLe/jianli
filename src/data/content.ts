@@ -1,5 +1,7 @@
 import baiduNetdiskIcon from "@/data/icon/baidu-netdisk.webp";
 import writingMachineImg from "@/data/xiangmu/写字机项目.webp";
+import c51BoardImg from "@/data/xiangmu/51单片机项目展示.webp";
+import stm32BoardImg from "@/data/xiangmu/STM32项目展示.webp";
 import smartGlassesImg from "@/data/xiangmu/AI眼镜.webp";
 import internlmImg from "@/data/xiangmu/书生浦语大模型微调作品.webp";
 import baoer4kImg from "@/data/self-media/《钢铁是怎样炼成的》4K修复视频.webp";
@@ -301,7 +303,7 @@ export const projects: Project[] = [
     title: "基于 51 单片机的多功能智能控制系统",
     category: "嵌入式开发 / 单片机",
     year: "2025.06 — 2025.07",
-    cover: IMG("close-up of a microcontroller board with LED lights and circuit wires on dark background, cyan glow, tech hardware, macro photography, premium", "landscape_16_9"),
+    cover: c51BoardImg,
     keywords: ["51 单片机", "PWM", "矩阵键盘", "数码管", "传感器驱动"],
     summary:
       "基于 51 单片机完成多功能智能控制系统开发，整合 10+ 种外设模块，涵盖 IO 控制、显示驱动、通信存储、传感器采集、电机控制、AD/DA 转换与点阵显示，形成完整的技术文档与代码库。",
@@ -324,7 +326,7 @@ export const projects: Project[] = [
     title: "基于 STM32 的嵌入式系统综合开发实践",
     category: "嵌入式开发 / STM32",
     year: "2025.07 — 2025.09",
-    cover: IMG("dark macro shot of STM32 development board with cyan circuit traces glowing, chips and headers, premium tech hardware photography", "landscape_16_9"),
+    cover: stm32BoardImg,
     keywords: ["STM32", "EXTI 中断", "ADC + DMA", "I2C / SPI", "MPU6050", "低功耗"],
     summary:
       "系统整合 20+ 种外设模块与通信协议，代码采用分层架构设计（驱动层-中间层-应用层）。涵盖 GPIO 控制、中断定时器、编码器运动控制、ADC+DMA 数据采集、串口通信、I2C/SPI 总线、实时时钟、低功耗管理、看门狗保护与内部 FLASH 操作。",
