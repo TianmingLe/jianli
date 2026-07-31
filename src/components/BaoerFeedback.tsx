@@ -300,6 +300,13 @@ export default function BaoerFeedback() {
           />
         </div>
       )}
+
+      {/* 备案号 — 紧贴评论区图片之后 */}
+      <div className="shell">
+        <p className="mt-10 text-center text-[14px] tracking-wider text-mist-700 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]" style={{ fontFamily: '"FangSong", "仿宋", "STFangsong", serif' }}>
+          Copyright © 2026胡亚伟-晋ICP备2026008906号-1
+        </p>
+      </div>
     </section>
   );
 }
