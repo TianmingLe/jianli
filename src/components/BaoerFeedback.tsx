@@ -305,7 +305,7 @@ export default function BaoerFeedback() {
 
     {/* 备案号 — 紧贴评论区 section 之后 */}
     <div className="w-full bg-ink-950 px-6 py-10 text-center">
-      <p className="text-[14px] tracking-wider text-mist-700 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]" style={{ fontFamily: '"FangSong", "仿宋", "STFangsong", serif' }}>
+      <p className="text-[14px] tracking-wider text-mist-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]" style={{ fontFamily: '"FangSong", "仿宋", "STFangsong", serif' }}>
         Copyright © 2026胡亚伟-晋ICP备2026008906号-1
       </p>
     </div>
