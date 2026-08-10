@@ -12,7 +12,12 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.argv[2]) || 80;
 const DIST = path.resolve(__dirname, "../dist");
-const LOG_FILE = path.resolve(__dirname, "../access.log");
+// 日志文件放在部署目录之外，避免部署时 rm -rf 清空
+const LOG_FILE = path.resolve(__dirname, "../../access.log");
+// 是否信任反向代理的 X-Forwarded-For 头（仅在服务器前面有 Nginx 等代理时设为 "1"）
+const TRUST_PROXY = process.env.TRUST_PROXY === "1";
+// 日志文件大小上限，超过则轮转
+const LOG_MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -41,19 +46,26 @@ const MIME = {
 };
 
 /**
- * 提取客户端真实 IP（优先从 X-Forwarded-For 获取，回退到 socket 地址）
+ * 提取客户端真实 IP
+ * 仅在 TRUST_PROXY=1 时信任 X-Forwarded-For（用于 Nginx 等反向代理场景），
+ * 否则直接使用 socket 地址，防止客户端伪造该头
  */
 function getClientIP(req) {
-  const xff = req.headers["x-forwarded-for"];
-  if (xff) {
-    return xff.split(",")[0].trim();
+  if (TRUST_PROXY) {
+    const xff = req.headers["x-forwarded-for"];
+    if (xff) {
+      return xff.split(",")[0].trim();
+    }
   }
   let ip = req.socket.remoteAddress || "unknown";
   return ip.replace(/^::ffff:/, "");
 }
 
+let writeCount = 0;
+
 /**
  * 将一条访问记录追加写入日志文件（JSON Lines 格式）
+ * 每写入 100 条检查一次文件大小，超过上限则轮转（旧文件重命名为 .old）
  */
 function logAccess(req) {
   const entry =
@@ -65,6 +77,17 @@ function logAccess(req) {
     }) + "\n";
   try {
     fs.appendFileSync(LOG_FILE, entry);
+    // 每 100 次写入检查一次文件大小，避免每次都 stat 带来性能开销
+    if (++writeCount % 100 === 0) {
+      try {
+        const stat = fs.statSync(LOG_FILE);
+        if (stat.size > LOG_MAX_SIZE) {
+          fs.renameSync(LOG_FILE, LOG_FILE + ".old");
+        }
+      } catch {
+        // 文件不存在等异常，忽略
+      }
+    }
   } catch (e) {
     console.error("[jianli] 写入访问日志失败:", e.message);
   }
@@ -74,17 +97,13 @@ function logAccess(req) {
  * 处理 /api/visitors 请求，返回最近 100 条访问记录及统计信息
  */
 function handleVisitorsApi(res) {
+  // 读取当前日志文件
   fs.readFile(LOG_FILE, (err, data) => {
-    if (err) {
-      res.writeHead(200, {
-        "Content-Type": "application/json; charset=utf-8",
-      });
-      res.end(
-        JSON.stringify({ visitors: [], total: 0, uniqueIPs: 0 })
-      );
-      return;
-    }
-    const lines = data.toString().trim().split("\n").filter(Boolean);
+    const lines = err
+      ? []
+      : data.toString().trim().split("\n").filter(Boolean);
+
+    // 最近 100 条记录（从当前日志文件中取）
     const recent = lines.slice(-100)
       .map((line) => {
         try {
@@ -95,15 +114,24 @@ function handleVisitorsApi(res) {
       })
       .filter(Boolean)
       .reverse();
-    const uniqueIPs = new Set(
-      lines.map((line) => {
+
+    // 统计独立 IP：合并当前日志和轮转旧日志
+    const ipSet = new Set();
+    for (const line of lines) {
+      try {
+        ipSet.add(JSON.parse(line).ip);
+      } catch {}
+    }
+    // 尝试读取轮转旧文件中的 IP
+    try {
+      const oldData = fs.readFileSync(LOG_FILE + ".old");
+      for (const line of oldData.toString().trim().split("\n").filter(Boolean)) {
         try {
-          return JSON.parse(line).ip;
-        } catch {
-          return null;
-        }
-      })
-    ).size;
+          ipSet.add(JSON.parse(line).ip);
+        } catch {}
+      }
+    } catch {}
+
     res.writeHead(200, {
       "Content-Type": "application/json; charset=utf-8",
     });
@@ -111,7 +139,7 @@ function handleVisitorsApi(res) {
       JSON.stringify({
         visitors: recent,
         total: lines.length,
-        uniqueIPs,
+        uniqueIPs: ipSet.size,
       })
     );
   });
