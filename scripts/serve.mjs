@@ -115,17 +115,20 @@ function handleVisitorsApi(res) {
       .filter(Boolean)
       .reverse();
 
-    // 统计独立 IP：合并当前日志和轮转旧日志
+    // 统计独立 IP 和总访问数：合并当前日志和轮转旧日志
     const ipSet = new Set();
+    let totalCount = lines.length;
     for (const line of lines) {
       try {
         ipSet.add(JSON.parse(line).ip);
       } catch {}
     }
-    // 尝试读取轮转旧文件中的 IP
+    // 尝试读取轮转旧文件中的 IP 和条目数
     try {
       const oldData = fs.readFileSync(LOG_FILE + ".old");
-      for (const line of oldData.toString().trim().split("\n").filter(Boolean)) {
+      const oldLines = oldData.toString().trim().split("\n").filter(Boolean);
+      totalCount += oldLines.length;
+      for (const line of oldLines) {
         try {
           ipSet.add(JSON.parse(line).ip);
         } catch {}
@@ -138,7 +141,7 @@ function handleVisitorsApi(res) {
     res.end(
       JSON.stringify({
         visitors: recent,
-        total: lines.length,
+        total: totalCount,
         uniqueIPs: ipSet.size,
       })
     );
