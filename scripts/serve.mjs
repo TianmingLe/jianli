@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.argv[2]) || 80;
 const DIST = path.resolve(__dirname, "../dist");
+const LOG_FILE = path.resolve(__dirname, "../access.log");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -39,8 +40,98 @@ const MIME = {
   ".wasm": "application/wasm",
 };
 
+/**
+ * 提取客户端真实 IP（优先从 X-Forwarded-For 获取，回退到 socket 地址）
+ */
+function getClientIP(req) {
+  const xff = req.headers["x-forwarded-for"];
+  if (xff) {
+    return xff.split(",")[0].trim();
+  }
+  let ip = req.socket.remoteAddress || "unknown";
+  return ip.replace(/^::ffff:/, "");
+}
+
+/**
+ * 将一条访问记录追加写入日志文件（JSON Lines 格式）
+ */
+function logAccess(req) {
+  const entry =
+    JSON.stringify({
+      ip: getClientIP(req),
+      time: new Date().toISOString(),
+      path: req.url.split("?")[0],
+      ua: req.headers["user-agent"] || "",
+    }) + "\n";
+  try {
+    fs.appendFileSync(LOG_FILE, entry);
+  } catch (e) {
+    console.error("[jianli] 写入访问日志失败:", e.message);
+  }
+}
+
+/**
+ * 处理 /api/visitors 请求，返回最近 100 条访问记录及统计信息
+ */
+function handleVisitorsApi(res) {
+  fs.readFile(LOG_FILE, (err, data) => {
+    if (err) {
+      res.writeHead(200, {
+        "Content-Type": "application/json; charset=utf-8",
+      });
+      res.end(
+        JSON.stringify({ visitors: [], total: 0, uniqueIPs: 0 })
+      );
+      return;
+    }
+    const lines = data.toString().trim().split("\n").filter(Boolean);
+    const recent = lines.slice(-100)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean)
+      .reverse();
+    const uniqueIPs = new Set(
+      lines.map((line) => {
+        try {
+          return JSON.parse(line).ip;
+        } catch {
+          return null;
+        }
+      })
+    ).size;
+    res.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+    });
+    res.end(
+      JSON.stringify({
+        visitors: recent,
+        total: lines.length,
+        uniqueIPs,
+      })
+    );
+  });
+}
+
 const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent(req.url.split("?")[0]);
+
+  // 访问记录查看接口
+  if (urlPath === "/api/visitors") {
+    handleVisitorsApi(res);
+    return;
+  }
+
+  // 记录页面访问（跳过静态资源，只记录路由页面访问）
+  const ext = path.extname(urlPath);
+  if (!ext || ext === ".html") {
+    logAccess(req);
+  }
+
   // 防路径穿越
   let filePath = path.join(DIST, urlPath);
   if (!filePath.startsWith(DIST + path.sep)) {
