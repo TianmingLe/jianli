@@ -149,7 +149,15 @@ function handleVisitorsApi(res) {
 }
 
 const server = http.createServer((req, res) => {
-  const urlPath = decodeURIComponent(req.url.split("?")[0]);
+  let urlPath;
+  try {
+    urlPath = decodeURIComponent(req.url.split("?")[0]);
+  } catch {
+    // 非法百分号编码（如 %ZZ），拒绝请求而不是崩溃
+    res.writeHead(400);
+    res.end("Bad request");
+    return;
+  }
 
   // 访问记录查看接口
   if (urlPath === "/api/visitors") {
