@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# 访问日志与黑名单持久化文件（部署时存放在部署目录之外，如 /root/）
+access.log*
+blacklist.json
+
 node_modules
 dist
 dist-ssr
