@@ -44,6 +44,9 @@ const KNOWN_BAD_IPS = [
   "159.65.168.103", // zgrab
   "94.154.43.233",  // Shodan
   "34.251.107.140", // NetcraftSurvey
+  "45.148.10.125",  // l9tcpid 扫描器
+  "182.16.91.250",  // 扫描 /actuator/env（Spring Boot 漏洞探测）
+  "3.131.220.121",  // visionheight.com/scan 扫描器
 ];
 
 // 已知扫描器 User-Agent（小写子串匹配，命中即拉黑）
@@ -51,7 +54,8 @@ const SCANNER_UA = [
   "zgrab", "nmap", "shodan", "masscan", "nikto", "dirbuster", "sqlmap",
   "acunetix", "nessus", "openvas", "wpscan", "fimap", "genomecrawler",
   "netcraftsurvey", "hydra", "arachni", "skipfish", "whatweb", "joomscan",
-  "gobuster", "ffuf", "dirb", "wfuzz",
+  "gobuster", "ffuf", "dirb", "wfuzz", "l9tcpid", "l9scan", "visionheight",
+  "netsparker", "httprint", "blacksilk", "satoristudio", "cloudmapping",
 ];
 
 // 已知扫描路径（正则，命中即拉黑）
@@ -62,6 +66,8 @@ const SCANNER_PATH = [
   /^\/login\.html$/i,
   /^\/doc\/index/i,
   /^\/(backup|config)\.(php|json|bak|sql|txt)/i,
+  /^\/(actuator|setup|install|struts|solr|jenkins|graphql|console|debug|metrics|health|env|info|trace|dump|jmx-console|status|server-status)/i,
+  /\.(php|asp|aspx|jsp|cgi|pl|py|sh)$/i,
 ];
 
 const MIME = {
