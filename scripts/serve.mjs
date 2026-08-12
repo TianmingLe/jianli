@@ -14,6 +14,8 @@ const PORT = Number(process.argv[2]) || 80;
 const DIST = path.resolve(__dirname, "../dist");
 // 日志文件放在部署目录之外，避免部署时 rm -rf 清空
 const LOG_FILE = path.resolve(__dirname, "../../access.log");
+// 位置日志（浏览器 Geolocation 上报），同样放在部署目录外
+const LOCATIONS_FILE = path.resolve(__dirname, "../../locations.log");
 // 是否信任反向代理的 X-Forwarded-For 头（仅在服务器前面有 Nginx 等代理时设为 "1"）
 const TRUST_PROXY = process.env.TRUST_PROXY === "1";
 // 日志文件大小上限，超过则轮转
@@ -324,6 +326,91 @@ function handleBlockMutateApi(urlPath, req, res) {
   }
 }
 
+/**
+ * 处理 POST /api/location 请求
+ * 接收前端浏览器 Geolocation 上报的经纬度，结合服务端获取的 IP 和时间记录到 locations.log
+ * body: {"lat": number, "lng": number, "accuracy": number}
+ */
+function handleLocationPost(req, res) {
+  const chunks = [];
+  let size = 0;
+  let aborted = false;
+  req.on("data", (c) => {
+    size += c.length;
+    if (size > 1024) {
+      // 防止恶意大 body，超过 1KB 截断
+      aborted = true;
+      req.destroy();
+      res.writeHead(413);
+      res.end("Too large");
+    }
+    chunks.push(c);
+  });
+  req.on("end", () => {
+    if (aborted) return;
+    let data;
+    try {
+      data = JSON.parse(Buffer.concat(chunks).toString());
+    } catch {
+      res.writeHead(400);
+      res.end("Bad JSON");
+      return;
+    }
+    const lat = Number(data.lat);
+    const lng = Number(data.lng);
+    const accuracy = Number(data.accuracy || 0);
+    // 坐标范围校验，防止写入非法值
+    if (
+      !Number.isFinite(lat) || lat < -90 || lat > 90 ||
+      !Number.isFinite(lng) || lng < -180 || lng > 180
+    ) {
+      res.writeHead(400);
+      res.end("Invalid coordinates");
+      return;
+    }
+    const entry =
+      JSON.stringify({
+        ip: getClientIP(req),
+        time: new Date().toISOString(),
+        lat,
+        lng,
+        accuracy,
+        ua: req.headers["user-agent"] || "",
+      }) + "\n";
+    try {
+      fs.appendFileSync(LOCATIONS_FILE, entry);
+    } catch (e) {
+      console.error("[jianli] 写入位置日志失败:", e.message);
+    }
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify({ ok: true }));
+  });
+}
+
+/**
+ * 处理 GET /api/locations 请求，返回最近的位置记录
+ */
+function handleLocationsApi(res) {
+  fs.readFile(LOCATIONS_FILE, (err, data) => {
+    const lines = err
+      ? []
+      : data.toString().trim().split("\n").filter(Boolean);
+    const recent = lines
+      .slice(-100)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean)
+      .reverse();
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify({ locations: recent, total: lines.length }));
+  });
+}
+
 const server = http.createServer((req, res) => {
   let urlPath;
   try {
@@ -374,6 +461,18 @@ const server = http.createServer((req, res) => {
   // 黑名单管理接口（需令牌）
   if (urlPath === "/api/block" || urlPath === "/api/unblock") {
     handleBlockMutateApi(urlPath, req, res);
+    return;
+  }
+
+  // 位置上报接口（前端 Geolocation POST）
+  if (urlPath === "/api/location" && req.method === "POST") {
+    handleLocationPost(req, res);
+    return;
+  }
+
+  // 位置记录查看接口
+  if (urlPath === "/api/locations") {
+    handleLocationsApi(res);
     return;
   }
 

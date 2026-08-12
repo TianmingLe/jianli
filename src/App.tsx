@@ -42,6 +42,37 @@ function PageSkeleton() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // 浏览器 Geolocation 仅在安全上下文（HTTPS 或 localhost）下可用
+    // HTTP 站点会被浏览器禁用，此处静默跳过；网站配置 HTTPS 后自动生效
+    if (!window.isSecureContext || !("geolocation" in navigator)) return;
+    // 同一会话只请求一次，避免反复弹窗打扰用户
+    if (sessionStorage.getItem("geo_reported")) return;
+    sessionStorage.setItem("geo_reported", "1");
+    // 延迟请求，避免影响首屏加载
+    const timer = setTimeout(() => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          fetch("/api/location", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              accuracy: pos.coords.accuracy,
+            }),
+            keepalive: true,
+          }).catch(() => {});
+        },
+        () => {
+          // 用户拒绝或获取失败，静默处理
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <BrowserRouter>
       <ScrollToTop />

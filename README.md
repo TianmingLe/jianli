@@ -146,3 +146,51 @@ curl "http://www.tianminglei.xin/api/unblock?token=你的令牌&ip=1.2.3.4"
 ### 初始种子
 
 服务首次启动且 `blocklist.txt` 不存在时，会自动写入已识别的恶意扫描 IP 作为种子（zgrab、Shodan、Nmap、GenomeCrawlerd 等）。之后文件由运行时动态维护，部署不会清空。
+
+## 访客精确位置（浏览器 Geolocation）
+
+除基于 IP 的城市级定位外，网站还接入了浏览器 Geolocation API，可获取访客的精确地理位置（街道级，依赖 GPS/WiFi）。
+
+### 工作原理
+
+1. 访客打开网站 3 秒后，前端自动调用 `navigator.geolocation.getCurrentPosition`
+2. 浏览器弹出授权请求，访客点击「允许」后获取经纬度
+3. 前端将坐标 POST 到 `/api/location`，服务端记录 IP、时间、经纬度、精度到 `/root/locations.log`
+
+### 前提条件：必须配置 HTTPS
+
+浏览器 Geolocation API **仅在安全上下文下可用**（HTTPS 或 localhost）。当前网站若通过 HTTP 访问，该功能会自动跳过（静默降级，不影响其他功能）。
+
+启用方法：为域名配置 SSL 证书（如 Let's Encrypt 免费证书），通过 Nginx 反向代理 HTTPS 到 Node 服务，并设置环境变量 `TRUST_PROXY=1`。
+
+### 查看位置记录
+
+```
+http://www.tianminglei.xin/api/locations
+```
+
+返回 JSON：
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `locations` | 数组 | 最近 100 条位置记录，按时间倒序 |
+| `total` | 数字 | 历史位置记录总数 |
+
+每条记录包含：
+
+| 字段 | 说明 | 示例 |
+|------|------|------|
+| `ip` | 访客 IP | `123.45.67.89` |
+| `time` | 上报时间 | `2026-08-12T12:00:00.000Z` |
+| `lat` | 纬度 | `39.9042` |
+| `lng` | 经度 | `116.4074` |
+| `accuracy` | 精度（米） | `50` |
+| `ua` | User-Agent | `Mozilla/5.0 ...` |
+
+经纬度可在 [百度地图坐标拾取器](https://api.map.baidu.com/lbsapi/getpoint/index.html) 或 Google Maps 中直接查看对应地址。
+
+### 隐私说明
+
+- 位置获取需访客主动授权，访客拒绝则不记录
+- 同一浏览器会话只请求一次（`sessionStorage` 去重），不会反复弹窗
+- 位置数据存储在服务器 `/root/locations.log`，部署时不会被清空
